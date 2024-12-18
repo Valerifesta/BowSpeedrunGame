@@ -18,9 +18,16 @@ public class PortRead : MonoBehaviour
     {
 
         string existingPort = string.Join("\n", System.IO.Ports.SerialPort.GetPortNames());
-        Debug.Log(existingPort);
-        port = new SerialPort(existingPort, 9600);
-        
+        Debug.Log("Existing ports: " + existingPort);
+        if (string.IsNullOrEmpty(existingPort))
+        {
+            Debug.Log("No port could be found! Please connect controller and restart session.");
+        }
+        else
+        {
+            port = new SerialPort(existingPort, 9600);
+        }
+
     }
     void Start()
     {
@@ -39,7 +46,7 @@ public class PortRead : MonoBehaviour
         }
         else
         {
-            Debug.Log("Port is null");
+            Debug.Log("Port is null, could not open it");
         }
         /*
         try
@@ -61,7 +68,10 @@ public class PortRead : MonoBehaviour
         {
             TryCallbackPing();
         }
-        TryPortRead();
+        if (port != null)
+        {
+            TryPortRead();
+        }
     }
 
     public void TryConnectPort(string comPort, int baudRate)
@@ -92,7 +102,6 @@ public class PortRead : MonoBehaviour
         //bool hasRecieved = false;
         string read = string.Empty;
 
-        
 
         try
         {
@@ -122,6 +131,9 @@ public class PortRead : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        port.Close();
+        if (port != null)
+        {
+            port.Close();
+        }
     }
 }
