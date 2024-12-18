@@ -11,21 +11,22 @@ using System.Net.Configuration;
 public class PortRead : MonoBehaviour
 {
     SerialPort port;
+    string connectedPortName;
     public TextMeshProUGUI tmProComp;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
     {
 
-        string existingPort = string.Join("\n", System.IO.Ports.SerialPort.GetPortNames());
-        Debug.Log("Existing ports: " + existingPort);
-        if (string.IsNullOrEmpty(existingPort))
+        connectedPortName = string.Join("\n", System.IO.Ports.SerialPort.GetPortNames());
+        Debug.Log("Existing ports: " + connectedPortName);
+        if (string.IsNullOrEmpty(connectedPortName))
         {
             Debug.Log("No port could be found! Please connect controller and restart session.");
         }
         else
         {
-            port = new SerialPort(existingPort, 9600);
+            port = new SerialPort(connectedPortName, 9600);
         }
 
     }
@@ -134,6 +135,7 @@ public class PortRead : MonoBehaviour
         if (port != null)
         {
             port.Close();
+            Debug.Log("Closed Port: " + port.PortName);
         }
     }
 }
