@@ -42,7 +42,7 @@ public class PortRead : MonoBehaviour
                 
             }
             port.Open();
-            port.ReadTimeout = 3; //Will time out trying to read if didnt recieve anything after this many miliseconds
+            port.ReadTimeout = 5; //Will time out trying to read if didnt recieve anything after this many miliseconds
             Debug.Log("opened");
         }
         else
@@ -65,12 +65,14 @@ public class PortRead : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TryCallbackPing();
-        }
+        
         if (port != null)
         {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TryCallbackPing();
+            }
+
             TryPortRead();
         }
     }
