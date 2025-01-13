@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Cart
   - FollowMeLock
+  - Obstacle
+  - CheckPoint
+  - Rail
+  - WalkArea
   layers:
   - Default
   - TransparentFX

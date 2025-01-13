@@ -124,7 +124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c80c5e2050b9aa84f8b32a802400ecf9, type: 3}
       propertyPath: m_Name
-      value: WWStandardTrain
+      value: WWStandardTrainWW
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
