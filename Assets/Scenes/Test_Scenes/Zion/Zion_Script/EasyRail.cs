@@ -35,7 +35,7 @@ public class EasyRail : MonoBehaviour
             Vector3 movement = obj.direction.normalized * obj.speed * Time.deltaTime;
             obj.objectToMove.transform.position += movement;
 
-            // Kontrollera om objektet har åkt tillräckligt långt
+           
             float distanceTraveled = Vector3.Distance(obj.objectToMove.transform.position, obj.originalPos);
             if (distanceTraveled >= distanceToReset)
             {
