@@ -7,11 +7,12 @@ using System.Linq;
 public class ControllerListener : MonoBehaviour
 {
     SerialPort port;
-    string connectedPortName = "/dev/ttyUSB0";
-
+    string connectedPortName = "COM3";//"/dev/ttyUSB0";
+    
+    private TestBowBehaviour bowBehaviour;
+    
     private void Awake()
     {
-
         //connectedPortName = string.Join("\n", System.IO.Ports.SerialPort.GetPortNames());
         Debug.Log("Existing ports: " + connectedPortName);
         if (string.IsNullOrEmpty(connectedPortName))
@@ -28,6 +29,8 @@ public class ControllerListener : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bowBehaviour = FindFirstObjectByType<TestBowBehaviour>();
+
         //TryConnectPort("COM3", 9600);
         if (port != null)
         {
@@ -112,6 +115,7 @@ public class ControllerListener : MonoBehaviour
             ToFloat(buff.Skip(1+sizeof(float)).Take(sizeof(float)).ToArray()), 
             ToFloat(buff.Skip(1+2*sizeof(float)).Take(sizeof(float)).ToArray()));
             Debug.Log(list);
+                bowBehaviour.UpdateCameraRot(list);
           }
         }
         catch (TimeoutException a)

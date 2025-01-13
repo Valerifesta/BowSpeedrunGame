@@ -1,5 +1,7 @@
 using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 public class TestBowBehaviour : MonoBehaviour
 {
@@ -7,6 +9,8 @@ public class TestBowBehaviour : MonoBehaviour
     private float _currentRotaryValue;
     [SerializeField] private GameObject ObjectToRotate;
     [SerializeField] private float Sensitivity;
+    [SerializeField] private Vector3 dir;
+    Vector3 rot;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,7 +20,7 @@ public class TestBowBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        ObjectToRotate.transform.eulerAngles += rot * Sensitivity * Time.deltaTime;
     }
 
     public void SetMaxRotaryDegrees(int degrees)
@@ -31,7 +35,15 @@ public class TestBowBehaviour : MonoBehaviour
     }
     public void UpdateCameraRot(Vector3 deltaRot) // Deg/s
     {
-        ObjectToRotate.transform.eulerAngles += deltaRot;
+        if (deltaRot.magnitude > 100 || deltaRot.y == 0 && deltaRot.z == 0)
+        {
+            Debug.Log("lmao: " + deltaRot);
+
+        }
+        else
+        {
+            rot = new Vector3(deltaRot.x * dir.x, deltaRot.y * dir.y, deltaRot.z * dir.z);
+        }
     }
 
 
