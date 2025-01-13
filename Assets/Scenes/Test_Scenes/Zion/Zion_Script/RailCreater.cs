@@ -1,84 +1,117 @@
 using UnityEngine;
 using System.Collections;
 
-public class RailCreater : MonoBehaviour
+public class RailCreator : MonoBehaviour
 {
     [Header("Spawn Settings")]
-    [SerializeField] private GameObject objectToSpawn; // Prefab att spawna
-    [SerializeField] private float spawnDelay = 2f; // Sekunder innan ny spawn
-    [SerializeField] private float spawnDistance = 10f; // Hur långt fram objektet spawnas
-    [SerializeField] private Collider col;
-    //[SerializeField] private string triggerTag = "Player"; // Tagg för objekt som triggar respawn
+    [SerializeField] private GameObject objectToSpawn;
+    [SerializeField] private float spawnDelay = 2f;
+    [SerializeField] private float spawnDistance = 10f;
 
-    //[Header("Optional Settings")]
-    // [SerializeField] private bool randomizePosition = false; // Om position ska vara slumpmässig
-    // [SerializeField] private float randomRange = 5f; // Område för slumpmässig position
+    [Header("Direction Settings")]
+    [SerializeField] private float rotationAngle = 45f; // Vinkel att rotera varje ny kopia
+    [SerializeField] private Vector3 rotationAxis = Vector3.up; // Axel att rotera runt (standard är Y-axeln)
 
-    [SerializeField] private bool isWaitingToSpawn = false;
-
+    private bool isWaitingToSpawn = false;
 
     private void Start()
     {
-        col = GetComponent<Collider>();
+        if (objectToSpawn == null)
+        {
+            Debug.LogError("Ingen prefab tilldelad i Object To Spawn!", this);
+            enabled = false;
+            return;
+        }
+
+        Collider col = GetComponent<Collider>();
+        if (col == null)
+        {
+            Debug.LogError("Ingen Collider hittad!", this);
+            enabled = false;
+            return;
+        }
+
+        if (!col.isTrigger)
+        {
+            col.isTrigger = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        
-        // Kolla om objektet som kolliderar har rätt tagg
+        if (other == null) return;
+
         if (other.CompareTag("Player") && !isWaitingToSpawn)
         {
-            print("Whoops");
-            // Starta respawn-processen
             StartCoroutine(RespawnObject());
         }
-       
     }
 
     private IEnumerator RespawnObject()
     {
-        print("Create time");
+        if (isWaitingToSpawn) yield break;
+
         isWaitingToSpawn = true;
-        gameObject.SetActive(false);
-        print("Creating almost done");
-        yield return new WaitForSeconds(spawnDelay);
-        print("Create done");
-        // Beräkna ny position
+        yield return new WaitForSeconds(0.1f);
+
+        // Beräkna ny position och rotation
         Vector3 newPosition = CalculateSpawnPosition();
+        Quaternion newRotation = CalculateNewRotation();
 
-        // Skapa nytt objekt
-        GameObject newObject = Instantiate(objectToSpawn, newPosition, Quaternion.identity);
+        // Skapa nytt objekt med ny rotation
+        GameObject newObject = Instantiate(objectToSpawn, newPosition, newRotation);
 
-       
-        RailCreater newRespawner = newObject.AddComponent<RailCreater>();
-        CopySettings(newRespawner);
+        if (newObject != null)
+        {
+            RailCreator newRespawner = newObject.GetComponent<RailCreator>();
+            if (newRespawner == null)
+            {
+                newRespawner = newObject.AddComponent<RailCreator>();
+            }
+
+            CopySettings(newRespawner);
+        }
+
+        yield return new WaitForSeconds(spawnDelay);
+
+        gameObject.SetActive(false);
         Destroy(gameObject);
-        print("its over now");
     }
 
     private Vector3 CalculateSpawnPosition()
     {
-        // Utgå från nuvarande position
-        Vector3 basePosition = transform.position + transform.forward * spawnDistance;
-
-       /* if (randomizePosition)
-        {
-            // Lägg till slumpmässig offset i X och Z led
-            float randomX = Random.Range(-randomRange, randomRange);
-            float randomZ = Random.Range(-randomRange, randomRange);
-            basePosition += new Vector3(randomX, 0, randomZ);
-        }*/
-
-        return basePosition;
+        // Använd den aktuella rotationen för att beräkna framåtriktningen
+        return transform.position + transform.forward * spawnDistance;
     }
 
-    private void CopySettings(RailCreater newRespawner)
+    private Quaternion CalculateNewRotation()
     {
-        newRespawner.objectToSpawn = this.objectToSpawn;
-        newRespawner.spawnDelay = this.spawnDelay;
-        newRespawner.spawnDistance = this.spawnDistance;
-        //newRespawner.triggerTag = this.triggerTag;
-        //newRespawner.randomizePosition = this.randomizePosition;
-        //newRespawner.randomRange = this.randomRange;
+        // Rotera runt den specificerade axeln med den angivna vinkeln
+        return transform.rotation * Quaternion.AngleAxis(rotationAngle, rotationAxis);
+    }
+
+    private void CopySettings(RailCreator newRespawner)
+    {
+        if (newRespawner != null)
+        {
+            newRespawner.objectToSpawn = this.objectToSpawn;
+            newRespawner.spawnDelay = this.spawnDelay;
+            newRespawner.spawnDistance = this.spawnDistance;
+            newRespawner.rotationAngle = this.rotationAngle;
+            newRespawner.rotationAxis = this.rotationAxis;
+            newRespawner.isWaitingToSpawn = false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Rita en linje som visar nästa spawnposition
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * spawnDistance);
+        Gizmos.DrawWireSphere(transform.position + transform.forward * spawnDistance, 0.5f);
+
+        // Rita en linje som visar rotationsaxeln
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + rotationAxis);
     }
 }
