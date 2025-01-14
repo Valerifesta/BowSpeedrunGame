@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 
 public class TestBowBehaviour : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class TestBowBehaviour : MonoBehaviour
     [SerializeField] private GameObject ArrowPrefab;
     [SerializeField] private Camera MainCam;
     public GameObject Player;
+    [SerializeField] private Slider RotaryIndicator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,6 +36,7 @@ public class TestBowBehaviour : MonoBehaviour
         ObjectToRotate.transform.eulerAngles += rot * Sensitivity * Time.deltaTime;
 
         temp_inputs();
+        UpdateRotaryIndicator();
     }
 
     public void temp_inputs()
@@ -44,7 +47,16 @@ public class TestBowBehaviour : MonoBehaviour
         }
         else 
         {
-            UpdateRotaryValue(-80); //Standard release value
+            if (_rotaryValueOnRelease != 0.0f)
+            {
+                UpdateRotaryValue(_rotaryValueOnRelease * -10);
+                print("value is " + _rotaryValueOnRelease * -10);
+            }
+            else
+            {
+                UpdateRotaryValue(-80); //Standard release value
+
+            }
         }
     }
     /*
@@ -93,7 +105,15 @@ public class TestBowBehaviour : MonoBehaviour
 
                 if (_activeRelease)
                 {
-                    Shoot(_rotaryValueOnRelease);
+                    if (rotaryInput < -_degSecReleaseRequirement && Mathf.Abs(rotaryInput) > 0.5f)
+                    {
+                        Shoot(_rotaryValueOnRelease);
+
+                    }
+                    else
+                    {
+                        Debug.Log("Didnt assert enough force to shoot");
+                    }
                     _rotaryValueOnRelease = 0.0f;
                     _activeRelease = false;
                 }
@@ -103,6 +123,10 @@ public class TestBowBehaviour : MonoBehaviour
         
         
     
+    }
+    void UpdateRotaryIndicator()
+    {
+        RotaryIndicator.value = _currentRotaryValue / 10;
     }
 
     public void TeleportPlayer(Vector3 position)
