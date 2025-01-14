@@ -5,12 +5,23 @@ using UnityEngine.InputSystem.Controls;
 
 public class TestBowBehaviour : MonoBehaviour
 {
-    private float _maxDegrees;
-    private float _currentRotaryValue;
+    [SerializeField] private float _maxRotaryValue;
+    [SerializeField] private float _currentRotaryValue;
+    [SerializeField] private float _degSecReleaseRequirement; //Adapt to controller
+    private bool _activeRelease;
+    private float _rotaryValueOnRelease;
+
     [SerializeField] private GameObject ObjectToRotate;
     [SerializeField] private float Sensitivity;
     [SerializeField] private Vector3 dir;
     Vector3 rot;
+
+    private bool _teleportArrowToggled;
+
+    [SerializeField] private GameObject ArrowPrefab;
+    [SerializeField] private Camera MainCam;
+    public GameObject Player;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,17 +32,95 @@ public class TestBowBehaviour : MonoBehaviour
     void Update()
     {
         ObjectToRotate.transform.eulerAngles += rot * Sensitivity * Time.deltaTime;
+
+        temp_inputs();
     }
 
+    public void temp_inputs()
+    {
+        if (Input.GetKey(KeyCode.Mouse0) && !_activeRelease)
+        {
+            UpdateRotaryValue(10);
+        }
+        else 
+        {
+            UpdateRotaryValue(-80); //Standard release value
+        }
+    }
+    /*
     public void SetMaxRotaryDegrees(int degrees)
     {
         _maxDegrees = degrees;
 
+    }*/
+    public void ToggleArrow()
+    {
+        _teleportArrowToggled = !_teleportArrowToggled;
+    }
+    public void UpdateRotaryValue(float rotaryInput)
+    {
+        if (rotaryInput < -_degSecReleaseRequirement && _currentRotaryValue > 0 && !_activeRelease)
+        {
+            _rotaryValueOnRelease = _currentRotaryValue;
+            _activeRelease = true;
+        }
+        float valueToAdd = rotaryInput * Time.deltaTime;
+        float nextValue = _currentRotaryValue + valueToAdd;
+        if (nextValue > _currentRotaryValue)
+        {
+            if (nextValue < _maxRotaryValue)
+            {
+                _currentRotaryValue += valueToAdd;
+                Debug.Log("Increased rotation");
+            }
+            else
+            {
+                _currentRotaryValue = _maxRotaryValue;
+                Debug.Log("Reached max rotation value");
+            }
+        }
+        else if (nextValue < _currentRotaryValue)
+        {
+            if (nextValue > 0.0f)
+            {
+                _currentRotaryValue += valueToAdd;
+                Debug.Log("Decreased rotation");
+            }
+            else
+            {
+                _currentRotaryValue = 0.0f;
+                Debug.Log("Reached minimum rotation value");
+
+                if (_activeRelease)
+                {
+                    Shoot(_rotaryValueOnRelease);
+                    _rotaryValueOnRelease = 0.0f;
+                    _activeRelease = false;
+                }
+            }
+
+        }
+        
+        
+    
     }
 
-    public void UpdateRotaryValue(int rotaryInput)
+    public void TeleportPlayer(Vector3 position)
     {
-        _currentRotaryValue = Mathf.InverseLerp(0.0f, _maxDegrees, rotaryInput);
+        Player.transform.position = position;
+    }
+    public void Shoot(float valueOnRelease)
+    {
+        Debug.Log("Shot");
+        GameObject arrow = Instantiate(ArrowPrefab);
+        ArrowBehaviour behaviour = arrow.GetComponent<ArrowBehaviour>();
+        Rigidbody arrowRigidbody = arrow.GetComponent<Rigidbody>();
+
+        arrow.transform.up = MainCam.transform.forward;
+        arrow.transform.position = MainCam.transform.position;
+        behaviour.sender = this;
+        behaviour.teleportToggled = _teleportArrowToggled;
+        arrowRigidbody.AddForce(arrow.transform.up * 100 * valueOnRelease);
     }
     public void UpdateCameraRot(Vector3 deltaRot) // Deg/s
     {
