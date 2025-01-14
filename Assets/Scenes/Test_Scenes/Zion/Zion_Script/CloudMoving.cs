@@ -44,20 +44,20 @@ public class CloudMoving : MonoBehaviour
         {
             for (int i = 0; i < cloudsPerType; i++)
             {
-                // Slumpmässig startposition
+                // random startposition
                 float randomX = Random.Range(-spawnWidth / 2, spawnWidth / 2);
                 float randomY = Random.Range(-heightVariation / 2, heightVariation / 2);
                 Vector3 spawnPosition = transform.position + new Vector3(randomX, randomY, 0);
 
-                // Skapa molnet
+                // Create the cloud
                 GameObject newCloud = Instantiate(cloudPrefab, spawnPosition, Quaternion.identity);
                 newCloud.transform.parent = transform;
 
-                // Slumpmässig storlek
+                // create random scales
                 float randomScale = Random.Range(0.8f, 1.5f);
                 newCloud.transform.localScale *= randomScale;
 
-                // Lägg till information om molnet
+                // Giving the clones same information as the orginal
                 CloudInfo cloudInfo = new CloudInfo
                 {
                     cloudObject = newCloud,
@@ -73,11 +73,11 @@ public class CloudMoving : MonoBehaviour
     {
         foreach (CloudInfo cloud in clouds)
         {
-            // Flytta molnet
+            // move the cloud
             Vector3 movement = Vector3.right * cloud.speed * Time.deltaTime;
             cloud.cloudObject.transform.position += movement;
 
-            // Kontrollera om molnet behöver återställas
+            // checking if the cloud need to restart
             float distanceTraveled = Vector3.Distance(cloud.cloudObject.transform.position,
                                                     new Vector3(cloud.originalPos.x,
                                                     cloud.cloudObject.transform.position.y,
@@ -85,7 +85,7 @@ public class CloudMoving : MonoBehaviour
 
             if (distanceTraveled >= distanceToReset)
             {
-                // Återställ positionen men behåll Y-position för variation
+                // Restart but keeping the Y-position to create variation
                 Vector3 resetPos = cloud.originalPos;
                 resetPos.y = cloud.cloudObject.transform.position.y;
                 cloud.cloudObject.transform.position = resetPos;
