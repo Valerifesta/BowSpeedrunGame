@@ -10,6 +10,7 @@ TagManager:
   - CheckPoint
   - Rail
   - WalkArea
+  - End
   layers:
   - Default
   - TransparentFX
