@@ -4,9 +4,13 @@ using System.Collections;
 public class CraneRotate : MonoBehaviour
 {
     [Header("Rotation Settings")]
-    [SerializeField] private Vector3 rotationDirection = new Vector3(0, 180, 0); // Rotation in degrees
-    [SerializeField] private float rotationDuration = 3f; // How long the rotation takes
-    [SerializeField] private float waitTime = 2f; // Time to wait before rotating back
+    [SerializeField] private Vector3 rotationDirection = new Vector3(0, 180, 0);
+    [SerializeField] private float rotationDuration = 3f;
+    [SerializeField] private float waitTime = 2f;
+
+    [Header("Random Timer Settings")]
+    [SerializeField] private float minRotationInterval = 4f;
+    [SerializeField] private float maxRotationInterval = 6f;
 
     [Header("Animation Settings")]
     [SerializeField] private AnimationCurve rotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
@@ -16,15 +20,23 @@ public class CraneRotate : MonoBehaviour
 
     private void Start()
     {
-        // Store the initial rotation
         originalRotation = transform.rotation;
+        StartCoroutine(RandomRotationTimer());
     }
 
-    public void StartRotation()
+    private IEnumerator RandomRotationTimer()
     {
-        if (!isRotating)
+        while (true)
         {
-            StartCoroutine(RotateObject());
+            // Vänta en slumpmässig tid mellan rotationer
+            float randomWaitTime = Random.Range(minRotationInterval, maxRotationInterval);
+            yield return new WaitForSeconds(randomWaitTime);
+
+            // Starta rotation om vi inte redan roterar
+            if (!isRotating)
+            {
+                StartCoroutine(RotateObject());
+            }
         }
     }
 
@@ -32,53 +44,51 @@ public class CraneRotate : MonoBehaviour
     {
         isRotating = true;
 
-        // Store target rotation
-        Quaternion targetRotation = Quaternion.Euler(rotationDirection) * originalRotation;
+        // Slumpmässig rotation (antingen original riktning eller motsatt)
+        Vector3 randomRotation = Random.value > 0.5f ? rotationDirection : -rotationDirection;
+        Quaternion targetRotation = Quaternion.Euler(randomRotation) * originalRotation;
 
-        // Rotate to target
+        // Rotera till målposition
         float elapsed = 0f;
         while (elapsed < rotationDuration)
         {
             float progress = elapsed / rotationDuration;
             float curveValue = rotationCurve.Evaluate(progress);
-
             transform.rotation = Quaternion.Lerp(originalRotation, targetRotation, curveValue);
-
             elapsed += Time.deltaTime;
             yield return null;
         }
-
-        // Ensure we reach exact target rotation
         transform.rotation = targetRotation;
 
-        // Wait specified time
+       
         yield return new WaitForSeconds(waitTime);
 
-        // Rotate back to original position
+        // Rotera tillbaka till originalposition
         elapsed = 0f;
         while (elapsed < rotationDuration)
         {
             float progress = elapsed / rotationDuration;
             float curveValue = rotationCurve.Evaluate(progress);
-
             transform.rotation = Quaternion.Lerp(targetRotation, originalRotation, curveValue);
-
             elapsed += Time.deltaTime;
             yield return null;
         }
-
-        // Ensure  original rotation
         transform.rotation = originalRotation;
 
         isRotating = false;
     }
 
-    // Optional: Rotate when space key is pressed
-    private void Update()
+    // Optional: Stoppa alla rotationer
+    public void StopRotations()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartRotation();
-        }
+        StopAllCoroutines();
+        isRotating = false;
+    }
+
+    // Optional: Starta om rotationerna
+    public void RestartRotations()
+    {
+        StopRotations();
+        StartCoroutine(RandomRotationTimer());
     }
 }
