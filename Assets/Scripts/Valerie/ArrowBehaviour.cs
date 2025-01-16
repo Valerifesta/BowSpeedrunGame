@@ -32,7 +32,7 @@ public class ArrowBehaviour : MonoBehaviour
     {
         if (teleportToggled)
         {
-            if (collision.collider.CompareTag("WalkArea"))
+            if (collision.collider.CompareTag("WalkArea") && sender.playerManager.ElapsedShieldDuration <= 0)
             {
                 Vector3 offsettedPos = new Vector3();
                 RaycastHit determineOffset = new RaycastHit();
@@ -48,11 +48,17 @@ public class ArrowBehaviour : MonoBehaviour
                 sender.TeleportPlayer(point + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0)); ;
                 gameObject.SetActive(false);
             }
+            else if (collision.collider.CompareTag("WalkArea") && sender.playerManager.ElapsedShieldDuration> 0)
+            {
+
+                Debug.Log("Deaggroing surrounding enemies");
+            }
         }
         else
         {
-            if (collision.collider.CompareTag("Enemy"))
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
+                collision.gameObject.transform.parent.gameObject.GetComponent<NewEnemyBehaviour>().EnemyOnHit();
                 GameMan.AddScore(1);
             }
         }

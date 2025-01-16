@@ -78,6 +78,10 @@ public class NewEnemyBehaviour : MonoBehaviour
                 //EnemyRotatingObj.transform.Rotate(Vector3.up, horizontalAngle/rotateAngle);
                 EnemyRotatingObj.transform.rotation = tRot;
                 yield return null;
+                if (!CanTargetPlayer)
+                {
+                    break;
+                }
             }
             if (CanTargetPlayer)
             {
@@ -98,6 +102,10 @@ public class NewEnemyBehaviour : MonoBehaviour
     public void EnemyOnHit()
     {
         Debug.Log("Enemy got hit by bow");
+        gameObject.SetActive(false);
+
+        //add enemy death effet here
+
     }
     public IEnumerator ChargeUp()
     {
@@ -142,6 +150,7 @@ public class NewEnemyBehaviour : MonoBehaviour
             if (hit.collider.gameObject == Player)
             {
                 Debug.Log("Hit player!");
+                Player.GetComponent<PlayerManager>().OnPlayerHit();
             }
             else
             {
@@ -152,5 +161,15 @@ public class NewEnemyBehaviour : MonoBehaviour
         {
             Debug.Log("didnt hit anything");
         }
+
+    }
+    public IEnumerator PauseEnemy(float pauseTime)
+    {
+        CanTargetPlayer = false;
+        Debug.Log("Paused Enemy");
+        yield return new WaitForSeconds(pauseTime);
+        CanTargetPlayer = true;
+        Debug.Log("Paused Enemy");
+        yield return null;
     }
 }
