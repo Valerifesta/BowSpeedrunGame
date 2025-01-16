@@ -25,8 +25,8 @@ public class TestBowBehaviour : MonoBehaviour
     [SerializeField] private Slider RotaryIndicator;
     [SerializeField] private TeleportManager teleportManager;
 
-    [SerializeField] private PlayerManager playerManager;
-
+    public PlayerManager playerManager;
+    [SerializeField] private GameManager GMan;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,7 +42,7 @@ public class TestBowBehaviour : MonoBehaviour
         temp_inputs();
         UpdateRotaryIndicator();
     }
-
+    
     public void temp_inputs()
     {
         if (Input.GetKey(KeyCode.Mouse0) && !_activeRelease)
@@ -61,6 +61,10 @@ public class TestBowBehaviour : MonoBehaviour
                 UpdateRotaryValue(-80); //Standard release value
 
             }
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ToggleArrow();
         }
     }
     /*
@@ -139,11 +143,48 @@ public class TestBowBehaviour : MonoBehaviour
     {
         teleportManager.Teleport(Player, position);
         teleportManager.UpdateTeleportArray(position);
+
+        //Check if there are enemies within bounding volume
+        TryAggroEnemies();
     }
-    public void OnPlayerHit()
+    public Collider[] GetNearestEnemyColliders()
     {
-        teleportManager.TeleportToLast(Player);
+        return Physics.OverlapSphere(Player.transform.position, 10, ~LayerMask.NameToLayer("Enemy"));
+        
     }
+    public void TryAggroEnemies()
+    {
+        Collider[] colls = GetNearestEnemyColliders();
+        if (colls.Length != 0)
+        {
+            for (int i = 0; i < colls.Length; i++)
+            {
+
+                GameObject enemyParent = colls[i].gameObject.transform.parent.gameObject;
+                float dist = Vector3.Distance(Player.transform.position, enemyParent.transform.position);
+                enemyParent.GetComponent<NewEnemyBehaviour>().TargetPlayer(dist);
+                Debug.Log(enemyParent);
+
+            }
+        }
+    }
+    public void TryDeaggroEnemies()
+    {
+        Collider[] colls = GetNearestEnemyColliders();
+        if (colls.Length != 0)
+        {
+            for (int i = 0; i < colls.Length; i++)
+            {
+                GameObject enemyParent = colls[i].gameObject.transform.parent.gameObject;
+                NewEnemyBehaviour behaviour = enemyParent.GetComponent<NewEnemyBehaviour>();
+                if (behaviour.CanTargetPlayer)
+                {
+                    behaviour.StartCoroutine(behaviour.PauseEnemy(playerManager.ElapsedShieldDuration));
+                }
+            }
+        }
+    }
+
 
     public void Shoot(float valueOnRelease)
     {
@@ -156,6 +197,7 @@ public class TestBowBehaviour : MonoBehaviour
         arrow.transform.position = MainCam.transform.position;
         behaviour.sender = this;
         behaviour.teleportToggled = _teleportArrowToggled;
+        behaviour.GameMan = GMan;
         arrowRigidbody.AddForce(arrow.transform.up * 100 * valueOnRelease);
     }
     public void UpdateCameraRot(Vector3 deltaRot) // Deg/s

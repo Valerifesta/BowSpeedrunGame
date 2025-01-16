@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEditor.SpeedTree.Importer;
@@ -20,8 +21,8 @@ public class NewEnemyBehaviour : MonoBehaviour
     //[SerializeField] private float _WholeBurstDelays;
     //[SerializeField] private int _BurstBulletAmount;
     [SerializeField] private float _BulletBeamDelay;
-    [SerializeField] private float _BeamChargeUpTime = 2; 
-
+    [SerializeField] private float _BeamChargeUpTime = 2;
+    [SerializeField] private float _LowerLimRotDistance = 2;
     //[SerializeField] private Vector3 currentEuler;
 
     private void Start()
@@ -34,11 +35,16 @@ public class NewEnemyBehaviour : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime)) ;
+            TargetPlayer(Vector3.Distance(EnemyRotatingObj.transform.position, Player.transform.position));
         }
     }
-    public void TargetPlayer()
+    public void TargetPlayer(float linearDistance)
     {
+        if (linearDistance > _LowerLimRotDistance)
+        {
+            RotTimeScale = _LowerLimRotDistance / linearDistance;
+            Debug.Log("Distance between player and enemy is above Lower Distance Limit and is therefore affecting rotation time.");
+        }
         StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
     }
     public IEnumerator RotateTowardsPlayer(Quaternion startRot, float timeToRotate)
@@ -72,6 +78,10 @@ public class NewEnemyBehaviour : MonoBehaviour
                 //EnemyRotatingObj.transform.Rotate(Vector3.up, horizontalAngle/rotateAngle);
                 EnemyRotatingObj.transform.rotation = tRot;
                 yield return null;
+                if (!CanTargetPlayer)
+                {
+                    break;
+                }
             }
             if (CanTargetPlayer)
             {
@@ -89,8 +99,12 @@ public class NewEnemyBehaviour : MonoBehaviour
         }
         yield return null;
     }
-    public void EnemyHit()
+    public void EnemyOnHit()
     {
+        Debug.Log("Enemy got hit by bow");
+        gameObject.SetActive(false);
+
+        //add enemy death effet here
 
     }
     public IEnumerator ChargeUp()
@@ -136,6 +150,7 @@ public class NewEnemyBehaviour : MonoBehaviour
             if (hit.collider.gameObject == Player)
             {
                 Debug.Log("Hit player!");
+                Player.GetComponent<PlayerManager>().OnPlayerHit();
             }
             else
             {
@@ -146,5 +161,15 @@ public class NewEnemyBehaviour : MonoBehaviour
         {
             Debug.Log("didnt hit anything");
         }
+
+    }
+    public IEnumerator PauseEnemy(float pauseTime)
+    {
+        CanTargetPlayer = false;
+        Debug.Log("Paused Enemy");
+        yield return new WaitForSeconds(pauseTime);
+        CanTargetPlayer = true;
+        Debug.Log("Paused Enemy");
+        yield return null;
     }
 }
