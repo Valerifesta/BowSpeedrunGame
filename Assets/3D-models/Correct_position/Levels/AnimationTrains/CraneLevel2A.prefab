@@ -901,7 +901,6 @@ GameObject:
   - component: {fileID: 3569021257571131708}
   - component: {fileID: 5385760157429566026}
   - component: {fileID: 697626739733542490}
-  - component: {fileID: 7901319576610062190}
   m_Layer: 0
   m_Name: wheel.136
   m_TagString: Untagged
@@ -977,18 +976,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7901319576610062190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101302030352937137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76d006b0890c5c24faf69e8d9b3bbf82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2128908766417291203
 GameObject:
   m_ObjectHideFlags: 0
