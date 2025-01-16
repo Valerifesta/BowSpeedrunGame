@@ -26,7 +26,7 @@ public class TestBowBehaviour : MonoBehaviour
     [SerializeField] private TeleportManager teleportManager;
 
     [SerializeField] private PlayerManager playerManager;
-
+    [SerializeField] private GameManager GMan;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -61,6 +61,10 @@ public class TestBowBehaviour : MonoBehaviour
                 UpdateRotaryValue(-80); //Standard release value
 
             }
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+
         }
     }
     /*
@@ -139,10 +143,32 @@ public class TestBowBehaviour : MonoBehaviour
     {
         teleportManager.Teleport(Player, position);
         teleportManager.UpdateTeleportArray(position);
+
+        //Check if there are enemies within bounding volume
+        TryAggroEnemies();
+    }
+    public void TryAggroEnemies()
+    {
+
+        Collider[] colls = Physics.OverlapSphere(Player.transform.position, 10, ~LayerMask.NameToLayer("Enemy"));
+        if (colls.Length != 0)
+        {
+            for (int i = 0; i < colls.Length; i++)
+            {
+
+                GameObject enemyParent = colls[i].gameObject.transform.parent.gameObject;
+                float dist = Vector3.Distance(Player.transform.position, enemyParent.transform.position);
+                enemyParent.GetComponent<NewEnemyBehaviour>().TargetPlayer(dist);
+                Debug.Log(enemyParent);
+
+            }
+        }
+
     }
     public void OnPlayerHit()
     {
         teleportManager.TeleportToLast(Player);
+        GMan.AddScore(-2);
     }
 
     public void Shoot(float valueOnRelease)
@@ -156,6 +182,7 @@ public class TestBowBehaviour : MonoBehaviour
         arrow.transform.position = MainCam.transform.position;
         behaviour.sender = this;
         behaviour.teleportToggled = _teleportArrowToggled;
+        behaviour.GameMan = GMan;
         arrowRigidbody.AddForce(arrow.transform.up * 100 * valueOnRelease);
     }
     public void UpdateCameraRot(Vector3 deltaRot) // Deg/s
