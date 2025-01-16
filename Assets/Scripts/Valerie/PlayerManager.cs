@@ -46,9 +46,9 @@ public class PlayerManager : MonoBehaviour
     public void OnPlayerHit()
     {
         HitPoints -= 1;
-        //_bow.TryDeaggroEnemies();
+        //_bow.TryDeaggroEnemies(); This lags the hell outta the game
         _GameMan.AddScore(-2);
-        //_TeleportMan.TeleportToLast(gameObject);
+        _TeleportMan.TeleportToLast(gameObject);
 
     }
     IEnumerator ActivateShieldDuration()

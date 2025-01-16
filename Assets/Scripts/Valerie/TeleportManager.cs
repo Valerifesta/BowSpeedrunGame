@@ -45,7 +45,7 @@ public class TeleportManager : MonoBehaviour
         //special effect here
         //delay for after
         
-        //playerManager.ToggleRespawnShield();
+        playerManager.ToggleRespawnShield();
         //player
 
     }
