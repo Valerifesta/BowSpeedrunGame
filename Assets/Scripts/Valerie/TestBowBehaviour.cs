@@ -23,7 +23,11 @@ public class TestBowBehaviour : MonoBehaviour
     [SerializeField] private Camera MainCam;
     public GameObject Player;
     [SerializeField] private Slider RotaryIndicator;
+    [SerializeField] private TeleportManager teleportManager;
 
+    [SerializeField] private PlayerManager playerManager;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -65,6 +69,8 @@ public class TestBowBehaviour : MonoBehaviour
         _maxDegrees = degrees;
 
     }*/
+
+   
     public void ToggleArrow()
     {
         _teleportArrowToggled = !_teleportArrowToggled;
@@ -131,8 +137,14 @@ public class TestBowBehaviour : MonoBehaviour
 
     public void TeleportPlayer(Vector3 position)
     {
-        Player.transform.position = position;
+        teleportManager.Teleport(Player, position);
+        teleportManager.UpdateTeleportArray(position);
     }
+    public void OnPlayerHit()
+    {
+        teleportManager.TeleportToLast(Player);
+    }
+
     public void Shoot(float valueOnRelease)
     {
         Debug.Log("Shot");

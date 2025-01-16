@@ -20,7 +20,9 @@ public class DialoguePlayer : MonoBehaviour
     [SerializeField] private int ActiveSentanceIndex;
     [SerializeField] private bool AutoPlay;
     [SerializeField] private float AutoP_SentanceDelay; //default to 3.0f
-    
+
+   
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -93,6 +95,7 @@ public class DialoguePlayer : MonoBehaviour
         return docText;
 
     }
+   
     IEnumerator PlayDialogue(int sentanceIndex)
     {
         

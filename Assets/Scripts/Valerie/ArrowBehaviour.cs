@@ -9,6 +9,7 @@ public class ArrowBehaviour : MonoBehaviour
     Rigidbody rb;
     public bool teleportToggled;
     public TestBowBehaviour sender;
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,6 +23,7 @@ public class ArrowBehaviour : MonoBehaviour
             transform.up = rb.linearVelocity.normalized;
 
         }
+        
         
     }
 
