@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class DectedAlarm : MonoBehaviour
 {
-    [SerializeField] Material GlowMaterialRed;
-    [SerializeField] Material GlowMaterialGreen;
-    [SerializeField] Material GlowMaterialYellow;
+    [SerializeField] private Material GlowMaterialRed;
+    [SerializeField] private Material GlowMaterialGreen;
+    [SerializeField] private Material GlowMaterialYellow;
     MeshRenderer renderer;
+
+    private NewEnemyBehaviour enemyBehavior;
     //private Light lightComponent;
 
 
@@ -13,6 +15,7 @@ public class DectedAlarm : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        enemyBehavior = GetComponent<NewEnemyBehaviour>();
         Renderer = GetComponent<MeshRenderer>();
        
       //  lightComponent = GetComponentInChildren<Light>();
@@ -27,21 +30,22 @@ public class DectedAlarm : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (enemyBehavior.isShoot==true || enemyBehavior.isCharging == true)
         {
             Renderer.material = GlowMaterialRed;
             //lightComponent.color = new Color(1.0f, 0.2313725f, 0.3030183f);
 
         }
-        else if(Input.GetKeyDown(KeyCode.O))
+        else if(enemyBehavior.isRotate == false && enemyBehavior.isShoot == false && enemyBehavior.isCharging == false)
         {
             Renderer.material = GlowMaterialGreen;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
         }
-        else if (Input.GetKeyDown(KeyCode.L))
+        else if (enemyBehavior.isRotate == true)
         {
             Renderer.material = GlowMaterialYellow;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
         }
+       
     }
 }
