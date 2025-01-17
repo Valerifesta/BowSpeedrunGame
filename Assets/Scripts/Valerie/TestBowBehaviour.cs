@@ -40,7 +40,8 @@ public class TestBowBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ObjectToRotate.transform.eulerAngles += rot * Sensitivity * Time.deltaTime;
+        Vector3 sense = GameSettings.CameraSensitivity;
+        ObjectToRotate.transform.eulerAngles += new Vector3(rot.x * sense.x, rot.y * sense.y, rot.z * sense.z) * Time.deltaTime;
         if(reset){
             reset = false;
             ObjectToRotate.transform.eulerAngles = new Vector3(0, 0, 0);
