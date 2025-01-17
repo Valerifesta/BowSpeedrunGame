@@ -27,6 +27,8 @@ public class TestBowBehaviour : MonoBehaviour
 
     public PlayerManager playerManager;
     [SerializeField] private GameManager GMan;
+
+    bool tempInputs;
     
     bool reset = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,7 +45,10 @@ public class TestBowBehaviour : MonoBehaviour
             reset = false;
             ObjectToRotate.transform.eulerAngles = new Vector3(0, 0, 0);
         }
-        temp_inputs();
+        if (tempInputs)
+        {
+            temp_inputs();
+        }
         UpdateRotaryIndicator();
     }
     
@@ -119,7 +124,7 @@ public class TestBowBehaviour : MonoBehaviour
 
                 if (_activeRelease)
                 {
-                    if (rotaryInput < -_degSecReleaseRequirement && Mathf.Abs(rotaryInput) > 0.5f)
+                    if (rotaryInput < -_degSecReleaseRequirement && Mathf.Abs(rotaryInput) > 0.5f) 
                     {
                         Shoot(_rotaryValueOnRelease);
 

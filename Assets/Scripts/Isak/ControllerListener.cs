@@ -28,6 +28,7 @@ public class ControllerListener : MonoBehaviour
     string connectedPortName = "/dev/ttyUSB0";//"/dev/ttyUSB0";
     
     private TestBowBehaviour bowBehaviour;
+
     
     private void Awake()
     {
@@ -186,6 +187,7 @@ public class ControllerListener : MonoBehaviour
           if(type == 2){
             float rps = reader.ReadSingle();
             if(rps != 0){
+                    bowBehaviour.UpdateRotaryValue(rps);
               Debug.Log(rps);
             }
             if(rps == -9999){

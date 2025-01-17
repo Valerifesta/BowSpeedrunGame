@@ -2,16 +2,9 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-    public static float DegSecReleaseRequirement;
+    public static float DegSecReleaseThreshold;
+    public static Vector3 CameraSensitivity;
+    [SerializeField] private MenuManager menuMan;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
