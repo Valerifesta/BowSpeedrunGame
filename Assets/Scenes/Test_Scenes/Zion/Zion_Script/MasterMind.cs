@@ -9,28 +9,7 @@ public class MasterMind : MonoBehaviour
     [SerializeField] public bool WinningSceneOn; // Winning
 
 
-    private class IntroInfo
-    {
-       
-    }
-    private class PlayModeInfo 
-    {
-
-
-    }
-    private class MenyInfo
-    {
-
-
-    }
-    private class GameOverInfo
-    {
-
-    }
-    private class WinningInfo
-    {
-
-    }
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
