@@ -4,6 +4,7 @@ public class DectedAlarm : MonoBehaviour
 {
     [SerializeField] Material GlowMaterialRed;
     [SerializeField] Material GlowMaterialGreen;
+    [SerializeField] Material GlowMaterialYellow;
     MeshRenderer renderer;
     //private Light lightComponent;
 
@@ -35,6 +36,11 @@ public class DectedAlarm : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.O))
         {
             Renderer.material = GlowMaterialGreen;
+            //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            Renderer.material = GlowMaterialYellow;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
         }
     }

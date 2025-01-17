@@ -16,6 +16,14 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float RotTimeScale = 1;
     public bool CanTargetPlayer;
 
+    //Zion
+    [SerializeField] private EnemySoundList ESL;
+
+    public System.Action OnStartRotating;
+    public System.Action OnStartCharging;
+    public System.Action OnShoot;
+    public System.Action OnHit;
+
 
     //[SerializeField] private float _BurstFragmentInterval;
     //[SerializeField] private float _WholeBurstDelays;
@@ -27,6 +35,7 @@ public class NewEnemyBehaviour : MonoBehaviour
 
     private void Start()
     {
+        ESL = GetComponent<EnemySoundList>();
         //currentEuler = EnemyRotatingObj.transform.eulerAngles;
         //StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation));
     }
@@ -49,13 +58,14 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     public IEnumerator RotateTowardsPlayer(Quaternion startRot, float timeToRotate)
     {
+        OnStartRotating?.Invoke();//Zion (ljud)
         if (!CanTargetPlayer)
         {
             Debug.Log("Cannot target, therefore not rotate towards player");
             yield break;
         }
         Debug.Log("Started Rotating Enemy" );
-
+        
         Vector3 dir = Player.transform.position - EnemyRotatingObj.transform.position;
         dir.y = 0;
 
@@ -101,6 +111,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     public void EnemyOnHit()
     {
+        OnHit?.Invoke();
         Debug.Log("Enemy got hit by bow");
         gameObject.SetActive(false);
 
@@ -109,6 +120,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     public IEnumerator ChargeUp()
     {
+        OnStartCharging?.Invoke();// zion (ljud)
         float elapsedChargeTime = new float();
         float elapsedDelayTime = new float();
         while (CanTargetPlayer)
@@ -141,6 +153,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     public void ShootBeam()
     {
+        OnShoot?.Invoke();// Zion(ljud)
         RaycastHit hit = new RaycastHit();
         Debug.Log("Shot beam");
 

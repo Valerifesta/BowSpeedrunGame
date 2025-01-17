@@ -59,6 +59,7 @@ public class TrainSound : MonoBehaviour
         }
     }
 
+
     void Update()
     {
         if (player == null) return;
