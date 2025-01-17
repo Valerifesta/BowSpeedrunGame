@@ -17,6 +17,10 @@ public class TestBowBehaviour : MonoBehaviour
     [SerializeField] private Vector3 dir;
     Vector3 rot;
 
+    bool decreasing;
+    float max_time_wait = 0.1;
+    float time_wait; 
+
     private bool _teleportArrowToggled;
 
     [SerializeField] float shootCD; 
