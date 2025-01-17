@@ -18,7 +18,7 @@ public class TestBowBehaviour : MonoBehaviour
     Vector3 rot;
 
     bool decreasing;
-    float max_time_wait = 0.1;
+    float max_time_wait = 0.2f;
     float time_wait; 
 
     private bool _teleportArrowToggled;
@@ -66,12 +66,15 @@ public class TestBowBehaviour : MonoBehaviour
         }
         UpdateRotaryIndicator();
 
-        if(shoot && currentCD < 0){
+        if(shoot && currentCD < 0 && time_wait < 0.2){
+          if(lastrotaryvalue > 1){
+            currentCD = shootCD;
+            Shoot(lastrotaryvalue);
+          }
           shoot = false;
-          currentCD = shootCD;
-          Shoot(lastrotaryvalue);
         }
-        currentCD -= Time.deltaTime;
+        time_wait -= (float)Time.deltaTime;
+        currentCD -= (float)Time.deltaTime;
     }
     
     public void temp_inputs()
@@ -112,6 +115,10 @@ public class TestBowBehaviour : MonoBehaviour
     }
     public void UpdateRotaryValue(float rotaryInput)
     {
+        if(shoot && time_wait > 0){
+          shoot = false;
+        }
+        time_wait = max_time_wait;
         if(rotaryInput < 0){
           deltaloss += Mathf.Abs(rotaryInput);
         }
