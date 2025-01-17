@@ -36,12 +36,16 @@ public class MasterMind : MonoBehaviour
     {
         IntroSceneOn = true;
         PlayModeSceneOn = false;
+        GameOverSceneOn = false;
+        WinningSceneOn = false;
     }
 
     private void TestingIf()
     {
         IntroSceneOn = false;
         PlayModeSceneOn = true;
+        GameOverSceneOn = false;
+        WinningSceneOn = false;
     }
 
     // Update is called once per frame
@@ -50,6 +54,21 @@ public class MasterMind : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             TestingIf();
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            GameOverSceneOn = true;
+            WinningSceneOn = false;
+            IntroSceneOn = false;
+            PlayModeSceneOn = false;
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            WinningSceneOn = true;
+            GameOverSceneOn = false;
+            IntroSceneOn = false;
+            PlayModeSceneOn = false;
         }
     }
 }
