@@ -18,11 +18,17 @@ public class NewEnemyBehaviour : MonoBehaviour
 
     //Zion
     [SerializeField] private EnemySoundList ESL;
+    [SerializeField] private DectedAlarm DA;
 
     public System.Action OnStartRotating;
     public System.Action OnStartCharging;
     public System.Action OnShoot;
     public System.Action OnHit;
+
+    [SerializeField] public bool isRotate;
+    [SerializeField] public bool isCharging;
+    [SerializeField] public bool isShoot;
+    //[SerializeField] public bool isHiting;
 
 
     //[SerializeField] private float _BurstFragmentInterval;
@@ -59,6 +65,10 @@ public class NewEnemyBehaviour : MonoBehaviour
     public IEnumerator RotateTowardsPlayer(Quaternion startRot, float timeToRotate)
     {
         OnStartRotating?.Invoke();//Zion (ljud)
+        isRotate = true;//Zion (material)
+        isCharging = false;
+        isShoot = false;
+
         if (!CanTargetPlayer)
         {
             Debug.Log("Cannot target, therefore not rotate towards player");
@@ -112,6 +122,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     public void EnemyOnHit()
     {
         OnHit?.Invoke();
+       // isHiting = true;//Zion (material)
         Debug.Log("Enemy got hit by bow");
         gameObject.SetActive(false);
 
@@ -121,6 +132,10 @@ public class NewEnemyBehaviour : MonoBehaviour
     public IEnumerator ChargeUp()
     {
         OnStartCharging?.Invoke();// zion (ljud)
+        isCharging = true;//Zion (material)
+        isRotate = false;
+        isShoot = false;
+
         float elapsedChargeTime = new float();
         float elapsedDelayTime = new float();
         while (CanTargetPlayer)
@@ -134,6 +149,9 @@ public class NewEnemyBehaviour : MonoBehaviour
                     elapsedDelayTime = _BulletBeamDelay;
                     //shoot
                     ShootBeam();
+                    isShoot = true;//Zion (material)
+                    isRotate = false;
+                    isCharging = false;
                 }
                 else
                 {
