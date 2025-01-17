@@ -28,7 +28,7 @@ public class TestBowBehaviour : MonoBehaviour
     public PlayerManager playerManager;
     [SerializeField] private GameManager GMan;
 
-    bool tempInputs;
+    bool tempInputs = false;
     
     bool reset = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

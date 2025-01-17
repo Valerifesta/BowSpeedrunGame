@@ -90,8 +90,8 @@ public class ControllerListener : MonoBehaviour
     {
       WriteToArduino(1);
       WriteToArduino(2);
-      WriteToArduino(3);
-      WriteToArduino(4);
+      //WriteToArduino(3);
+      //WriteToArduino(4);
     }
     void ReadFromThread(){
       reader = new BinaryReader(port.BaseStream);
@@ -180,31 +180,31 @@ public class ControllerListener : MonoBehaviour
             float gz = reader.ReadSingle();
             Vector3 rotation = new Vector3(gx,gy,gz);
             if(rotation.magnitude > 0){
-              Debug.Log(rotation);
+              //Debug.Log(rotation);
             }
             bowBehaviour.UpdateCameraRot(rotation);
           }
           if(type == 2){
             float rps = reader.ReadSingle();
             if(rps != 0){
-                    bowBehaviour.UpdateRotaryValue(rps);
+              //bowBehaviour.UpdateRotaryValue(rps);
               Debug.Log(rps);
             }
             if(rps == -9999){
               Debug.Log("Same twice!");
             }
           }
-          if(type == 3){
-            Debug.Log("Button 1 pressed!");
-          }
-          if(type == 4){
-            Debug.Log("Button 2 pressed!");
-            WriteToArduino(5);
-          }
-          if(type == 5){
-            Debug.Log("Calibrating...");
-            calibrated = false;
-          }
+          //if(type == 3){
+          //  Debug.Log("Button 1 pressed!");
+          //}
+          //if(type == 4){
+          //  Debug.Log("Button 2 pressed!");
+          //  WriteToArduino(5);
+          //}
+          //if(type == 5){
+          //  Debug.Log("Calibrating...");
+          //  calibrated = false;
+          //}
         }
         catch (TimeoutException a)
         {
