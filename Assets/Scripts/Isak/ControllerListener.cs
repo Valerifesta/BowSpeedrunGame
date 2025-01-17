@@ -187,7 +187,7 @@ public class ControllerListener : MonoBehaviour
           if(type == 2){
             float rps = reader.ReadSingle();
             if(rps != 0){
-              //bowBehaviour.UpdateRotaryValue(rps);
+              bowBehaviour.UpdateRotaryValue(rps);
               Debug.Log(rps);
             }
             if(rps == -9999){

@@ -19,6 +19,9 @@ public class TestBowBehaviour : MonoBehaviour
 
     private bool _teleportArrowToggled;
 
+    [SerializeField] float shootCD; 
+    float currentCD;
+    float deltaloss = 0;
     [SerializeField] private GameObject ArrowPrefab;
     [SerializeField] private Camera MainCam;
     public GameObject Player;
@@ -31,6 +34,9 @@ public class TestBowBehaviour : MonoBehaviour
     bool tempInputs = false;
     
     bool reset = false;
+
+    float lastrotaryvalue = 0;
+    bool shoot = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,17 +46,28 @@ public class TestBowBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 sense = GameSettings.CameraSensitivity;
-        ObjectToRotate.transform.eulerAngles += new Vector3(rot.x * sense.x, rot.y * sense.y, rot.z * sense.z) * Time.deltaTime;
+        //Vector3 sense = GameSettings.CameraSensitivity;
+        Vector3 sense = new Vector3(10,10,10);
+        ObjectToRotate.transform.eulerAngles += new Vector3(rot.x * sense.x ,rot.y * sense.y, rot.z * sense.z) * Time.deltaTime;
         if(reset){
             reset = false;
-            ObjectToRotate.transform.eulerAngles = new Vector3(0, 0, 0);
+            ObjectToRotate.transform.eulerAngles = new Vector3(0, 180, 0);
         }
         if (tempInputs)
         {
             temp_inputs();
         }
+        if(Input.GetKeyDown(KeyCode.R)){
+            ObjectToRotate.transform.eulerAngles = new Vector3(0, 180, 0);
+        }
         UpdateRotaryIndicator();
+
+        if(shoot && currentCD < 0){
+          shoot = false;
+          currentCD = shootCD;
+          Shoot(lastrotaryvalue);
+        }
+        currentCD -= Time.deltaTime;
     }
     
     public void temp_inputs()
@@ -91,12 +108,13 @@ public class TestBowBehaviour : MonoBehaviour
     }
     public void UpdateRotaryValue(float rotaryInput)
     {
-        if (rotaryInput < -_degSecReleaseRequirement && _currentRotaryValue > 0 && !_activeRelease)
-        {
-            _rotaryValueOnRelease = _currentRotaryValue;
-            _activeRelease = true;
+        if(rotaryInput < 0){
+          deltaloss += Mathf.Abs(rotaryInput);
         }
-        float valueToAdd = rotaryInput * Time.deltaTime;
+        else{
+          deltaloss = 0;
+        }
+        float valueToAdd = rotaryInput;
         float nextValue = _currentRotaryValue + valueToAdd;
         if (nextValue > _currentRotaryValue)
         {
@@ -113,31 +131,22 @@ public class TestBowBehaviour : MonoBehaviour
         }
         else if (nextValue < _currentRotaryValue)
         {
-            if (nextValue > 0.0f)
-            {
-                _currentRotaryValue += valueToAdd;
-                Debug.Log("Decreased rotation");
+
+            if (deltaloss > _degSecReleaseRequirement) {
+              lastrotaryvalue = _currentRotaryValue;
+              Debug.Log(lastrotaryvalue);
+              shoot = true;
+              Debug.Log("Shooting");
+              _rotaryValueOnRelease = 0.0f;
+              _currentRotaryValue = 0.0f;
+
             }
             else
             {
-                _currentRotaryValue = 0.0f;
-                Debug.Log("Reached minimum rotation value");
-
-                if (_activeRelease)
-                {
-                    if (rotaryInput < -_degSecReleaseRequirement && Mathf.Abs(rotaryInput) > 0.5f) 
-                    {
-                        Shoot(_rotaryValueOnRelease);
-
-                    }
-                    else
-                    {
-                        Debug.Log("Didnt assert enough force to shoot");
-                    }
-                    _rotaryValueOnRelease = 0.0f;
-                    _activeRelease = false;
-                }
+                _currentRotaryValue += valueToAdd;
+                Debug.Log("Didnt assert enough force to shoot");
             }
+            Debug.Log("Reached minimum rotation value");
 
         }
         
@@ -208,7 +217,7 @@ public class TestBowBehaviour : MonoBehaviour
         behaviour.sender = this;
         behaviour.teleportToggled = _teleportArrowToggled;
         behaviour.GameMan = GMan;
-        arrowRigidbody.AddForce(arrow.transform.up * 100 * valueOnRelease);
+        arrowRigidbody.AddForce(arrow.transform.up * 1000 * Mathf.InverseLerp(_degSecReleaseRequirement, _maxRotaryValue, valueOnRelease));
     }
     public void UpdateCameraRot(Vector3 deltaRot) // Deg/s
     {
