@@ -28,6 +28,7 @@ public class TestBowBehaviour : MonoBehaviour
     public PlayerManager playerManager;
     [SerializeField] private GameManager GMan;
     
+    bool reset = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,7 +39,10 @@ public class TestBowBehaviour : MonoBehaviour
     void Update()
     {
         ObjectToRotate.transform.eulerAngles += rot * Sensitivity * Time.deltaTime;
-
+        if(reset){
+            reset = false;
+            ObjectToRotate.transform.eulerAngles = new Vector3(0, 0, 0);
+        }
         temp_inputs();
         UpdateRotaryIndicator();
     }
@@ -209,8 +213,11 @@ public class TestBowBehaviour : MonoBehaviour
         }
         else
         {
-            rot = new Vector3(deltaRot.x * dir.x, deltaRot.y * dir.y, deltaRot.z * dir.z);
+            rot = new Vector3(-deltaRot.y * dir.y, deltaRot.x * dir.x, deltaRot.z * dir.z);
         }
+    }
+    public void ResetRot(){
+        reset = true;
     }
 
 
