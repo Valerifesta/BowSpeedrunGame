@@ -15,7 +15,7 @@ public class DectedAlarm : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        enemyBehavior = GetComponent<NewEnemyBehaviour>();
+        enemyBehavior = transform.parent.transform.parent.GetComponent<NewEnemyBehaviour>();
         Renderer = GetComponent<MeshRenderer>();
        
       //  lightComponent = GetComponentInChildren<Light>();

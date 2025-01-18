@@ -25,7 +25,7 @@ public class ControllerListener : MonoBehaviour
     bool calibrated = false;
     //SerialWrap stream;
     BinaryReader reader;
-    string connectedPortName = "/dev/ttyUSB0";//"/dev/ttyUSB0";
+    string connectedPortName = "COM4";//"/dev/ttyUSB0";
     
     private TestBowBehaviour bowBehaviour;
 
