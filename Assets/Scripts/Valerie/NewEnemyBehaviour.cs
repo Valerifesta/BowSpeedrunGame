@@ -42,7 +42,8 @@ public class NewEnemyBehaviour : MonoBehaviour
     private void Start()
     {
         ESL = GetComponent<EnemySoundList>();
-        DA = GetComponentInChildren<DectedAlarm>();
+        DA = transform.GetChild(2).GetComponentInChildren<DectedAlarm>();
+        Player = FindFirstObjectByType<PlayerManager>().gameObject;
         //currentEuler = EnemyRotatingObj.transform.eulerAngles;
         //StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation));
     }

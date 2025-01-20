@@ -35,7 +35,7 @@ public class TestBowBehaviour : MonoBehaviour
     public PlayerManager playerManager;
     [SerializeField] private GameManager GMan;
 
-    bool tempInputs = false;
+    public bool tempInputs = false;
     
     bool reset = false;
 

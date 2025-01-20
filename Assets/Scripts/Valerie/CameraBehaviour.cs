@@ -7,6 +7,7 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private float Sensitivity;
     [SerializeField] private bool LockCursor;
     Vector3 currentRot;
+    public bool TempMovement;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,7 +20,11 @@ public class CameraBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //tempCamMovement();
+        if (TempMovement)
+        {
+            tempCamMovement();
+        }
+        //
     }
     void tempCamMovement()
     {
