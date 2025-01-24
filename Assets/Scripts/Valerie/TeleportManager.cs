@@ -7,6 +7,7 @@ public class TeleportManager : MonoBehaviour
     [SerializeField] private GameObject _spawnPosObj;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private GameObject player;
+    [SerializeField] private bool CanTeleportBack;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void Start()
@@ -30,22 +31,27 @@ public class TeleportManager : MonoBehaviour
     }
     public void TeleportToLast(GameObject objectToTeleport)
     {
-        Vector3 lastPoint = new Vector3();
-        if (PreviousTeleportPos[0] != Vector3.zero)
+        if (CanTeleportBack)
         {
-            lastPoint = PreviousTeleportPos[0]; //"Point is kind of an unintuitive name since the teleport position gets offsetted depending on what you hit and is not the actual point of contact.
+            Vector3 lastPoint = new Vector3();
+            if (PreviousTeleportPos[0] != Vector3.zero)
+            {
+                lastPoint = PreviousTeleportPos[0]; //"Point is kind of an unintuitive name since the teleport position gets offsetted depending on what you hit and is not the actual point of contact.
+
+            }
+            else
+            {
+                lastPoint = SpawnPos;
+            }
+            objectToTeleport.transform.position = lastPoint;
+            playerManager.ToggleRespawnShield();
 
         }
-        else
-        {
-            lastPoint = SpawnPos;
-        }
-        objectToTeleport.transform.position = lastPoint;
-        
+
+
         //special effect here
         //delay for after
-        
-        playerManager.ToggleRespawnShield();
+
         //player
 
     }

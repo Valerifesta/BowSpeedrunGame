@@ -12,6 +12,8 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject EnemyRotatingObj; //Will always rotate the assigned object on the horizontal axis. 
     private float rotatedAngles;
+    private float degreesAwayFromPrev;
+    //private float lastRotatedDegs;
     [SerializeField] private float RotationTime;
     [SerializeField] private float RotTimeScale = 1;
     public bool CanTargetPlayer;
@@ -38,14 +40,20 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float _BeamChargeUpTime = 2;
     [SerializeField] private float _LowerLimRotDistance = 2;
     //[SerializeField] private Vector3 currentEuler;
+    private Coroutine runningCoroutine;
 
     private void Start()
     {
         ESL = GetComponent<EnemySoundList>();
-        DA = transform.GetChild(2).GetComponentInChildren<DectedAlarm>();
+        //DA = transform.GetChild(2).GetComponentInChildren<DectedAlarm>();
         Player = FindFirstObjectByType<PlayerManager>().gameObject;
         //currentEuler = EnemyRotatingObj.transform.eulerAngles;
         //StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation));
+        ResetRot();
+    }
+    public void ResetRot()
+    {
+        EnemyRotatingObj.transform.eulerAngles = Vector3.zero;
     }
     private void Update()
     {
@@ -54,15 +62,36 @@ public class NewEnemyBehaviour : MonoBehaviour
         {
             TargetPlayer(Vector3.Distance(EnemyRotatingObj.transform.position, Player.transform.position));
         }
+        /*
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Quaternion fixedRot = Quaternion.AngleAxis(rotatedAngles - lastRotatedDegs, Vector3.up);
+
+            EnemyRotatingObj.transform.rotation = fixedRot;
+        }*/
     }
     public void TargetPlayer(float linearDistance)
     {
         if (linearDistance > _LowerLimRotDistance)
         {
             RotTimeScale = _LowerLimRotDistance / linearDistance;
+            CanTargetPlayer = true;
             Debug.Log("Distance between player and enemy is above Lower Distance Limit and is therefore affecting rotation time.");
         }
-        StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
+        //lastRotatedDegs = degreesAwayFromPrev;
+        degreesAwayFromPrev = Vector3.SignedAngle(EnemyRotatingObj.transform.forward, Player.transform.position - EnemyRotatingObj.transform.position, Vector3.up);
+
+        if (runningCoroutine != null)
+        {
+            
+            StopCoroutine(runningCoroutine);
+            Debug.Log(runningCoroutine);
+            Debug.Log("Ended Running Rotation Coroutine");
+        }
+        if (CanTargetPlayer)
+        {
+            runningCoroutine = StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
+        }
     }
     public IEnumerator RotateTowardsPlayer(Quaternion startRot, float timeToRotate)
     {
@@ -71,9 +100,11 @@ public class NewEnemyBehaviour : MonoBehaviour
         isCharging = false;
         isShoot = false;
 
+        
         if (!CanTargetPlayer)
         {
             Debug.Log("Cannot target, therefore not rotate towards player");
+            //runningCoroutine = null;
             yield break;
         }
         Debug.Log("Started Rotating Enemy" );
@@ -81,9 +112,11 @@ public class NewEnemyBehaviour : MonoBehaviour
         Vector3 dir = Player.transform.position - EnemyRotatingObj.transform.position;
         dir.y = 0;
 
-        float horizontalAngle = Vector3.SignedAngle(EnemyRotatingObj.transform.forward, dir, Vector3.up);
+        Debug.Log("prev was " + degreesAwayFromPrev);
+        float horizontalAngle = Vector3.SignedAngle(EnemyRotatingObj.transform.forward, dir, Vector3.up) - degreesAwayFromPrev; //- (lastRotatedDegs); //Forward can sometimes be wrong depending on the model orientation
         rotatedAngles += horizontalAngle;
-        Debug.Log(horizontalAngle);
+        //lastRotatedDegs = 0;
+        Debug.Log("angle between to player is " + horizontalAngle);
         if (horizontalAngle != 0)
         {
             float t = new float();
@@ -96,28 +129,20 @@ public class NewEnemyBehaviour : MonoBehaviour
                 elapsedTime += 1.0f * Time.deltaTime * RotTimeScale;
                 t = elapsedTime / timeToRotate;
                 tRot = Quaternion.Lerp(startRot, endRot, t);
-                //float rotateAngle = Mathf.Lerp(0, horizontalAngle, t);
-                //EnemyRotatingObj.transform.Rotate(Vector3.up, horizontalAngle/rotateAngle);
                 EnemyRotatingObj.transform.rotation = tRot;
                 yield return null;
-                if (!CanTargetPlayer)
-                {
-                    break;
-                }
             }
+
             if (CanTargetPlayer)
             {
                 if (EnemyRotatingObj.transform.rotation != tRot)
                 {
                     EnemyRotatingObj.transform.rotation = tRot;
                 }
+                runningCoroutine = null;
                 StartCoroutine(ChargeUp());
                 Debug.Log("Finished Rotating Enemy");
             }
-            
-
-            
-
         }
         yield return null;
     }
@@ -157,7 +182,7 @@ public class NewEnemyBehaviour : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Charging up");
+                    //Debug.Log("Charging up");
                 }
             }
             else

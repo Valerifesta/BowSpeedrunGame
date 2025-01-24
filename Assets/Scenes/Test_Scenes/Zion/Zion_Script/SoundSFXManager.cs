@@ -19,6 +19,12 @@ public class SoundSFXManager : MonoBehaviour
     public void PlaySoundFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
     {
         AudioSource audioSource = Instantiate(soundFXObject, spawnTransform.position, Quaternion.identity);
+
+        //Val was here
+
+        audioSource.spatialBlend = 1;
+        //.
+
         // assign the audioClips
         audioSource.clip = audioClip;
         // assign volume

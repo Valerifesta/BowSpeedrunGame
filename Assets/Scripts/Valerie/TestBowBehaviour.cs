@@ -77,9 +77,9 @@ public class TestBowBehaviour : MonoBehaviour
         currentCD -= (float)Time.deltaTime;
     }
     
-    public void temp_inputs()
+    public void temp_inputs() 
     {
-        if (Input.GetKey(KeyCode.Mouse0) && !_activeRelease)
+        if (Input.GetKey(KeyCode.Mouse0) && !_activeRelease && currentCD <= 0)
         {
             UpdateRotaryValue(10);
         }
@@ -87,10 +87,10 @@ public class TestBowBehaviour : MonoBehaviour
         {
             if (_rotaryValueOnRelease != 0.0f)
             {
-                UpdateRotaryValue(_rotaryValueOnRelease * -10);
-                print("value is " + _rotaryValueOnRelease * -10);
+                UpdateRotaryValue(_rotaryValueOnRelease * -1);
+                print("value is " + _rotaryValueOnRelease * -1);
             }
-            else
+            else if (_currentRotaryValue > 0)
             {
                 UpdateRotaryValue(-80); //Standard release value
 
