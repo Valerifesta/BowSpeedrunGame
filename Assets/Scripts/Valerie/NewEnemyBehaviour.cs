@@ -79,12 +79,15 @@ public class NewEnemyBehaviour : MonoBehaviour
             Debug.Log("Distance between player and enemy is above Lower Distance Limit and is therefore affecting rotation time.");
         }
         //lastRotatedDegs = degreesAwayFromPrev;
-        degreesAwayFromPrev = Vector3.SignedAngle(EnemyRotatingObj.transform.forward, Player.transform.position - EnemyRotatingObj.transform.position, Vector3.up);
-
+        //Vector3 forw = EnemyRotatingObj.transform.forward;
+        //Vector3 dir = Player.transform.position - EnemyRotatingObj.transform.position;
+        //dir.y = 0;
+        //degreesAwayFromPrev = Vector3.SignedAngle(forw, dir, Vector3.up))
         if (runningCoroutine != null)
         {
-            
+             
             StopCoroutine(runningCoroutine);
+
             Debug.Log(runningCoroutine);
             Debug.Log("Ended Running Rotation Coroutine");
         }
@@ -92,6 +95,7 @@ public class NewEnemyBehaviour : MonoBehaviour
         {
             runningCoroutine = StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
         }
+
     }
     public IEnumerator RotateTowardsPlayer(Quaternion startRot, float timeToRotate)
     {
@@ -130,6 +134,8 @@ public class NewEnemyBehaviour : MonoBehaviour
                 t = elapsedTime / timeToRotate;
                 tRot = Quaternion.Lerp(startRot, endRot, t);
                 EnemyRotatingObj.transform.rotation = tRot;
+                degreesAwayFromPrev = Vector3.SignedAngle(EnemyRotatingObj.transform.forward,dir, Vector3.up); //I have no idea why this fixes the rotation offset bug, but it does. For some reason it only works if its constantly updated..???
+               
                 yield return null;
             }
 
