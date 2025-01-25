@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -41,6 +43,10 @@ public class TestBowBehaviour : MonoBehaviour
 
     float lastrotaryvalue = 0;
     bool shoot = false;
+
+    //public int ArrowsFired;
+    //public int TimesTeleported;
+    public List<NewEnemyBehaviour> previousEnemies = new List<NewEnemyBehaviour>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -61,9 +67,7 @@ public class TestBowBehaviour : MonoBehaviour
         {
             temp_inputs();
         }
-        if(Input.GetKeyDown(KeyCode.R)){
-            ObjectToRotate.transform.eulerAngles = new Vector3(0, 180, 0);
-        }
+        
         UpdateRotaryIndicator();
 
         if(shoot && currentCD < 0 && time_wait < 0.2){
@@ -100,6 +104,11 @@ public class TestBowBehaviour : MonoBehaviour
         {
             ToggleArrow();
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ObjectToRotate.transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+
     }
     /*
     public void SetMaxRotaryDegrees(int degrees)
@@ -173,46 +182,95 @@ public class TestBowBehaviour : MonoBehaviour
     {
         teleportManager.Teleport(Player, position);
         teleportManager.UpdateTeleportArray(position);
+        GMan.TimesTeleported += 1;
 
+        UpdateAggros();
+    }
+    public void UpdateAggros()
+    {
         //Check if there are enemies within bounding volume
-        TryAggroEnemies();
+        DetectSurroundingEnemies();
+
+        float elaspedShield = playerManager.ShieldTimeRemaining;
+        if (elaspedShield > 0)
+        {
+            StunSurroundingtEnemies(elaspedShield);
+        }
+        else
+        {
+            AggroSurroundingEnemies();
+        }
     }
     public Collider[] GetNearestEnemyColliders()
     {
         return Physics.OverlapSphere(Player.transform.position, 10, ~LayerMask.NameToLayer("Enemy"));
         
     }
-    public void TryAggroEnemies()
+    public void DetectSurroundingEnemies()
     {
         Collider[] colls = GetNearestEnemyColliders();
+        NewEnemyBehaviour[] behaviourArray = new NewEnemyBehaviour[colls.Length];
+        
         if (colls.Length != 0)
         {
             for (int i = 0; i < colls.Length; i++)
             {
-
                 GameObject enemyParent = colls[i].gameObject.transform.parent.gameObject;
-                float dist = Vector3.Distance(Player.transform.position, enemyParent.transform.position);
-                enemyParent.GetComponent<NewEnemyBehaviour>().TargetPlayer(dist);
+                //dist = Vector3.Distance(Player.transform.position, enemyParent.transform.position);
+                NewEnemyBehaviour behaviour = enemyParent.GetComponent<NewEnemyBehaviour>();
+                Debug.Log(" behaviour is " +behaviour);
+                behaviourArray[i] = behaviour;
+                if (!previousEnemies.Contains(behaviourArray[i]))
+                {
+                    previousEnemies.Add(behaviour);
+                }
                 Debug.Log(enemyParent);
-
             }
+        }
+
+        NewEnemyBehaviour[] enemiesToDeaggro = new NewEnemyBehaviour[previousEnemies.Count];
+
+        for (int i = 0; i < previousEnemies.Count; i++)
+        {
+            Debug.Log("Deciding Aggro");
+            if (behaviourArray.Contains(previousEnemies[i]))
+            {
+                Debug.Log(previousEnemies[i].gameObject.name + " was inside of the detection bounds. starting aggro");
+            }
+            else
+            {
+                Debug.Log(previousEnemies[i].gameObject.name + " was outside of the detection bounds. Added enemy to 'enemiesToDeaggro' array");
+                enemiesToDeaggro[i] = previousEnemies[i];
+            }
+        }
+        for (int i = 0; i < enemiesToDeaggro.Length; i++) //This deaggros all enemies within the "enemiesToDeaggro" array. 
+        {
+            if (enemiesToDeaggro[i] != null)
+            {
+                previousEnemies.Remove(enemiesToDeaggro[i]);
+                enemiesToDeaggro[i].StartIdle();
+               // Debug.Log("Deaggrod " + enemiesToDeaggro[i]);
+            }
+            
         }
     }
-    public void TryDeaggroEnemies()
+    private void AggroSurroundingEnemies()
     {
-        Collider[] colls = GetNearestEnemyColliders();
-        if (colls.Length != 0)
+        foreach (NewEnemyBehaviour behaviour in previousEnemies)
         {
-            for (int i = 0; i < colls.Length; i++)
+            behaviour.TargetPlayer(Vector3.Distance(Player.transform.position, behaviour.gameObject.transform.position));
+        }
+    }
+    private void StunSurroundingtEnemies(float remainingStunTime)
+    {
+        foreach (NewEnemyBehaviour behaviour in previousEnemies)
+        {
+            if (!behaviour.IsStunned)
             {
-                GameObject enemyParent = colls[i].gameObject.transform.parent.gameObject;
-                NewEnemyBehaviour behaviour = enemyParent.GetComponent<NewEnemyBehaviour>();
-                if (behaviour.CanTargetPlayer)
-                {
-                    behaviour.StartCoroutine(behaviour.PauseEnemy(playerManager.ElapsedShieldDuration));
-                }
+                behaviour.StunEnemy(remainingStunTime);
             }
         }
+       
     }
 
 
@@ -229,6 +287,8 @@ public class TestBowBehaviour : MonoBehaviour
         behaviour.teleportToggled = _teleportArrowToggled;
         behaviour.GameMan = GMan;
         arrowRigidbody.AddForce(arrow.transform.up * 1000 * Mathf.InverseLerp(_degSecReleaseRequirement, _maxRotaryValue, valueOnRelease));
+        GMan.ArrowsShot += 1;
+
     }
     public void UpdateCameraRot(Vector3 deltaRot) // Deg/s
     {

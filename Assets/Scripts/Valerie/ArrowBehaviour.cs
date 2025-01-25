@@ -32,7 +32,7 @@ public class ArrowBehaviour : MonoBehaviour
     {
         if (teleportToggled)
         {
-            if (collision.collider.CompareTag("WalkArea") && sender.playerManager.ElapsedShieldDuration <= 0)
+            if (collision.collider.CompareTag("WalkArea"))// && sender.playerManager.ShieldTimeRemaining <= 0)
             {
                 Vector3 offsettedPos = new Vector3();
                 RaycastHit determineOffset = new RaycastHit();
@@ -48,18 +48,22 @@ public class ArrowBehaviour : MonoBehaviour
                 sender.TeleportPlayer(point + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0)); ;
                 gameObject.SetActive(false);
             }
-            else if (collision.collider.CompareTag("WalkArea") && sender.playerManager.ElapsedShieldDuration> 0)
+            else if (collision.collider.CompareTag("WalkArea") && sender.playerManager.ShieldTimeRemaining> 0)
             {
 
-                Debug.Log("Deaggroing surrounding enemies");
+                //Debug.Log("Deaggroing surrounding enemies");
             }
         }
         else
         {
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                collision.gameObject.transform.parent.gameObject.GetComponent<NewEnemyBehaviour>().EnemyOnHit();
-                GameMan.AddScore(1);
+                NewEnemyBehaviour behaviour = collision.gameObject.transform.parent.gameObject.GetComponent<NewEnemyBehaviour>();
+                behaviour.EnemyOnHit();
+                sender.previousEnemies.Remove(behaviour);
+                GameMan.EnemiesHit += 1;
+                Debug.Log("Arrow Hit Enemy");
+                gameObject.SetActive(false);
             }
         }
     }

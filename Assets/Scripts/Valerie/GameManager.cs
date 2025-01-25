@@ -3,6 +3,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int Score;
+    public int ArrowsShot;
+    public int TimesHit;
+    public int EnemiesHit;
+    public int TimesTeleported;
+
     public bool TimerEnabled;
     [SerializeField] private float TimerTimeElasped;
     public int EnemiesRemaining;

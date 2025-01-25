@@ -6,10 +6,10 @@ public class PlayerManager : MonoBehaviour
     public bool RespawnShieldActive;
     [SerializeField] float _respawnShieldDuration;
 
-    public int HitPoints;
+    //public int TimesHit;
     [SerializeField] private GameManager _GameMan;
     [SerializeField] private TeleportManager _TeleportMan;
-    public float ElapsedShieldDuration;
+    public float ShieldTimeRemaining;
     [SerializeField] private TestBowBehaviour _bow;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,10 +18,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
     public void ToggleRespawnShield()
     {
         RespawnShieldActive = !RespawnShieldActive;
@@ -37,7 +34,8 @@ public class PlayerManager : MonoBehaviour
         else
         {
             Debug.Log("RemovedShield");
-            ElapsedShieldDuration = 0;
+            ShieldTimeRemaining = 0;
+            _bow.UpdateAggros();
             //RespawnShieldActive = false;
             //remove ethereal material on player
 
@@ -45,18 +43,20 @@ public class PlayerManager : MonoBehaviour
     }
     public void OnPlayerHit()
     {
-        HitPoints -= 1;
-        //_bow.TryDeaggroEnemies(); 
-        _GameMan.AddScore(-2);
+        _GameMan.TimesHit += 1;
+       
         _TeleportMan.TeleportToLast(gameObject);
+
+        Debug.Log("Player got hit");
 
     }
     IEnumerator ActivateShieldDuration()
     {
-        
-        while (ElapsedShieldDuration < _respawnShieldDuration)
+        ShieldTimeRemaining = _respawnShieldDuration;
+        _bow.UpdateAggros(); //Stuns enemies nearby since ShieldTimeRemaining is above 0.
+        while (ShieldTimeRemaining > 0)
         {
-            ElapsedShieldDuration += 1.0f * Time.deltaTime;
+            ShieldTimeRemaining -= 1.0f * Time.deltaTime;
             yield return null;
         }
         ToggleRespawnShield();

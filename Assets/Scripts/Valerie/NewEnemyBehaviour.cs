@@ -16,7 +16,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     //private float lastRotatedDegs;
     [SerializeField] private float RotationTime;
     [SerializeField] private float RotTimeScale = 1;
-    public bool CanTargetPlayer;
+    //public bool CanTargetPlayer;
 
     //Zion
     [SerializeField] private EnemySoundList ESL;
@@ -40,8 +40,10 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float _BeamChargeUpTime = 2;
     [SerializeField] private float _LowerLimRotDistance = 2;
     //[SerializeField] private Vector3 currentEuler;
-    private Coroutine runningCoroutine;
+    //private Coroutine runningCoroutine;
 
+    public bool IsStunned;
+    private float _stunRemaining;
     private void Start()
     {
         ESL = GetComponent<EnemySoundList>();
@@ -57,11 +59,12 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     private void Update()
     {
-
+        /*
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TargetPlayer(Vector3.Distance(EnemyRotatingObj.transform.position, Player.transform.position));
         }
+        
         /*
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -69,31 +72,46 @@ public class NewEnemyBehaviour : MonoBehaviour
 
             EnemyRotatingObj.transform.rotation = fixedRot;
         }*/
+        if (_stunRemaining > 0)
+        {
+            _stunRemaining -= 1.0f * Time.deltaTime;
+        }
+        else if (IsStunned == true)
+        {
+            IsStunned = false;
+            _stunRemaining = 0;
+            Debug.Log("Enemy is no longer stunned");
+        }
+    }
+    public void StartIdle()
+    {
+        StopAllCoroutines();
+        Debug.Log("Made " + gameObject + " idle");
+    }
+    public void StunEnemy(float remainingStunTime)
+    {
+        StopAllCoroutines();
+        IsStunned = true;
+        _stunRemaining = remainingStunTime;
+        isRotate = false;
+        isCharging = false;
+        isShoot = false;
+        Debug.Log("Stunned Enemy");
     }
     public void TargetPlayer(float linearDistance)
     {
         if (linearDistance > _LowerLimRotDistance)
         {
             RotTimeScale = _LowerLimRotDistance / linearDistance;
-            CanTargetPlayer = true;
+            //CanTargetPlayer = true;
             Debug.Log("Distance between player and enemy is above Lower Distance Limit and is therefore affecting rotation time.");
         }
-        //lastRotatedDegs = degreesAwayFromPrev;
-        //Vector3 forw = EnemyRotatingObj.transform.forward;
-        //Vector3 dir = Player.transform.position - EnemyRotatingObj.transform.position;
-        //dir.y = 0;
-        //degreesAwayFromPrev = Vector3.SignedAngle(forw, dir, Vector3.up))
-        if (runningCoroutine != null)
+        
+        
+        StopAllCoroutines();
+       // if (CanTargetPlayer)
         {
-             
-            StopCoroutine(runningCoroutine);
-
-            Debug.Log(runningCoroutine);
-            Debug.Log("Ended Running Rotation Coroutine");
-        }
-        if (CanTargetPlayer)
-        {
-            runningCoroutine = StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
+            StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
         }
 
     }
@@ -104,13 +122,13 @@ public class NewEnemyBehaviour : MonoBehaviour
         isCharging = false;
         isShoot = false;
 
-        
+        /*
         if (!CanTargetPlayer)
         {
             Debug.Log("Cannot target, therefore not rotate towards player");
             //runningCoroutine = null;
             yield break;
-        }
+        }*/
         Debug.Log("Started Rotating Enemy" );
         
         Vector3 dir = Player.transform.position - EnemyRotatingObj.transform.position;
@@ -139,13 +157,13 @@ public class NewEnemyBehaviour : MonoBehaviour
                 yield return null;
             }
 
-            if (CanTargetPlayer)
+            //if (CanTargetPlayer)
             {
                 if (EnemyRotatingObj.transform.rotation != tRot)
                 {
                     EnemyRotatingObj.transform.rotation = tRot;
                 }
-                runningCoroutine = null;
+                //runningCoroutine = null;
                 StartCoroutine(ChargeUp());
                 Debug.Log("Finished Rotating Enemy");
             }
@@ -157,6 +175,7 @@ public class NewEnemyBehaviour : MonoBehaviour
         OnHit?.Invoke();
        // isHiting = true;//Zion (material)
         Debug.Log("Enemy got hit by bow");
+        
         gameObject.SetActive(false);
 
         //add enemy death effet here
@@ -171,7 +190,7 @@ public class NewEnemyBehaviour : MonoBehaviour
 
         float elapsedChargeTime = new float();
         float elapsedDelayTime = new float();
-        while (CanTargetPlayer)
+        while (true)
         {
             if (elapsedDelayTime <= 0)
             {
@@ -227,6 +246,7 @@ public class NewEnemyBehaviour : MonoBehaviour
         }
 
     }
+    /*
     public IEnumerator PauseEnemy(float pauseTime)
     {
         CanTargetPlayer = false;
@@ -235,5 +255,5 @@ public class NewEnemyBehaviour : MonoBehaviour
         CanTargetPlayer = true;
         Debug.Log("Paused Enemy");
         yield return null;
-    }
+    }*/
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class TeleportManager : MonoBehaviour
@@ -7,13 +9,20 @@ public class TeleportManager : MonoBehaviour
     [SerializeField] private GameObject _spawnPosObj;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private GameObject player;
-    [SerializeField] private bool CanTeleportBack;
+    //[SerializeField] private bool CanTeleportBack;
+    public float CallbackTime;
+    //public float T;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void Start()
     {
         SpawnPos = _spawnPosObj.transform.position;
         playerManager = FindFirstObjectByType<PlayerManager>();
+
+        if (CallbackTime <= 0)
+        {
+            CallbackTime = 1.0f;
+        }
     }
     public void UpdateTeleportArray(Vector3 newTeleportPos)
     {
@@ -31,23 +40,18 @@ public class TeleportManager : MonoBehaviour
     }
     public void TeleportToLast(GameObject objectToTeleport)
     {
-        if (CanTeleportBack)
+        Vector3 lastPoint = new Vector3();
+        if (PreviousTeleportPos[0] != Vector3.zero)
         {
-            Vector3 lastPoint = new Vector3();
-            if (PreviousTeleportPos[0] != Vector3.zero)
-            {
-                lastPoint = PreviousTeleportPos[0]; //"Point is kind of an unintuitive name since the teleport position gets offsetted depending on what you hit and is not the actual point of contact.
-
-            }
-            else
-            {
-                lastPoint = SpawnPos;
-            }
-            objectToTeleport.transform.position = lastPoint;
-            playerManager.ToggleRespawnShield();
+            lastPoint = PreviousTeleportPos[0]; //"Point is kind of an unintuitive name since the teleport position gets offsetted depending on what you hit and is not the actual point of contact.
 
         }
-
+        else
+        {
+            lastPoint = SpawnPos;
+        }
+        UpdateTeleportArray(lastPoint);
+        StartCoroutine(Callback(objectToTeleport, lastPoint));
 
         //special effect here
         //delay for after
@@ -55,4 +59,24 @@ public class TeleportManager : MonoBehaviour
         //player
 
     }
+    private IEnumerator Callback(GameObject objectToTravel, Vector3 endPos)
+    {
+        Debug.Log("Started Callback");
+        float t = new float();
+        float fixedT = new float();
+        Vector3 startPos = objectToTravel.transform.position;
+        while (t < CallbackTime)
+        {
+            t += 1.0f * Time.deltaTime;
+            fixedT = t / CallbackTime;
+            objectToTravel.transform.position = Vector3.Lerp(startPos, endPos, fixedT);
+            yield return null;
+        }
+        objectToTravel.transform.position = endPos;
+        playerManager.ToggleRespawnShield();
+        Debug.Log("Ended Callback");
+
+        yield return null;
+    }
+    
 }
