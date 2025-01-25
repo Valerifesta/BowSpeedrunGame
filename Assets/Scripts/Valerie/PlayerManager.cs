@@ -43,11 +43,20 @@ public class PlayerManager : MonoBehaviour
     }
     public void OnPlayerHit()
     {
-        _GameMan.TimesHit += 1;
-       
-        _TeleportMan.TeleportToLast(gameObject);
+        if (ShieldTimeRemaining <= 0)
+        {
+            _GameMan.TimesHit += 1;
 
-        Debug.Log("Player got hit");
+            _TeleportMan.TeleportToLast(gameObject);
+
+            Debug.Log("Player got hit");
+            ShieldTimeRemaining = 0.1f;
+        }
+        else
+        {
+            Debug.Log("Player shield is active, could not get hit");
+        }
+        
 
     }
     IEnumerator ActivateShieldDuration()
