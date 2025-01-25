@@ -11,6 +11,8 @@ public class NewEnemyBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject EnemyRotatingObj; //Will always rotate the assigned object on the horizontal axis. 
+    [SerializeField] private ParticleSystem ChargeAndShoot;
+    
     private float rotatedAngles;
     private float degreesAwayFromPrev;
     //private float lastRotatedDegs;
@@ -39,6 +41,8 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float _BulletBeamDelay;
     [SerializeField] private float _BeamChargeUpTime = 2;
     [SerializeField] private float _LowerLimRotDistance = 2;
+
+    
     //[SerializeField] private Vector3 currentEuler;
     //private Coroutine runningCoroutine;
 
@@ -187,6 +191,9 @@ public class NewEnemyBehaviour : MonoBehaviour
         isCharging = true;//Zion (material)
         isRotate = false;
         isShoot = false;
+        Vector3 orgin = EnemyRotatingObj.transform.position + EnemyRotatingObj.transform.forward;
+        ChargeAndShoot.transform.forward = (Player.transform.position - orgin).normalized;
+        ChargeAndShoot.Play();
 
         float elapsedChargeTime = new float();
         float elapsedDelayTime = new float();
@@ -227,7 +234,8 @@ public class NewEnemyBehaviour : MonoBehaviour
         RaycastHit hit = new RaycastHit();
         Debug.Log("Shot beam");
 
-        if (Physics.Raycast(EnemyRotatingObj.transform.position, EnemyRotatingObj.transform.forward, out hit))
+        Vector3 orgin = EnemyRotatingObj.transform.position + EnemyRotatingObj.transform.forward;
+        if (Physics.Raycast(orgin, (Player.transform.position- orgin).normalized, out hit))
         {
             GameObject hitObj = hit.collider.gameObject;                                                       
             if (hit.collider.gameObject == Player)

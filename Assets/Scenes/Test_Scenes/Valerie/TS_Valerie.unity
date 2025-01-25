@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1268437009}
   EnemyRotatingObj: {fileID: 473349043}
+  ChargeAndShoot: {fileID: 0}
   RotationTime: 1
   RotTimeScale: 1
   ESL: {fileID: 0}
@@ -725,6 +726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1268437009}
   EnemyRotatingObj: {fileID: 2011332327}
+  ChargeAndShoot: {fileID: 0}
   RotationTime: 1
   RotTimeScale: 1
   ESL: {fileID: 0}
@@ -829,6 +831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1268437009}
   EnemyRotatingObj: {fileID: 1927232708}
+  ChargeAndShoot: {fileID: 0}
   RotationTime: 1
   RotTimeScale: 1
   ESL: {fileID: 0}
@@ -1500,6 +1503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1268437009}
   EnemyRotatingObj: {fileID: 715425636}
+  ChargeAndShoot: {fileID: 0}
   RotationTime: 1
   RotTimeScale: 1
   ESL: {fileID: 0}
@@ -2470,10 +2474,6 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1268437009}
-    - target: {fileID: 9100097163373180412, guid: 0e644aa01ef3cb241a5483bfca427e8c, type: 3}
-      propertyPath: RotationTime
-      value: 0.25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
