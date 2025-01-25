@@ -5,10 +5,11 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering.RenderGraphModule;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.Audio;
 
 public class DialoguePlayer : MonoBehaviour
 {
-    [SerializeField] private string FullTextToRead;
+    private string _fullTextToRead;
     [SerializeField] private List<string> TextSentances;
     [SerializeField] private float CharDelay; //Cannot be 0. Default to 0.25f.
     [SerializeField] private float PeriodDelay; //Default to 1.0f
@@ -20,16 +21,26 @@ public class DialoguePlayer : MonoBehaviour
     [SerializeField] private int ActiveSentanceIndex;
     [SerializeField] private bool AutoPlay;
     [SerializeField] private float AutoP_SentanceDelay; //default to 3.0f
+    [SerializeField] private AudioSource source;
+    //[SerializeField] private AudioClip dialogueVoice;
+    [SerializeField] private AudioClip[] _dialogueVoiceOrder;
 
+    [SerializeField] private string currentTextDoc;
+    [SerializeField] private string[] textDocsOrder;
+    private int currentDocIndex;
+    private bool isReadingDoc;
    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (source == null)
+        {
+            source = GetComponent<AudioSource>();
+        }
         AttemptDefaultDelays();
-        
-        FullTextToRead = GetTxtString("BSRG_DialogueIntro");
-        CallNextSentance();
+        currentDocIndex = -1;
+        //FullTextToRead = GetTxtString("BSRG_DialogueIntro");
     }
 
     // Update is called once per frame
@@ -39,8 +50,28 @@ public class DialoguePlayer : MonoBehaviour
         {
             CallNextSentance();
         }
+        if (Input.GetKeyDown(KeyCode.N) && !isReadingDoc)
+        {
+            ReadNextDoc();
+        }
     }
-    private void CallNextSentance()
+    public void ReadNextDoc()
+    {
+        isReadingDoc = true;
+        currentDocIndex += 1;
+        ActiveSentanceIndex = -1;
+        if (currentDocIndex < textDocsOrder.Length)
+        {
+            _fullTextToRead = GetTxtString(textDocsOrder[currentDocIndex]);
+            currentTextDoc = textDocsOrder[currentDocIndex];
+            CallNextSentance();
+        }
+        else
+        {
+            Debug.Log("No dialogue docs left.");
+        }
+    }
+    public void CallNextSentance()
     {
         ActiveSentanceIndex += 1;
         StartCoroutine(PlayDialogue(ActiveSentanceIndex));
@@ -115,6 +146,10 @@ public class DialoguePlayer : MonoBehaviour
         {
             DialogueDisplay.text += textChars[i];
             string letter = textChars[i].ToString();
+            if (!string.IsNullOrWhiteSpace(letter) && letter != "@")
+            {
+                source.PlayOneShot(_dialogueVoiceOrder[currentDocIndex]);
+            }
             switch (letter)
             {
                 case ".":
@@ -129,10 +164,12 @@ public class DialoguePlayer : MonoBehaviour
                     Debug.Log("Reached end of text document.");
                     delayTime = EndTextDelay;
                     ActiveSentanceIndex = -1;
+                    TextSentances.Clear();
 
                     yield return new WaitForSeconds(delayTime);
 
                     DialogueDisplay.text = string.Empty;
+                    isReadingDoc = false;
                     yield break;
                     
 

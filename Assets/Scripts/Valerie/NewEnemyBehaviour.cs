@@ -20,6 +20,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float RotTimeScale = 1;
     //public bool CanTargetPlayer;
 
+
     //Zion
     [SerializeField] private EnemySoundList ESL;
     [SerializeField] private DectedAlarm DA;
@@ -90,6 +91,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     public void StartIdle()
     {
         StopAllCoroutines();
+        //ChargeAndShoot.Stop();
         Debug.Log("Made " + gameObject + " idle");
     }
     public void StunEnemy(float remainingStunTime)
