@@ -5,6 +5,7 @@ public class DectedAlarm : MonoBehaviour
     [SerializeField] private Material GlowMaterialRed;
     [SerializeField] private Material GlowMaterialGreen;
     [SerializeField] private Material GlowMaterialYellow;
+    [SerializeField] private Material GlowMaterialBlue;
     MeshRenderer renderer;
 
     private NewEnemyBehaviour enemyBehavior;
@@ -46,6 +47,10 @@ public class DectedAlarm : MonoBehaviour
             Renderer.material = GlowMaterialYellow;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
         }
-       
+        else if (enemyBehavior.IsStunned == true)
+        {
+            Renderer.material = GlowMaterialBlue;
+          
+        }
     }
 }
