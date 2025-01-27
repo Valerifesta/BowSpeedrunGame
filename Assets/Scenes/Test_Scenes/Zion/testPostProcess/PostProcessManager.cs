@@ -188,9 +188,9 @@ public class PostProcessManager : MonoBehaviour
             Invoke("TeleportFilter", 0);
         }
 
-        // Debug.Log($"Lift W-värde: {LGG.lift.value.w}");
-        //Debug.Log($"Gain W-värde: {LGG.gain.value.w}");
-        //Debug.Log($"Gamma W-värde: {LGG.gamma.value.w}");
+         Debug.Log($"Lift W-värde: {LGG.lift.value.w}");
+        Debug.Log($"Gain W-värde: {LGG.gain.value.w}");
+        Debug.Log($"Gamma W-värde: {LGG.gamma.value.w}");
 
        
   
