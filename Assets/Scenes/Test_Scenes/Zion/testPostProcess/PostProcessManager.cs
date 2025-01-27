@@ -151,7 +151,7 @@ public class PostProcessManager : MonoBehaviour
     private void RegularFilter()
     {
         vignette.active = true;
-        vignette.intensity.value = 0.319f;
+        vignette.intensity.value = 0.119f;//0.319f;
         vignette.smoothness.value = 1f;
         LGG.gamma.Override(new Vector4(1.54f, 1.42f, 1.46f, -0.09793615f));
         LGG.gain.Override(new Vector4(1.07f, 1.12f, 1.12f, 0.3322843f));
