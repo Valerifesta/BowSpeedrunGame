@@ -10,10 +10,17 @@ public class ArrowBehaviour : MonoBehaviour
     public bool teleportToggled;
     public TestBowBehaviour sender;
     public GameManager GameMan;
-    
+    private bool flying;
+    private float timeUntilDespawn;
     private void Start()
     {
+        flying = true;
+        timeUntilDespawn = 10.0f;
         rb = GetComponent<Rigidbody>();
+        if (!teleportToggled)
+        {
+            GetComponent<ParticleSystem>().Play();
+        }
     }
 
     private void Update()
@@ -24,8 +31,15 @@ public class ArrowBehaviour : MonoBehaviour
             transform.up = rb.linearVelocity.normalized;
 
         }
-        
-        
+        if (timeUntilDespawn > 0)
+        {
+            timeUntilDespawn -= 1.0f * Time.deltaTime;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -45,14 +59,10 @@ public class ArrowBehaviour : MonoBehaviour
                         Debug.Log("Teleported to the platform above");
                     }
                 }*/
-                sender.TeleportPlayer(point + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0)); ;
+                sender.TeleportPlayer(point + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0));
                 gameObject.SetActive(false);
             }
-            else if (collision.collider.CompareTag("WalkArea") && sender.playerManager.ShieldTimeRemaining> 0)
-            {
-
-                //Debug.Log("Deaggroing surrounding enemies");
-            }
+           
         }
         else
         {
@@ -65,7 +75,14 @@ public class ArrowBehaviour : MonoBehaviour
                 Debug.Log("Arrow Hit Enemy");
                 gameObject.SetActive(false);
             }
+            if (collision.collider.CompareTag("WalkArea"))
+            {
+                rb.isKinematic = true;
+                timeUntilDespawn = 10.0f;
+            }
         }
+
+        flying = false;
     }
     
 

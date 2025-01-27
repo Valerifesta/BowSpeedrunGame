@@ -12,6 +12,11 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject EnemyRotatingObj; //Will always rotate the assigned object on the horizontal axis. 
     [SerializeField] private ParticleSystem ChargeAndShoot;
+    private ParticleSystem chargeBall;
+    private ParticleSystem plasmaBeam;
+
+    [SerializeField] private ParticleSystem DetectEffect;
+    [SerializeField] private ParticleSystem StunnedEffect;
     
     private float rotatedAngles;
     private float degreesAwayFromPrev;
@@ -43,6 +48,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float _BeamChargeUpTime = 2;
     [SerializeField] private float _LowerLimRotDistance = 2;
 
+    [SerializeField] private float RotationStartDelay;
     
     //[SerializeField] private Vector3 currentEuler;
     //private Coroutine runningCoroutine;
@@ -57,6 +63,19 @@ public class NewEnemyBehaviour : MonoBehaviour
         //currentEuler = EnemyRotatingObj.transform.eulerAngles;
         //StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation));
         ResetRot();
+
+        float chargeScale = 2 / _BeamChargeUpTime; //2 is the default value and which matches 
+        var mainCharge = ChargeAndShoot.main;
+        mainCharge.simulationSpeed = 2.2f * chargeScale;
+
+        chargeBall = ChargeAndShoot.GetComponentsInChildren<ParticleSystem>()[1];
+        var chargeBallMain = chargeBall.main;
+        chargeBallMain.simulationSpeed = 2.2f * chargeScale;
+
+        plasmaBeam = ChargeAndShoot.GetComponentsInChildren<ParticleSystem>()[1].GetComponentsInChildren<ParticleSystem>()[1];
+        var plasmaMain = plasmaBeam.main;
+        plasmaMain.startDelay = 1.9f / chargeScale;
+
     }
     public void ResetRot()
     {
@@ -92,11 +111,18 @@ public class NewEnemyBehaviour : MonoBehaviour
     {
         StopAllCoroutines();
         //ChargeAndShoot.Stop();
+        isShoot = false;
+        isRotate = false;
+        isCharging = false;
         Debug.Log("Made " + gameObject + " idle");
     }
     public void StunEnemy(float remainingStunTime)
     {
         StopAllCoroutines();
+        var main = StunnedEffect.main;
+        main.duration = main.simulationSpeed * remainingStunTime;
+        StunnedEffect.Play();
+
         IsStunned = true;
         _stunRemaining = remainingStunTime;
         isRotate = false;
@@ -115,6 +141,11 @@ public class NewEnemyBehaviour : MonoBehaviour
         
         
         StopAllCoroutines();
+        ChargeAndShoot.Stop();
+        if (!isRotate && !isCharging && !isShoot)
+        {
+            DetectEffect.Play();
+        }
        // if (CanTargetPlayer)
         {
             StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
@@ -123,6 +154,10 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     public IEnumerator RotateTowardsPlayer(Quaternion startRot, float timeToRotate)
     {
+        if (RotationStartDelay != 0.0f)
+        {
+            yield return new WaitForSeconds(RotationStartDelay);
+        }
         OnStartRotating?.Invoke();//Zion (ljud)
         isRotate = true;//Zion (material)
         isCharging = false;

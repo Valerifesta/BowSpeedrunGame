@@ -37,7 +37,7 @@ public class DectedAlarm : MonoBehaviour
             //lightComponent.color = new Color(1.0f, 0.2313725f, 0.3030183f);
 
         }
-        else if(enemyBehavior.isRotate == false && enemyBehavior.isShoot == false && enemyBehavior.isCharging == false)
+        else if(enemyBehavior.isRotate == false && enemyBehavior.isShoot == false && enemyBehavior.isCharging == false && !enemyBehavior.IsStunned)
         {
             Renderer.material = GlowMaterialGreen;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
@@ -50,6 +50,7 @@ public class DectedAlarm : MonoBehaviour
         else if (enemyBehavior.IsStunned == true)
         {
             Renderer.material = GlowMaterialBlue;
+            //Debug.Log("Attemped at changing color to blue");
           
         }
     }

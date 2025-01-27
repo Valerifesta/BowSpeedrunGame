@@ -717,7 +717,9 @@ MonoBehaviour:
   AutoPlay: 1
   AutoP_SentanceDelay: 3
   source: {fileID: 359661843}
-  dialogueVoice: {fileID: 8300000, guid: 1e2d17ef91d28714d9c7fddfd874e726, type: 3}
+  _dialogueVoiceOrder:
+  - {fileID: 8300000, guid: 1e2d17ef91d28714d9c7fddfd874e726, type: 3}
+  - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
   currentTextDoc: 
   textDocsOrder:
   - BSRG_DialogueIntro
@@ -12044,7 +12046,7 @@ MonoBehaviour:
   AutoPlay: 1
   AutoP_SentanceDelay: 0
   source: {fileID: 0}
-  dialogueVoice: {fileID: 0}
+  _dialogueVoiceOrder: []
   currentTextDoc: 
   textDocsOrder: []
 --- !u!4 &1946974746
