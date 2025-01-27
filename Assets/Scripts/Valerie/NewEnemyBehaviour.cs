@@ -216,7 +216,7 @@ public class NewEnemyBehaviour : MonoBehaviour
         OnHit?.Invoke();
        // isHiting = true;//Zion (material)
         Debug.Log("Enemy got hit by bow");
-        
+        //Player.GetComponent<>
         gameObject.SetActive(false);
 
         //add enemy death effet here

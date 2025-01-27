@@ -11972,13 +11972,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempArrow (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 161901125665051677, guid: 63638afe90b7cd0478b022c09d229ceb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7079769407150661580, guid: 63638afe90b7cd0478b022c09d229ceb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.634447
       objectReference: {fileID: 0}
     - target: {fileID: 7079769407150661580, guid: 63638afe90b7cd0478b022c09d229ceb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.69
+      value: 12.62
       objectReference: {fileID: 0}
     - target: {fileID: 7079769407150661580, guid: 63638afe90b7cd0478b022c09d229ceb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12011,6 +12015,10 @@ PrefabInstance:
     - target: {fileID: 7079769407150661580, guid: 63638afe90b7cd0478b022c09d229ceb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7547574153022880670, guid: 63638afe90b7cd0478b022c09d229ceb, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

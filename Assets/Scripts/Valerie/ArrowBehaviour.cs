@@ -72,6 +72,7 @@ public class ArrowBehaviour : MonoBehaviour
                 behaviour.EnemyOnHit();
                 sender.previousEnemies.Remove(behaviour);
                 GameMan.EnemiesHit += 1;
+                GameMan.EnemiesHit -= 1;
                 Debug.Log("Arrow Hit Enemy");
                 gameObject.SetActive(false);
             }
