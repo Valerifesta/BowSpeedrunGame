@@ -14,11 +14,12 @@ public class PostProcessManager : MonoBehaviour
     private Vignette vignette;//gameover and winn effect
     private WhiteBalance WB;//gameover and winn effect
 
-    [SerializeField] private AnimationCurve IntensitySmoothStartAnimation;
-    [SerializeField] private AnimationCurve IntensitySmoothLastTimeAnimation;
-    private float IntensitySmoothStart;
-    private float IntensitySmoothLastTime;
+    //[SerializeField] private AnimationCurve IntensitySmoothStartAnimation;
+    //[SerializeField] private AnimationCurve IntensitySmoothLastTimeAnimation;
+    //private float IntensitySmoothStart;
+    //private float IntensitySmoothLastTime;
 
+  
 
 
 
@@ -69,10 +70,19 @@ public class PostProcessManager : MonoBehaviour
 
     }
 
+    
+
+    
+
+   
+
+
+   
+
     private void GameOverFilter()
     {
         vignette.active = true;
-        vignette.intensity.value = 0.36f;
+        vignette.intensity.value = 0.325f;
         vignette.smoothness.value = 0.56f;
         vignette.rounded.value = false;
         vignette.center.Override(new Vector2(0.5f, 0.5f));
@@ -83,9 +93,10 @@ public class PostProcessManager : MonoBehaviour
         WB.temperature.value = 14.34f;
 
         LGG.active = true;
-        LGG.gamma.Override(new Vector4(0f, -0.10f, -0.06f,-1.0f));
-        LGG.gain.Override(new Vector4(1.95f, 2f, 2f, 0.2828005f));
-        LGG.lift.Override(new Vector4(0.41f, 0.31f, 0.50f, 0.1622627f));
+        LGG.gamma.Override(new Vector4(0.26f, 0.16f, 0.20f,-0.74f));
+        LGG.gain.Override(new Vector4(1.27f, 1.19f, 1.28f, 0.2828005f));
+        LGG.lift.Override(new Vector4(0.76f, -0.11f, 0.06f, -0.2422627f));
+        vignette.color.Override(new Color(0f, 0f, 0.98f));
     }
     private void WinnerFilter()
     {
@@ -94,6 +105,7 @@ public class PostProcessManager : MonoBehaviour
         vignette.smoothness.value = 0.56f;
         vignette.rounded.value = false;
         vignette.center.Override(new Vector2(0.5f, 0.5f));
+        vignette.color.Override (new Color(1.0f, 0.9040225f, 0.07861614f));
 
 
         WB.active = true;
@@ -101,9 +113,9 @@ public class PostProcessManager : MonoBehaviour
         WB.temperature.value = 14.34f;
 
         LGG.active = true;
-        LGG.gamma.Override(new Vector4(0.54f, 0.44f, 0.48f,0));
-        LGG.gain.Override(new Vector4(1.86f, 1.90f, 1.90f,0));
-        LGG.lift.Override(new Vector4(0.89f, 0.79f, 0.98f,0));
+        LGG.gamma.Override(new Vector4(0.54f, 0.44f, 0.48f,1f));
+        LGG.gain.Override(new Vector4(1.86f, 1.90f, 1.90f,0.9f));
+        LGG.lift.Override(new Vector4(0.89f, 0.79f, 0.98f,-0.2f));
     }
 
     private void TeleportFilter()
@@ -139,10 +151,12 @@ public class PostProcessManager : MonoBehaviour
     private void RegularFilter()
     {
         vignette.active = true;
-        vignette.intensity.value = 1;
-        LGG.gamma.Override(new Vector4(1.54f, 1.42f, 1.46f,0));
-        LGG.gain.Override(new Vector4(1.07f, 1.12f, 1.12f,0));
-        LGG.lift.Override(new Vector4(0.76f, 0.66f, 0.86f,0));
+        vignette.intensity.value = 0.319f;
+        vignette.smoothness.value = 1f;
+        LGG.gamma.Override(new Vector4(1.54f, 1.42f, 1.46f, -0.09793615f));
+        LGG.gain.Override(new Vector4(1.07f, 1.12f, 1.12f, 0.3322843f));
+        LGG.lift.Override(new Vector4(0.76f, 0.66f, 0.86f, -0.05596373f));
+        vignette.color.Override(new Color(0f, 0f, 0f));
     }
 
 
@@ -174,8 +188,11 @@ public class PostProcessManager : MonoBehaviour
             Invoke("TeleportFilter", 0);
         }
 
-        Debug.Log($"Lift W-värde: {LGG.lift.value.w}");
-        Debug.Log($"Gain W-värde: {LGG.gain.value.w}");
-        Debug.Log($"Gamma W-värde: {LGG.gamma.value.w}");
+        // Debug.Log($"Lift W-värde: {LGG.lift.value.w}");
+        //Debug.Log($"Gain W-värde: {LGG.gain.value.w}");
+        //Debug.Log($"Gamma W-värde: {LGG.gamma.value.w}");
+
+       
+  
     }
 }
