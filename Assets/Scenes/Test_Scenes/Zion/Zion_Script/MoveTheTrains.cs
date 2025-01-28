@@ -9,9 +9,16 @@ public class MoveTrainIntro : MonoBehaviour
         public GameObject objectToMove;
         public Vector3 direction = Vector3.forward;
         public float speed = 5f;
+        public bool isPlayerTrain;
         [HideInInspector] public float timer = 0f;
         [HideInInspector] public bool hasStopped = false; 
+
+        
     }
+    
+    [Header("Managers")]
+    [SerializeField] private GameManager gameManager;
+    [SerializeField] private PlayerManager Player;
 
     [Header("Objects Settings")]
     [SerializeField] private List<MovingTrain> movingObjects = new List<MovingTrain>();
@@ -23,9 +30,24 @@ public class MoveTrainIntro : MonoBehaviour
     [Header("Stop Settings")]
     [SerializeField] private bool deactivateOnStop = false;
 
+    private void Start()
+    {
+        for (int i = 0; i < movingObjects.Count; i++)
+        {
+            if (movingObjects[i].isPlayerTrain)
+            {
+                ParentPlayerToTrain(movingObjects[i].objectToMove);
+                break;
+            }
+        }
+    }
     private void Update()
     {
-        for (int i = movingObjects.Count - 1; i >= 0; i--)
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetAllObjects();
+        }
+        for (int i = movingObjects.Count - 1; i >= 0 && !movingObjects[i].hasStopped; i--)
         {
             var obj = movingObjects[i];
             if (obj.objectToMove == null) continue;
@@ -38,6 +60,7 @@ public class MoveTrainIntro : MonoBehaviour
                 if (obj.timer >= timeUntilStop)
                 {
                     obj.hasStopped = true;
+                    UnparentPlayer();
 
                     if (deactivateOnStop)
                     {
@@ -54,6 +77,8 @@ public class MoveTrainIntro : MonoBehaviour
                 Vector3 movement = obj.direction.normalized * obj.speed * Time.deltaTime;
                 obj.objectToMove.transform.position += movement;
             }
+
+           Debug.Log("moving");
         }
     }
 
@@ -66,7 +91,30 @@ public class MoveTrainIntro : MonoBehaviour
             movingObjects[index].hasStopped = false;
         }
     }
+    public void PlayerTrainExitLevel()
+    {
+        gameManager.StartCoroutine(gameManager.ShowEndScreen(5.0f));
 
+        for (int i = 0; i < movingObjects.Count; i++)
+        {
+            if (movingObjects[i].isPlayerTrain)
+            {
+                ParentPlayerToTrain(movingObjects[i].objectToMove);
+                timeUntilStop = 30.0f;
+                ResetAllObjects();
+                break;
+            }
+        }
+
+    }
+    public void ParentPlayerToTrain(GameObject train)
+    {
+        Player.gameObject.transform.parent = train.transform;
+    }
+    public void UnparentPlayer()
+    {
+        Player.gameObject.transform.parent = null;
+    }
     // Restart for all the train for movement
     public void ResetAllObjects()
     {

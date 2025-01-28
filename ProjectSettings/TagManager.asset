@@ -12,6 +12,7 @@ TagManager:
   - WalkArea
   - End
   - NotWalkArea
+  - PlayerTrainWalkArea
   layers:
   - Default
   - TransparentFX

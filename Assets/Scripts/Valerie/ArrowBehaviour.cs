@@ -44,9 +44,10 @@ public class ArrowBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        tag = collision.collider.tag;
         if (teleportToggled)
         {
-            if (collision.collider.CompareTag("WalkArea"))// && sender.playerManager.ShieldTimeRemaining <= 0)
+            if (tag == "WalkArea" || tag == "PlayerTrainWalkArea")// && sender.playerManager.ShieldTimeRemaining <= 0)
             {
                 Vector3 offsettedPos = new Vector3();
                 RaycastHit determineOffset = new RaycastHit();
@@ -60,7 +61,20 @@ public class ArrowBehaviour : MonoBehaviour
                     }
                 }*/
                 sender.TeleportPlayer(point + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0));
+
+                if (tag == "PlayerTrainWalkArea")
+                {
+                    Debug.Log("Teleported to player train");
+                    if (GameMan.EnemiesRemaining <= 0)
+                    {
+                        MoveTrainIntro mover = GameMan.TrainMover;
+                        mover.PlayerTrainExitLevel();
+
+                    }
+                }
                 gameObject.SetActive(false);
+
+
             }
            
         }
@@ -71,12 +85,12 @@ public class ArrowBehaviour : MonoBehaviour
                 NewEnemyBehaviour behaviour = collision.gameObject.transform.parent.gameObject.GetComponent<NewEnemyBehaviour>();
                 behaviour.EnemyOnHit();
                 sender.previousEnemies.Remove(behaviour);
-                GameMan.EnemiesHit += 1;
-                GameMan.EnemiesHit -= 1;
+                //GameMan.EnemiesHit += 1;
+                GameMan.OnEnemyHit();
                 Debug.Log("Arrow Hit Enemy");
                 gameObject.SetActive(false);
             }
-            if (collision.collider.CompareTag("WalkArea"))
+            if (tag == "WalkArea" || tag == "PlayerTrainWalkArea")
             {
                 rb.isKinematic = true;
                 timeUntilDespawn = 10.0f;
