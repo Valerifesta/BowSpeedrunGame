@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     
     public MoveTrainIntro TrainMover;
     [SerializeField] private Volume purpleFilter;
+    [SerializeField] private TextMeshProUGUI winText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -67,7 +69,22 @@ public class GameManager : MonoBehaviour
 
         balance.temperature.value = 24;
         letterEffect.active = true;
+        StartCoroutine(ShowEndUI());
 
+        yield return null;
+    }
+    public IEnumerator ShowEndUI()
+    {
+        Debug.Log("Started showing end score");
+        string[] Headers = new string[] { "Time: ", "Times Teleported: ", "Times Hit: ", "Arrows Shot: "};
+        float[] stats = new float[] { TimerTimeElasped, TimesTeleported, TimesHit, ArrowsShot };
+        for (int i = 0; i < Headers.Length; i++)
+        {
+            winText.text += (Headers[i] + stats[i] + "\n");
+            yield return new WaitForSeconds(0.1f);
+            yield return null;
+        }
+        Debug.Log("stopped showing end score");
 
         yield return null;
     }

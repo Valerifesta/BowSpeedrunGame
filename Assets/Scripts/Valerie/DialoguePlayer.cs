@@ -170,8 +170,13 @@ public class DialoguePlayer : MonoBehaviour
 
                     DialogueDisplay.text = string.Empty;
                     isReadingDoc = false;
+
+                    if (currentDocIndex == 1)
+                    {
+                        //Expand space
+                    }
                     yield break;
-                    
+
 
                 default:
                     delayTime = CharDelay;

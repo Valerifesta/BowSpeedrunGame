@@ -3,6 +3,8 @@ using System.Drawing;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using NUnit.Framework;
+using System.Collections.Generic;
 public class TutorialScript : MonoBehaviour
 {
     [SerializeField] private Camera Main;
@@ -19,6 +21,22 @@ public class TutorialScript : MonoBehaviour
     [SerializeField] private AudioSource currentBackgroundMusic;
 
     [SerializeField] private float FadeTime;
+
+
+    [System.Serializable]
+    public class RotatingObject
+    {
+        public GameObject objToRotate;
+        public Vector3 AxisToRotateAround;
+        public float RotationSpeed;
+
+        public void UpdateRotateObject()
+        {
+            objToRotate.transform.RotateAround(objToRotate.transform.position, AxisToRotateAround, 10.0f * RotationSpeed * Time.deltaTime);
+        }
+    }
+
+    public List<RotatingObject> objs = new List<RotatingObject>();
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -44,11 +62,19 @@ public class TutorialScript : MonoBehaviour
         {
             elapsedFadeTime += 1.0f * Time.deltaTime;
         }
-        MoveCommunicator();
+        //MoveCommunicator();
+        if (objs.Count > 0)
+        {
+            foreach (RotatingObject obj in objs)
+            {
+                obj.UpdateRotateObject();
+            }
+        }
         tempInputs();
     }
     public void FinishedBowCalibration()
     {
+        dialogue.ReadNextDoc();
 
     }
     void MoveCommunicator()
