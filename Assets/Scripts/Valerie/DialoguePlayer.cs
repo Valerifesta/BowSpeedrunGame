@@ -29,6 +29,8 @@ public class DialoguePlayer : MonoBehaviour
     [SerializeField] private string[] textDocsOrder;
     private int currentDocIndex;
     private bool isReadingDoc;
+
+    [SerializeField] TutorialScript tutorial;
    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -55,7 +57,11 @@ public class DialoguePlayer : MonoBehaviour
             ReadNextDoc();
         }
     }
-    public void ReadNextDoc()
+    public void SetTextColor(Color color)
+    {
+        DialogueDisplay.color = color;
+    }
+    public void ReadNextDoc(float delay = 0)
     {
         isReadingDoc = true;
         currentDocIndex += 1;
@@ -64,17 +70,17 @@ public class DialoguePlayer : MonoBehaviour
         {
             _fullTextToRead = GetTxtString(textDocsOrder[currentDocIndex]);
             currentTextDoc = textDocsOrder[currentDocIndex];
-            CallNextSentance();
+            CallNextSentance(delay);
         }
         else
         {
             Debug.Log("No dialogue docs left.");
         }
     }
-    public void CallNextSentance()
+    public void CallNextSentance(float delay = 0)
     {
         ActiveSentanceIndex += 1;
-        StartCoroutine(PlayDialogue(ActiveSentanceIndex));
+        StartCoroutine(PlayDialogue(ActiveSentanceIndex, delay));
     }
     public void AttemptDefaultDelays()
     {
@@ -127,8 +133,15 @@ public class DialoguePlayer : MonoBehaviour
 
     }
    
-    IEnumerator PlayDialogue(int sentanceIndex)
+    IEnumerator PlayDialogue(int sentanceIndex, float delay)
     {
+        if (delay > 0)
+        {
+            Debug.Log("Delayed diaogue with " + delay + " seconds");
+            yield return new WaitForSeconds(delay);
+            //yield return null;
+        }
+        Debug.Log("Is Past delay now");
         
         DialogueDisplay.text = string.Empty;
         Debug.Log("Cleared Old Dialogue");
@@ -161,21 +174,18 @@ public class DialoguePlayer : MonoBehaviour
                 case "@":
                     //enter game scene
                     DialogueDisplay.text = DialogueDisplay.text.Remove(DialogueDisplay.text.Length-1, 1);
-                    Debug.Log("Reached end of text document.");
-                    delayTime = EndTextDelay;
-                    ActiveSentanceIndex = -1;
+                    
+                    //delayTime = EndTextDelay;
+                    //ActiveSentanceIndex = -1;
                     TextSentances.Clear();
 
-                    yield return new WaitForSeconds(delayTime);
+                    //yield return new WaitForSeconds(delayTime);
 
-                    DialogueDisplay.text = string.Empty;
                     isReadingDoc = false;
 
-                    if (currentDocIndex == 1)
-                    {
-                        //Expand space
-                    }
-                    yield break;
+                    break;
+                   // break;
+                    
 
 
                 default:
@@ -188,12 +198,47 @@ public class DialoguePlayer : MonoBehaviour
         }
 
         Debug.Log("Ended Dialogue");
-        if (AutoPlay)
+        if (isReadingDoc)
         {
-            Debug.Log("AutoPlay is enabled. Starting next dialogue in " + AutoP_SentanceDelay + " seconds.");
-            yield return new WaitForSeconds(AutoP_SentanceDelay);
-            CallNextSentance();
+            if (AutoPlay)
+            {
+                Debug.Log("AutoPlay is enabled. Starting next dialogue in " + AutoP_SentanceDelay + " seconds.");
+                yield return new WaitForSeconds(AutoP_SentanceDelay);
+                CallNextSentance();
+
+
+            }
         }
+        else
+        {
+            Debug.Log("Reached end of text document. Did not call next sentance");
+
+            Debug.Log("The current doc index is " + currentDocIndex + ", which is " + currentTextDoc);
+            Debug.Log("Delaying with endTextDelay");
+            yield return new WaitForSeconds(EndTextDelay);
+            DialogueDisplay.text = string.Empty; //Visually removes text
+
+            switch (currentDocIndex)
+            {
+                case 0:
+                    Debug.Log("Started to await calibratiobn");
+                    tutorial.AwaitingCalibration = true;
+                    break;
+
+                case 1:
+                    Debug.Log("Attempted to start room transition");
+                    tutorial.StartRoomTransition();
+                    EndTextDelay = 2;
+                    break;
+
+                case 2:
+                    EndTextDelay = 0.5f;
+                    break;
+            }
+           
+        }
+        
+        
 
         yield return null;
     }

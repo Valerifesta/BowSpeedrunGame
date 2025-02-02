@@ -28,6 +28,7 @@ public class ControllerListener : MonoBehaviour
     string connectedPortName = "COM4";//"/dev/ttyUSB0";
     
     private TestBowBehaviour bowBehaviour;
+    private CameraBehaviour camBehaviour;
 
     
     private void Awake()
@@ -49,6 +50,7 @@ public class ControllerListener : MonoBehaviour
     void Start()
     {
         bowBehaviour = FindFirstObjectByType<TestBowBehaviour>();
+        camBehaviour = FindFirstObjectByType<CameraBehaviour>();
 
         //TryConnectPort("COM3", 9600);
         if (port != null)
@@ -171,7 +173,7 @@ public class ControllerListener : MonoBehaviour
           byte type = reader.ReadByte();
           if(!calibrated){
             Debug.Log("Calibration Complete!");
-            bowBehaviour.ResetRot();
+            camBehaviour.ResetRot();
           }
           calibrated = true; 
           if(type == 1){
@@ -182,7 +184,7 @@ public class ControllerListener : MonoBehaviour
             if(rotation.magnitude > 0){
               //Debug.Log(rotation);
             }
-            bowBehaviour.UpdateCameraRot(rotation);
+            camBehaviour.UpdateCameraRot(rotation);
           }
           if(type == 2){
             float rps = reader.ReadSingle();

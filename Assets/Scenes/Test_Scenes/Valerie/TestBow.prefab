@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569dfaddedf898942a8f8b2dfe4570e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxRotaryValue: 10
+  _maxRotaryValue: 350
   _currentRotaryValue: 0
-  _degSecReleaseRequirement: 40
+  _degSecReleaseRequirement: 20
   ObjectToRotate: {fileID: 0}
-  Sensitivity: 10
-  dir: {x: 1, y: 1, z: 1}
-  shootCD: 0
+  Sensitivity: 125
+  dir: {x: -5, y: -5, z: 1}
+  shootCD: 0.5
   ArrowPrefab: {fileID: 161901125665051677, guid: 63638afe90b7cd0478b022c09d229ceb, type: 3}
   MainCam: {fileID: 0}
   Player: {fileID: 0}
@@ -59,6 +59,8 @@ MonoBehaviour:
   teleportManager: {fileID: 0}
   playerManager: {fileID: 0}
   GMan: {fileID: 0}
+  tempInputs: 1
+  previousEnemies: []
 --- !u!114 &3399675504014414909
 MonoBehaviour:
   m_ObjectHideFlags: 0

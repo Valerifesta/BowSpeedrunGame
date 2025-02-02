@@ -14,11 +14,7 @@ public class TestBowBehaviour : MonoBehaviour
     private bool _activeRelease;
     private float _rotaryValueOnRelease;
 
-    [SerializeField] private GameObject ObjectToRotate;
-    [SerializeField] private float Sensitivity;
-    [SerializeField] private Vector3 dir;
-    Vector3 rot;
-
+   
     bool decreasing;
     float max_time_wait = 0.2f;
     float time_wait; 
@@ -39,10 +35,11 @@ public class TestBowBehaviour : MonoBehaviour
 
     public bool tempInputs = false;
     
-    bool reset = false;
 
     float lastrotaryvalue = 0;
     bool shoot = false;
+
+    public bool CanUpdateBowInputs;
 
     //public int ArrowsFired;
     //public int TimesTeleported;
@@ -56,29 +53,32 @@ public class TestBowBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector3 sense = GameSettings.CameraSensitivity;
-        Vector3 sense = new Vector3(10,10,10);
-        ObjectToRotate.transform.eulerAngles += new Vector3(rot.x * sense.x ,rot.y * sense.y, rot.z * sense.z) * Time.deltaTime;
-        if(reset){
-            reset = false;
-            ObjectToRotate.transform.eulerAngles = new Vector3(0, 180, 0);
-        }
-        if (tempInputs)
+        
+
+        //^this is for camera. Should prolly move later.
+        if (CanUpdateBowInputs)
         {
-            temp_inputs();
+            if (tempInputs)
+            {
+                temp_inputs();
+            }
+
+
+            UpdateRotaryIndicator(); //visual slider
+
+            if (shoot && currentCD < 0 && time_wait < 0.2)
+            {
+                if (lastrotaryvalue > 1)
+                {
+                    currentCD = shootCD;
+                    Shoot(lastrotaryvalue);
+                }
+                shoot = false;
+            }
+            time_wait -= (float)Time.deltaTime;
+            currentCD -= (float)Time.deltaTime;
         }
         
-        UpdateRotaryIndicator();
-
-        if(shoot && currentCD < 0 && time_wait < 0.2){
-          if(lastrotaryvalue > 1){
-            currentCD = shootCD;
-            Shoot(lastrotaryvalue);
-          }
-          shoot = false;
-        }
-        time_wait -= (float)Time.deltaTime;
-        currentCD -= (float)Time.deltaTime;
     }
     
     public void temp_inputs() 
@@ -104,10 +104,7 @@ public class TestBowBehaviour : MonoBehaviour
         {
             ToggleArrow();
         }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ObjectToRotate.transform.eulerAngles = new Vector3(0, 180, 0);
-        }
+        
 
     }
     /*
@@ -290,21 +287,6 @@ public class TestBowBehaviour : MonoBehaviour
         GMan.ArrowsShot += 1;
 
     }
-    public void UpdateCameraRot(Vector3 deltaRot) // Deg/s
-    {
-        if (deltaRot.magnitude > 100 || deltaRot.y == 0 && deltaRot.z == 0)
-        {
-            Debug.Log("lmao: " + deltaRot);
-
-        }
-        else
-        {
-            rot = new Vector3(-deltaRot.y * dir.y, deltaRot.x * dir.x, deltaRot.z * dir.z);
-        }
-    }
-    public void ResetRot(){
-        reset = true;
-    }
-
+ 
 
 }
