@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour
     public MoveTrainIntro TrainMover;
     [SerializeField] private Volume purpleFilter;
     [SerializeField] private TextMeshProUGUI winText;
-    public bool Tutorial;
+    [SerializeField] private DialoguePlayer _dialogue;
+    public bool TutorialActive;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Last enemy destroyed.");
             ReadyTrainForExit();
+            
         }
     }
     public void ToggleTimer()
@@ -55,6 +57,11 @@ public class GameManager : MonoBehaviour
     public void ReadyTrainForExit()
     {
         TrainMover.ResetAllObjects();
+        if (TutorialActive)
+        {
+            TrainMover.TutorialShowPlayerTrain();
+            _dialogue.ReadNextDoc();
+        }
     }
     
     public IEnumerator ShowEndScreen(float delay)

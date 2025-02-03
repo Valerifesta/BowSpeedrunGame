@@ -82,6 +82,7 @@ public class TutorialScript : MonoBehaviour
 
     TestBowBehaviour bowBehaviour;
     bool hasReachedTeleportGoal;
+    [SerializeField] private float _startPitch;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -90,7 +91,7 @@ public class TutorialScript : MonoBehaviour
         dialogue.ReadNextDoc(5 + FadeTime);
         currentBackgroundMusic = FindFirstObjectByType<MusicChanger>().GetComponent<AudioSource>();
         //currentBackgroundMusic.volume = 0.2f;
-        currentBackgroundMusic.pitch = 0.3f;
+        currentBackgroundMusic.pitch = _startPitch;
         bowBehaviour = BowObj.GetComponent<TestBowBehaviour>();
     }
 
@@ -172,10 +173,15 @@ public class TutorialScript : MonoBehaviour
             _EnemyToSpawn.SetActive(true);
             //_EnemyToSpawn.GetComponent<NewEnemyBehaviour>().spee
             bowBehaviour.UpdateAggros();
-            ToggleBowInputs();
+            bowBehaviour.CanUpdateBowInputs = false;
             dialogue.ReadNextDoc(5);
             //bowBehaviour.CanUpdateBowInputs = false;
             Debug.Log("IS GONNA SPAWN ENEMIES");
+        }
+        if (step == 6)
+        {
+            bowBehaviour.CanUpdateBowInputs = true;
+
         }
     }
     public void OnTeleport(Vector3 pos)

@@ -293,15 +293,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 861509600775158924, guid: 8e6f5cd4de4fbfd4f979a801931d00f8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8431889641377536788, guid: 8e6f5cd4de4fbfd4f979a801931d00f8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -81.6
+      value: -261.6
       objectReference: {fileID: 0}
     - target: {fileID: 8431889641377536788, guid: 8e6f5cd4de4fbfd4f979a801931d00f8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -21.9
+      value: -11.9
       objectReference: {fileID: 0}
     - target: {fileID: 8431889641377536788, guid: 8e6f5cd4de4fbfd4f979a801931d00f8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1036,6 +1036,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
   - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
   - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
+  - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
   currentTextDoc: 
   textDocsOrder:
   - BSRG_DialogueIntro
@@ -1045,6 +1046,7 @@ MonoBehaviour:
   - Platforms
   - OnPlatform
   - Shot
+  - KilledEnemy
   tutorial: {fileID: 1002972079}
   clearTextBeforeNext: 0
 --- !u!4 &359661842
@@ -2676,6 +2678,7 @@ MonoBehaviour:
   - {fileID: 1232437411}
   _TeleportGoal: {fileID: 799420304}
   _EnemyToSpawn: {fileID: 804552493}
+  _startPitch: 0.61
 --- !u!4 &1002972080
 Transform:
   m_ObjectHideFlags: 0
@@ -2818,21 +2821,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers 1
       objectReference: {fileID: 0}
+    - target: {fileID: 784930481100503843, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1899681295876869340, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
       propertyPath: winText
       value: 
       objectReference: {fileID: 1332636986}
     - target: {fileID: 1899681295876869340, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+      propertyPath: Tutorial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1899681295876869340, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+      propertyPath: _dialogue
+      value: 
+      objectReference: {fileID: 359661841}
+    - target: {fileID: 1899681295876869340, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
       propertyPath: purpleFilter
       value: 
       objectReference: {fileID: 872523721}
+    - target: {fileID: 1899681295876869340, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+      propertyPath: TutorialActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4587957580201685725, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
       propertyPath: Player
       value: 
       objectReference: {fileID: 268194282}
     - target: {fileID: 4587957580201685725, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4587957580201685725, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
       propertyPath: movingObjects.Array.data[0].objectToMove
@@ -2840,10 +2859,20 @@ PrefabInstance:
       objectReference: {fileID: 254401712}
     - target: {fileID: 4587957580201685725, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
       propertyPath: movingObjects.Array.data[0].isPlayerTrain
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5898928422046039614, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    - target: {fileID: 7208339550993844752, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 784930481100503843, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 7208339550993844752, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
@@ -2865,7 +2894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1232437412
 Transform:
   m_ObjectHideFlags: 0
@@ -3009,7 +3038,8 @@ MonoBehaviour:
   TrainMover: {fileID: 0}
   purpleFilter: {fileID: 0}
   winText: {fileID: 0}
-  Tutorial: 0
+  _dialogue: {fileID: 0}
+  TutorialActive: 0
 --- !u!1 &1249087143
 GameObject:
   m_ObjectHideFlags: 0
@@ -3527,8 +3557,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -860, y: -515}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 800, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1332636986
 MonoBehaviour:
@@ -3550,7 +3580,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3560,7 +3590,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3584,8 +3614,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 32
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -3963,7 +3993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4922714358061291239, guid: 0e644aa01ef3cb241a5483bfca427e8c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8564478725511596110, guid: 0e644aa01ef3cb241a5483bfca427e8c, type: 3}
       propertyPath: m_LocalScale.x

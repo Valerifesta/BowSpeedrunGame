@@ -255,10 +255,17 @@ public class DialoguePlayer : MonoBehaviour
                 case 5://Reached green platform. Spawns enemeies.
                     tutorial.StartTutorialStep(currentDocIndex);
                     clearTextBeforeNext = false;
+                    //Cross out toggle icons
 
                     break;
                 case 6://Got shot. Let player use bow again
-                    tutorial.ToggleBowInputs();
+                    //tutorial.ToggleBowInputs();
+                    tutorial.StartTutorialStep(currentDocIndex);
+                    //indicate that bow cant be shot, nor arrow toggled
+                    break;
+
+                case 7: //Shot last enemy. Moving in train
+                    
                     break;
 
             }

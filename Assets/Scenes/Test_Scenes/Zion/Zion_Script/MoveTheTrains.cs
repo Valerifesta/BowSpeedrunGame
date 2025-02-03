@@ -34,7 +34,7 @@ public class MoveTrainIntro : MonoBehaviour
     {
         for (int i = 0; i < movingObjects.Count; i++)
         {
-            if (movingObjects[i].isPlayerTrain)
+            if (movingObjects[i].isPlayerTrain && !gameManager.TutorialActive)
             {
                 ParentPlayerToTrain(movingObjects[i].objectToMove);
                 break;
@@ -110,6 +110,17 @@ public class MoveTrainIntro : MonoBehaviour
     public void ParentPlayerToTrain(GameObject train)
     {
         Player.gameObject.transform.parent = train.transform;
+    }
+    public void TutorialShowPlayerTrain()
+    {
+        for (int i = 0; i < movingObjects.Count; i++)
+        {
+            if (movingObjects[i].isPlayerTrain)
+            {
+                movingObjects[i].objectToMove.SetActive(true);
+                break;
+            }
+        }
     }
     public void UnparentPlayer()
     {
