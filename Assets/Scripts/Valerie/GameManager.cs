@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public MoveTrainIntro TrainMover;
     [SerializeField] private Volume purpleFilter;
     [SerializeField] private TextMeshProUGUI winText;
+    //public bool Tutorial;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

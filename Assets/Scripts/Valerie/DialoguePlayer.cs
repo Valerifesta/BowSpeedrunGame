@@ -31,8 +31,8 @@ public class DialoguePlayer : MonoBehaviour
     private bool isReadingDoc;
 
     [SerializeField] TutorialScript tutorial;
-   
 
+    [SerializeField] private bool clearTextBeforeNext;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -63,6 +63,10 @@ public class DialoguePlayer : MonoBehaviour
     }
     public void ReadNextDoc(float delay = 0)
     {
+        if (!clearTextBeforeNext)
+        {
+            DialogueDisplay.text = string.Empty; //Visually removes text
+        }
         isReadingDoc = true;
         currentDocIndex += 1;
         ActiveSentanceIndex = -1;
@@ -216,7 +220,10 @@ public class DialoguePlayer : MonoBehaviour
             Debug.Log("The current doc index is " + currentDocIndex + ", which is " + currentTextDoc);
             Debug.Log("Delaying with endTextDelay");
             yield return new WaitForSeconds(EndTextDelay);
-            DialogueDisplay.text = string.Empty; //Visually removes text
+            if (clearTextBeforeNext)
+            {
+                DialogueDisplay.text = string.Empty; //Visually removes text
+            }
 
             switch (currentDocIndex)
             {
@@ -231,11 +238,30 @@ public class DialoguePlayer : MonoBehaviour
                     EndTextDelay = 2;
                     break;
 
-                case 2:
+                case 2://Finished room transition
                     EndTextDelay = 0.5f;
+                    clearTextBeforeNext = false;
+                    
+                    ReadNextDoc();
                     break;
+                case 3://look around. "See if you can find us"
+                    FindFirstObjectByType<TutStare>().IsAwaitingStare = true;
+                    
+                    break;
+                case 4://Spotted. Activate platforms
+                    tutorial.StartTutorialStep(currentDocIndex);
+                    clearTextBeforeNext = true;
+                    break;
+                case 5://Reached green platform. Spawns enemeies.
+                    tutorial.StartTutorialStep(currentDocIndex);
+                    clearTextBeforeNext = false;
+
+                    break;
+                case 6:
+                    break;
+
             }
-           
+
         }
         
         

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using Unity.Android.Gradle;
 public class TutorialScript : MonoBehaviour
 {
     [SerializeField] private Camera Main;
@@ -26,7 +27,9 @@ public class TutorialScript : MonoBehaviour
     [SerializeField] private float FadeTime;
 
     [SerializeField] private ParticleSystem roomParticles;
+    [SerializeField] private ParticleSystem floorParticles;
 
+   
 
     [System.Serializable]
     public class RotatingObject
@@ -72,6 +75,12 @@ public class TutorialScript : MonoBehaviour
 
     public List<RotatingObject> objs = new List<RotatingObject>();
 
+    [Header("StepObjs")]
+    [SerializeField] private GameObject[] _TeleportPlatforms;
+    [SerializeField] private GameObject _TeleportGoal;
+    [SerializeField] private GameObject _EnemyToSpawn;
+
+    bool hasReachedTeleportGoal;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -89,11 +98,13 @@ public class TutorialScript : MonoBehaviour
         StartCoroutine(objs[0].LerpRotationSpeed(50));
         StartCoroutine(objs[0].LerpRotationSpeed(1, 1.0f));
         UnityEngine.Color orgMainColor = Main.backgroundColor;
-        StartCoroutine(Fade(orgMainColor, new Color32(255, 255, 255, 255), 1.5f, 0));
+        StartCoroutine(Fade(orgMainColor, UnityEngine.Color.white, 1.5f, 0));
         StartCoroutine(Fade(UnityEngine.Color.white, UnityEngine.Color.black, 1.5f, 2));
 
         dialogue.SetTextColor(UnityEngine.Color.black);
         dialogue.ReadNextDoc(3);
+
+        floorParticles.gameObject.SetActive(true);
 
     }
     private void tempInputs()
@@ -144,8 +155,39 @@ public class TutorialScript : MonoBehaviour
         BowObj.GetComponent<TestBowBehaviour>().CanUpdateBowInputs = bowEnabled;
         BowPullbackSlider.SetActive(bowEnabled);
     }
-    
-    
+
+    public void StartTutorialStep(int step)//Steps after stare
+    {
+        if (step == 4) //Activates platform to teleport to.
+        {
+            for (int i = 0; i < _TeleportPlatforms.Length; i++)
+            {
+                _TeleportPlatforms[i].SetActive(true);
+            }
+        }
+        if (step == 5)
+        {
+            _EnemyToSpawn.SetActive(true);
+            BowObj.GetComponent<TestBowBehaviour>().UpdateAggros();
+            Debug.Log("IS GONNA SPAWN ENEMIES");
+        }
+    }
+    public void OnTeleport(Vector3 pos)
+    {
+        Collider[] colls = Physics.OverlapSphere(pos, 5);
+        if (colls.Length > 0 && colls[0] != null)
+        {
+            for (int i = 0; i < colls.Length; i++)
+            {
+                if (colls[i].gameObject == _TeleportGoal && !hasReachedTeleportGoal)
+                {
+                    Debug.Log("Teleported To the right place!");
+                    dialogue.ReadNextDoc(); //"Great!
+                    hasReachedTeleportGoal = true;
+                }
+            }
+        }
+    }
     
 
     IEnumerator Fade(Color32 colorA, Color32 colorB, float time,  int reason, float delay = 0)

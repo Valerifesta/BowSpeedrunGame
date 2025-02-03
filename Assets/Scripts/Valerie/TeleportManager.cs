@@ -11,6 +11,8 @@ public class TeleportManager : MonoBehaviour
     [SerializeField] private GameObject player;
     //[SerializeField] private bool CanTeleportBack;
     public float CallbackTime;
+
+    private TutorialScript tutorial;
     //public float T;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -18,6 +20,7 @@ public class TeleportManager : MonoBehaviour
     {
         SpawnPos = _spawnPosObj.transform.position;
         playerManager = FindFirstObjectByType<PlayerManager>();
+        tutorial = FindFirstObjectByType<TutorialScript>();
 
         if (CallbackTime <= 0)
         {
@@ -35,6 +38,10 @@ public class TeleportManager : MonoBehaviour
     public void Teleport(GameObject objectToTeleport, Vector3 desiredPos)
     {
         objectToTeleport.transform.position = desiredPos;
+        if (tutorial != null)
+        {
+            tutorial.OnTeleport(desiredPos);
+        }
 
         //add sound effect calls here
     }

@@ -41,6 +41,7 @@ public class ArrowBehaviour : MonoBehaviour
         }
 
     }
+    
 
     private void OnCollisionEnter(Collision collision)
     {
