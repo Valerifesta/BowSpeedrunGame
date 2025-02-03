@@ -80,6 +80,7 @@ public class TutorialScript : MonoBehaviour
     [SerializeField] private GameObject _TeleportGoal;
     [SerializeField] private GameObject _EnemyToSpawn;
 
+    TestBowBehaviour bowBehaviour;
     bool hasReachedTeleportGoal;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -90,6 +91,7 @@ public class TutorialScript : MonoBehaviour
         currentBackgroundMusic = FindFirstObjectByType<MusicChanger>().GetComponent<AudioSource>();
         //currentBackgroundMusic.volume = 0.2f;
         currentBackgroundMusic.pitch = 0.3f;
+        bowBehaviour = BowObj.GetComponent<TestBowBehaviour>();
     }
 
     public void StartRoomTransition()
@@ -168,7 +170,11 @@ public class TutorialScript : MonoBehaviour
         if (step == 5)
         {
             _EnemyToSpawn.SetActive(true);
-            BowObj.GetComponent<TestBowBehaviour>().UpdateAggros();
+            //_EnemyToSpawn.GetComponent<NewEnemyBehaviour>().spee
+            bowBehaviour.UpdateAggros();
+            ToggleBowInputs();
+            dialogue.ReadNextDoc(5);
+            //bowBehaviour.CanUpdateBowInputs = false;
             Debug.Log("IS GONNA SPAWN ENEMIES");
         }
     }

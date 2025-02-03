@@ -1,0 +1,4 @@
+That was a turret, one of many enemies you will face during your tests./
+When you ware hit, you ware transported back to your previous location.
+We call this ability a "Callback"./
+Now, toggle your attack arrow and try to hit the turret that shot you.@/

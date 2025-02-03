@@ -257,7 +257,8 @@ public class DialoguePlayer : MonoBehaviour
                     clearTextBeforeNext = false;
 
                     break;
-                case 6:
+                case 6://Got shot. Let player use bow again
+                    tutorial.ToggleBowInputs();
                     break;
 
             }
