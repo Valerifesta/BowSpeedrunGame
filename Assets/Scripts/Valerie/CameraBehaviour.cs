@@ -24,17 +24,17 @@ public class CameraBehaviour : MonoBehaviour
     void Start()
     {
         ToggleCameraLock();
-        currentRot = GameSettings.CameraRotLastScene.eulerAngles;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.C))
         {
             ToggleFreeMouse();
-        }
+        }*/
         if (CanUpdateCamValues)
         {
             if (TempMovement)
@@ -126,5 +126,9 @@ public class CameraBehaviour : MonoBehaviour
     public void SaveRotation()
     {
         GameSettings.CameraRotLastScene = MainCam.transform.rotation;
+    }
+    public void LoadLastSceneRotation()
+    {
+        currentRot = GameSettings.CameraRotLastScene.eulerAngles;
     }
 }

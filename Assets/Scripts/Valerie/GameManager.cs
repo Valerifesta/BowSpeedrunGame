@@ -1,8 +1,11 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,26 +18,53 @@ public class GameManager : MonoBehaviour
     public bool TimerEnabled;
     [SerializeField] private float TimerTimeElasped;
     public int EnemiesRemaining;
+    public bool FinishedLevel;
     
     public MoveTrainIntro TrainMover;
     [SerializeField] private Volume purpleFilter;
     [SerializeField] private TextMeshProUGUI winText;
     [SerializeField] private DialoguePlayer _dialogue;
+    [SerializeField] private Button[] _endUiButtons;
+    [SerializeField] private GameObject[] _pauseMenuObjs;
+
+    [SerializeField] private PlayerManager player;
+    
     public bool TutorialActive;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         NewEnemyBehaviour[] enemies = FindObjectsByType<NewEnemyBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         EnemiesRemaining = enemies.Length;
+        if (!TutorialActive)
+        {
+            Camera.main.GetComponent<CameraBehaviour>().LoadLastSceneRotation();
+        }
+        player = FindFirstObjectByType<PlayerManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (TimerEnabled)
         {
             TimerTimeElasped += 1.0f * Time.deltaTime;
         }
+        if (Input.GetKeyDown(KeyCode.C) && !FinishedLevel)
+        {
+            ToggleMenu();
+        }
+    }
+    public void ToggleMenu()
+    {
+        player.TogglePlayerInputs();
+        foreach (GameObject obj in _pauseMenuObjs)
+        {
+            obj.SetActive(!obj.activeSelf);
+        }
+
     }
     public void AddScore(int pointsToAdd)
     {
@@ -50,6 +80,7 @@ public class GameManager : MonoBehaviour
             
         }
     }
+    
     public void ToggleTimer()
     {
         TimerEnabled = !TimerEnabled;
@@ -93,6 +124,12 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         Debug.Log("stopped showing end score");
+
+        foreach (Button button in _endUiButtons)
+        {
+            button.gameObject.SetActive(true);
+        }
+        player.TogglePlayerInputs();
 
         yield return null;
     }

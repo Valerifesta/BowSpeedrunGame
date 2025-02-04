@@ -108,7 +108,7 @@ public class TutorialScript : MonoBehaviour
         dialogue.ReadNextDoc(4);
 
         floorParticles.gameObject.SetActive(true);
-        StartCoroutine(LerpPitch(2.0f, 0.61f));
+        StartCoroutine(LerpSound(2.0f, 0.61f, 0.3f));
 
     }
     private void tempInputs()
@@ -159,17 +159,21 @@ public class TutorialScript : MonoBehaviour
         BowObj.GetComponent<TestBowBehaviour>().CanUpdateBowInputs = bowEnabled;
         BowPullbackSlider.SetActive(bowEnabled);
     }
-    public IEnumerator LerpPitch(float time, float endPitch)
+    public IEnumerator LerpSound(float time, float endPitch, float endVolume)
     {
         float startPitch = currentBackgroundMusic.pitch;
+        float startVolume = currentBackgroundMusic.volume;
         float t = new float();
         float newPitch = new float();
+        float newVolume = new float();
         while (t < time)
         {
             t += 1.0f * Time.deltaTime;
             float fixedT = t / time;
             newPitch = Mathf.Lerp(startPitch, endPitch, fixedT);
+            newVolume = Mathf.Lerp(startVolume, endVolume, fixedT);
             currentBackgroundMusic.pitch = newPitch;
+            currentBackgroundMusic.volume = newVolume;
             yield return null;
             
         }

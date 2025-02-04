@@ -8,6 +8,7 @@ public class MusicChanger : MonoBehaviour
     [SerializeField] private AudioClip[] MusicList;
     [SerializeField] private AudioClip PlayingThisClip;
     [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioMixerGroup mixerGroup;
     private MasterMind mm;
 
     [Header("Scene States")]
@@ -37,6 +38,7 @@ public class MusicChanger : MonoBehaviour
 
         musicSource.loop = true;
         musicSource.playOnAwake = false;
+        musicSource.outputAudioMixerGroup = mixerGroup;
 
         if (MusicList == null || MusicList.Length == 0)
         {

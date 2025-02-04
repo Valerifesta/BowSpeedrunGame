@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private TeleportManager _TeleportMan;
     public float ShieldTimeRemaining;
     [SerializeField] private TestBowBehaviour _bow;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,7 +19,11 @@ public class PlayerManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    
+    public void TogglePlayerInputs()
+    {
+        Camera.main.GetComponent<CameraBehaviour>().ToggleFreeMouse();
+        _bow.CanUpdateBowInputs = !_bow.CanUpdateBowInputs;
+    }
     public void ToggleRespawnShield()
     {
         RespawnShieldActive = !RespawnShieldActive;

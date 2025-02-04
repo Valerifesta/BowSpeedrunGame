@@ -40,7 +40,8 @@ public class MoveTrainIntro : MonoBehaviour
         {
             if (movingObjects[i].isPlayerTrain && !gameManager.TutorialActive)
             {
-                ParentPlayerToTrain(movingObjects[i].objectToMove);
+                ParentPlayerToTrain(movingObjects[i].objectToMove, true);
+
                 break;
             }
         }
@@ -97,6 +98,7 @@ public class MoveTrainIntro : MonoBehaviour
     }
     public void PlayerTrainExitLevel()
     {
+        gameManager.FinishedLevel = true;
         gameManager.StartCoroutine(gameManager.ShowEndScreen(5.0f));
 
         for (int i = 0; i < movingObjects.Count; i++)
@@ -104,6 +106,11 @@ public class MoveTrainIntro : MonoBehaviour
             if (movingObjects[i].isPlayerTrain)
             {
                 ParentPlayerToTrain(movingObjects[i].objectToMove);
+                /*
+                if (GameSettings.PlayerPosLastScene != Vector3.zero)
+                {
+                    Player.gameObject.transform.localPosition = GameSettings.PlayerPosLastScene;
+                }*/
                 timeUntilStop = 30.0f;
                 ResetAllObjects();
                 
@@ -113,9 +120,14 @@ public class MoveTrainIntro : MonoBehaviour
         }
 
     }
-    public void ParentPlayerToTrain(GameObject train)
+    public void ParentPlayerToTrain(GameObject train, bool loadLocalPos = false)
     {
         Player.gameObject.transform.parent = train.transform;
+        if (loadLocalPos && GameSettings.PlayerPosLastScene != Vector3.zero)
+        {
+            Player.gameObject.transform.localPosition = GameSettings.PlayerPosLastScene;
+        }
+
     }
     public void TutorialShowPlayerTrain()
     {
