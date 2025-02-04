@@ -4,12 +4,12 @@ using UnityEngine;
 public class TurrentAninamtion : MonoBehaviour
 {
    
-    private Animator anim = null;
+    private Animator anim;
     private TurrentLevel2 turrentLevel2;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        anim = this.GetComponent<Animator>();
+        anim =GetComponent<Animator>();
         turrentLevel2.GetComponent<TurrentLevel2>();
     }
 
@@ -19,12 +19,12 @@ public class TurrentAninamtion : MonoBehaviour
         if (turrentLevel2.isRotate == true)
         {
             anim.SetBool("KillPlayer", true);
-            anim.SetFloat("Speed", 1.0f);
+            //anim.SetFloat("Speed", 1.0f);
         }
         else if (turrentLevel2.isRotate == false && turrentLevel2.isShoot == false && turrentLevel2.isCharging == false && !turrentLevel2.IsStunned)
         {
             anim.SetBool("KillPlayer", true);
-            anim.SetFloat("Speed", -1.0f);
+            //anim.SetFloat("Speed", -1.0f);
         }
         else
         {
