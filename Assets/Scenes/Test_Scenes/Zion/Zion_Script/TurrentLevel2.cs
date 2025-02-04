@@ -6,18 +6,18 @@ using UnityEditor.SpeedTree.Importer;
 using UnityEditor.Splines;
 using UnityEngine;
 
-public class NewEnemyBehaviour : MonoBehaviour
+public class TurrentLevel2 : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject EnemyRotatingObj; //Will always rotate the assigned object on the horizontal axis. 
-    [SerializeField] private ParticleSystem ChargeAndShoot;
+    [SerializeField] private ParticleSystem[] ChargeAndShoot;
     private ParticleSystem chargeBall;
     private ParticleSystem plasmaBeam;
 
     [SerializeField] private ParticleSystem DetectEffect;
     [SerializeField] private ParticleSystem StunnedEffect;
-    
+
     private float rotatedAngles;
     private float degreesAwayFromPrev;
     //private float lastRotatedDegs;
@@ -28,7 +28,7 @@ public class NewEnemyBehaviour : MonoBehaviour
 
     //Zion
     [SerializeField] private EnemySoundList ESL;
-    [SerializeField] private DectedAlarm DA;
+    [SerializeField] private DectedAlarm2[] DA2;
 
     public System.Action OnStartRotating;
     public System.Action OnStartCharging;
@@ -50,7 +50,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float _LowerLimRotDistance = 2;
 
     [SerializeField] private float RotationStartDelay;
-    
+
     //[SerializeField] private Vector3 currentEuler;
     //private Coroutine runningCoroutine;
 
@@ -59,6 +59,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     private void Start()
     {
         ESL = GetComponent<EnemySoundList>();
+        DA2 = GetComponentsInChildren<DectedAlarm2>();
         //DA = transform.GetChild(2).GetComponentInChildren<DectedAlarm>();
         Player = FindFirstObjectByType<PlayerManager>().gameObject;
         //currentEuler = EnemyRotatingObj.transform.eulerAngles;
@@ -66,14 +67,14 @@ public class NewEnemyBehaviour : MonoBehaviour
         ResetRot();
 
         float chargeScale = 2 / _BeamChargeUpTime; //2 is the default value and which matches 
-        var mainCharge = ChargeAndShoot.main;
+        var mainCharge = ChargeAndShoot[0].main;//Array
         mainCharge.simulationSpeed = 2.2f * chargeScale;
 
-        chargeBall = ChargeAndShoot.GetComponentsInChildren<ParticleSystem>()[1];
+        chargeBall = ChargeAndShoot[0].GetComponentsInChildren<ParticleSystem>()[1];//Array
         var chargeBallMain = chargeBall.main;
         chargeBallMain.simulationSpeed = 2.2f * chargeScale;
 
-        plasmaBeam = ChargeAndShoot.GetComponentsInChildren<ParticleSystem>()[1].GetComponentsInChildren<ParticleSystem>()[1];
+        plasmaBeam = ChargeAndShoot[0].GetComponentsInChildren<ParticleSystem>()[1].GetComponentsInChildren<ParticleSystem>()[1];//Array
         var plasmaMain = plasmaBeam.main;
         plasmaMain.startDelay = 1.9f / chargeScale;
 
@@ -84,19 +85,6 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     private void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TargetPlayer(Vector3.Distance(EnemyRotatingObj.transform.position, Player.transform.position));
-        }
-        
-        /*
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Quaternion fixedRot = Quaternion.AngleAxis(rotatedAngles - lastRotatedDegs, Vector3.up);
-
-            EnemyRotatingObj.transform.rotation = fixedRot;
-        }*/
         if (_stunRemaining > 0)
         {
             _stunRemaining -= 1.0f * Time.deltaTime;
@@ -139,15 +127,19 @@ public class NewEnemyBehaviour : MonoBehaviour
             //CanTargetPlayer = true;
             Debug.Log("Distance between player and enemy is above Lower Distance Limit and is therefore affecting rotation time.");
         }
-        
-        
+
+
         StopAllCoroutines();
-        ChargeAndShoot.Stop();
+        foreach (var particleSystem in ChargeAndShoot)//Array
+        {
+             particleSystem.Stop();
+        }
+        
         if (!isRotate && !isCharging && !isShoot)
         {
             DetectEffect.Play();
         }
-       // if (CanTargetPlayer)
+        // if (CanTargetPlayer)
         {
             StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
         }
@@ -164,15 +156,9 @@ public class NewEnemyBehaviour : MonoBehaviour
         isCharging = false;
         isShoot = false;
 
-        /*
-        if (!CanTargetPlayer)
-        {
-            Debug.Log("Cannot target, therefore not rotate towards player");
-            //runningCoroutine = null;
-            yield break;
-        }*/
-        Debug.Log("Started Rotating Enemy" );
-        
+       
+        Debug.Log("Started Rotating Enemy");
+
         Vector3 dir = Player.transform.position - EnemyRotatingObj.transform.position;
         dir.y = 0;
 
@@ -194,8 +180,8 @@ public class NewEnemyBehaviour : MonoBehaviour
                 t = elapsedTime / timeToRotate;
                 tRot = Quaternion.Lerp(startRot, endRot, t);
                 EnemyRotatingObj.transform.rotation = tRot;
-                degreesAwayFromPrev = Vector3.SignedAngle(EnemyRotatingObj.transform.forward,dir, Vector3.up); //I have no idea why this fixes the rotation offset bug, but it does. For some reason it only works if its constantly updated..???
-               
+                degreesAwayFromPrev = Vector3.SignedAngle(EnemyRotatingObj.transform.forward, dir, Vector3.up); //I have no idea why this fixes the rotation offset bug, but it does. For some reason it only works if its constantly updated..???
+
                 yield return null;
             }
 
@@ -215,7 +201,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     public void EnemyOnHit()
     {
         OnHit?.Invoke();
-       // isHiting = true;//Zion (material)
+        // isHiting = true;//Zion (material)
         Debug.Log("Enemy got hit by bow");
         //Player.GetComponent<>
         isKillingEnemy = true;
@@ -230,9 +216,14 @@ public class NewEnemyBehaviour : MonoBehaviour
         isCharging = true;//Zion (material)
         isRotate = false;
         isShoot = false;
-        Vector3 orgin = EnemyRotatingObj.transform.position + EnemyRotatingObj.transform.forward;
-        ChargeAndShoot.transform.forward = (Player.transform.position - orgin).normalized;
-        ChargeAndShoot.Play();
+        
+        foreach (var particleSystem in ChargeAndShoot)//Array
+        {
+            Vector3 origin = EnemyRotatingObj.transform.position + EnemyRotatingObj.transform.forward;
+            particleSystem.transform.forward = (Player.transform.position - origin).normalized;
+            particleSystem.Play();
+        }
+        
 
         float elapsedChargeTime = new float();
         float elapsedDelayTime = new float();
@@ -262,7 +253,7 @@ public class NewEnemyBehaviour : MonoBehaviour
             }
 
             yield return null;
-           
+
 
         }
         yield return null;
@@ -274,9 +265,9 @@ public class NewEnemyBehaviour : MonoBehaviour
         Debug.Log("Shot beam");
 
         Vector3 orgin = EnemyRotatingObj.transform.position + EnemyRotatingObj.transform.forward;
-        if (Physics.Raycast(orgin, (Player.transform.position- orgin).normalized, out hit))
+        if (Physics.Raycast(orgin, (Player.transform.position - orgin).normalized, out hit))
         {
-            GameObject hitObj = hit.collider.gameObject;                                                       
+            GameObject hitObj = hit.collider.gameObject;
             if (hit.collider.gameObject == Player)
             {
                 Debug.Log("Hit player!");

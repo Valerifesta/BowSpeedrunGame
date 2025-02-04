@@ -136,7 +136,7 @@ public class PostProcessManager : MonoBehaviour
         timeRemaining--;
         if (timeRemaining > 0)
         {
-            Invoke("_tick", 1f);
+            Invoke("_tick", 0.5f);
         }
         else
         {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MasterMind : MonoBehaviour
 {
@@ -7,15 +8,21 @@ public class MasterMind : MonoBehaviour
     [SerializeField] public bool GameOverSceneOn; // Game Over
     [SerializeField] public bool MenySceneOn;  // Meny
     [SerializeField] public bool WinningSceneOn; // Winning
-
+    [SerializeField] private MenuManager Menu;
 
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+<<<<<<< Updated upstream
         /*
         IntroSceneOn = true;
         PlayModeSceneOn = false;
+=======
+        Menu = FindAnyObjectByType<MenuManager>();
+        IntroSceneOn = false;
+        PlayModeSceneOn = true;
+>>>>>>> Stashed changes
         GameOverSceneOn = false;
         WinningSceneOn = false;*/
         //OnCombat();
@@ -32,11 +39,7 @@ public class MasterMind : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            TestingIf();
-        }
+
 
         if (Input.GetKeyDown(KeyCode.G))
         {
@@ -48,7 +51,7 @@ public class MasterMind : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             
-        }*/
+        }
     }
 
     public void OnWin()
