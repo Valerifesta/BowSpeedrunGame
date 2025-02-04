@@ -15,9 +15,15 @@ public class MasterMind : MonoBehaviour
     void Start()
     {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         /*
         IntroSceneOn = true;
         PlayModeSceneOn = false;
+=======
+        Menu = FindAnyObjectByType<MenuManager>();
+        IntroSceneOn = false;
+        PlayModeSceneOn = true;
+>>>>>>> Stashed changes
 =======
         Menu = FindAnyObjectByType<MenuManager>();
         IntroSceneOn = false;
@@ -39,7 +45,14 @@ public class MasterMind : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< Updated upstream
 
+=======
+       /* if (Input.GetKeyDown(KeyCode.Q))
+        {
+            TestingIf();
+        }*/
+>>>>>>> Stashed changes
 
         if (Input.GetKeyDown(KeyCode.G))
         {
