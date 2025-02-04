@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DectedAlarm : MonoBehaviour
+public class DectedAlarm2 : MonoBehaviour// its shame to do a same script twice although I know that I can just do an inheritance
 {
     [SerializeField] private Material GlowMaterialRed;
     [SerializeField] private Material GlowMaterialGreen;
@@ -8,52 +8,45 @@ public class DectedAlarm : MonoBehaviour
     [SerializeField] private Material GlowMaterialBlue;
     MeshRenderer renderer;
 
-    private NewEnemyBehaviour enemyBehavior;
+    private TurrentLevel2 turrentLevel2;
+
    
-    //private Light lightComponent;
 
 
     public MeshRenderer Renderer { get => renderer; set => renderer = value; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        enemyBehavior = transform.parent.transform.parent.GetComponent<NewEnemyBehaviour>();
-       
+       turrentLevel2 = transform.parent.transform.parent.GetComponent<TurrentLevel2>();
+
         Renderer = GetComponent<MeshRenderer>();
-       
-      //  lightComponent = GetComponentInChildren<Light>();
-        // Kontrollera om Light-komponenten finns
-       /* if (lightComponent != null)
-        {
-            // Ändra ljusets färg till exempelvis röd
-           // lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
-        }*/
+
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (enemyBehavior.isShoot==true || enemyBehavior.isCharging == true)
+        if (turrentLevel2.isShoot == true || turrentLevel2.isCharging == true)
         {
             Renderer.material = GlowMaterialRed;
             //lightComponent.color = new Color(1.0f, 0.2313725f, 0.3030183f);
 
         }
-        else if(enemyBehavior.isRotate == false && enemyBehavior.isShoot == false && enemyBehavior.isCharging == false && !enemyBehavior.IsStunned)
+        else if (turrentLevel2.isRotate == false && turrentLevel2.isShoot == false && turrentLevel2.isCharging == false && !turrentLevel2.IsStunned)
         {
             Renderer.material = GlowMaterialGreen;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
         }
-        else if (enemyBehavior.isRotate == true)
+        else if (turrentLevel2.isRotate == true)
         {
             Renderer.material = GlowMaterialYellow;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
         }
-        else if (enemyBehavior.IsStunned == true)
+        else if (turrentLevel2.IsStunned == true)
         {
             Renderer.material = GlowMaterialBlue;
             //Debug.Log("Attemped at changing color to blue");
-          
+
         }
     }
 }
