@@ -14,6 +14,7 @@ public class MasterMind : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+<<<<<<< Updated upstream
 
         /*
         IntroSceneOn = true;
@@ -31,6 +32,11 @@ public class MasterMind : MonoBehaviour
         IntroSceneOn = false;
         PlayModeSceneOn = true;
 
+=======
+        Menu = FindAnyObjectByType<MenuManager>();
+        IntroSceneOn = false;
+        PlayModeSceneOn = true;
+>>>>>>> Stashed changes
         GameOverSceneOn = false;
         WinningSceneOn = false;*/
         //OnCombat();
@@ -47,6 +53,7 @@ public class MasterMind : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< Updated upstream
 
     
 
