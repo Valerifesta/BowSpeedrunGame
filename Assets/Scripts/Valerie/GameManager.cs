@@ -52,10 +52,11 @@ public class GameManager : MonoBehaviour
         {
             TimerTimeElasped += 1.0f * Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.C) && !FinishedLevel)
+
+        /*if (Input.GetKeyDown(KeyCode.C) && !FinishedLevel)
         {
             ToggleMenu();
-        }
+        }*/
     }
     public void ToggleMenu()
     {

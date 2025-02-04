@@ -3181,6 +3181,10 @@ PrefabInstance:
       propertyPath: '_endUiButtons.Array.data[0]'
       value: 
       objectReference: {fileID: 1569925912}
+    - target: {fileID: 1899681295876869340, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+      propertyPath: '_endUiButtons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1389383015}
     - target: {fileID: 4587957580201685725, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
       propertyPath: mind
       value: 
@@ -3383,11 +3387,14 @@ MonoBehaviour:
   TimerEnabled: 0
   TimerTimeElasped: 0
   EnemiesRemaining: 0
+  FinishedLevel: 0
   TrainMover: {fileID: 0}
   purpleFilter: {fileID: 0}
   winText: {fileID: 0}
   _dialogue: {fileID: 0}
   _endUiButtons: []
+  _pauseMenuObjs: []
+  player: {fileID: 0}
   TutorialActive: 0
 --- !u!1 &1249087143
 GameObject:
