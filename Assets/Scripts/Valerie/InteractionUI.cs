@@ -3,10 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class InteractionUI : MonoBehaviour
 {
+    [SerializeField] private CameraBehaviour cam;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -21,7 +22,16 @@ public class InteractionUI : MonoBehaviour
 
         Scene desiredScene = SceneManager.GetSceneByName(sceneName);
         int totalScenes = SceneManager.sceneCountInBuildSettings;
-
+        for (int i = 0; i < totalScenes; i++)
+        {
+            //Debug.Log(SceneManager.GetSceneByBuildIndex(i).name);
+            if (SceneManager.GetSceneByBuildIndex(i) == desiredScene)
+            {
+                cam.SaveRotation();
+                SceneManager.LoadScene(sceneName);
+            }
+        }
+        /*
         int sceneIndex = new int();
         if (desiredScene.IsValid())
         {
@@ -35,7 +45,7 @@ public class InteractionUI : MonoBehaviour
         else
         {
             Debug.Log("'" + sceneName + "' was an invalid scene. Check if naming is correct.");
-        }
+        }*/
         
     }
 }

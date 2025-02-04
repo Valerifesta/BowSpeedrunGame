@@ -24,6 +24,8 @@ public class CameraBehaviour : MonoBehaviour
     void Start()
     {
         ToggleCameraLock();
+        currentRot = GameSettings.CameraRotLastScene.eulerAngles;
+
     }
 
     // Update is called once per frame
@@ -120,5 +122,9 @@ public class CameraBehaviour : MonoBehaviour
     {
         ToggleCameraRotation();
         ToggleCameraLock();
+    }
+    public void SaveRotation()
+    {
+        GameSettings.CameraRotLastScene = MainCam.transform.rotation;
     }
 }
