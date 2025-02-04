@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
-using Unity.Android.Gradle;
 public class TutorialScript : MonoBehaviour
 {
     [SerializeField] private Camera Main;
