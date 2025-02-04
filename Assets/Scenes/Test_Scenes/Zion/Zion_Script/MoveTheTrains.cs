@@ -19,6 +19,7 @@ public class MoveTrainIntro : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private GameManager gameManager;
     [SerializeField] private PlayerManager Player;
+    [SerializeField] private MasterMind mind;
 
     [Header("Objects Settings")]
     [SerializeField] private List<MovingTrain> movingObjects = new List<MovingTrain>();
@@ -29,6 +30,9 @@ public class MoveTrainIntro : MonoBehaviour
 
     [Header("Stop Settings")]
     [SerializeField] private bool deactivateOnStop = false;
+
+
+    
 
     private void Start()
     {
@@ -102,6 +106,8 @@ public class MoveTrainIntro : MonoBehaviour
                 ParentPlayerToTrain(movingObjects[i].objectToMove);
                 timeUntilStop = 30.0f;
                 ResetAllObjects();
+                
+                mind.OnWin();
                 break;
             }
         }

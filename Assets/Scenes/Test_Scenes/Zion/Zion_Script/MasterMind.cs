@@ -13,10 +13,12 @@ public class MasterMind : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        /*
         IntroSceneOn = true;
         PlayModeSceneOn = false;
         GameOverSceneOn = false;
-        WinningSceneOn = false;
+        WinningSceneOn = false;*/
+        //OnCombat();
     }
 
     private void TestingIf()
@@ -30,6 +32,7 @@ public class MasterMind : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Q))
         {
             TestingIf();
@@ -44,10 +47,23 @@ public class MasterMind : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
-            WinningSceneOn = true;
-            GameOverSceneOn = false;
-            IntroSceneOn = false;
-            PlayModeSceneOn = false;
-        }
+            
+        }*/
+    }
+
+    public void OnWin()
+    {
+        WinningSceneOn = true;
+        GameOverSceneOn = false;
+        IntroSceneOn = false;
+        PlayModeSceneOn = false;
+    }
+
+    public void OnCombat()
+    {
+        IntroSceneOn = false;
+        PlayModeSceneOn = true;
+        GameOverSceneOn = false;
+        WinningSceneOn = false;
     }
 }

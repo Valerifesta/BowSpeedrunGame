@@ -29,6 +29,7 @@ public class TutorialScript : MonoBehaviour
     [SerializeField] private ParticleSystem roomParticles;
     [SerializeField] private ParticleSystem floorParticles;
 
+    [SerializeField] private TutStare tutorialStare;
    
 
     [System.Serializable]
@@ -105,9 +106,10 @@ public class TutorialScript : MonoBehaviour
         StartCoroutine(Fade(UnityEngine.Color.white, UnityEngine.Color.black, 1.5f, 2));
 
         dialogue.SetTextColor(UnityEngine.Color.black);
-        dialogue.ReadNextDoc(3);
+        dialogue.ReadNextDoc(4);
 
         floorParticles.gameObject.SetActive(true);
+        StartCoroutine(LerpPitch(2.0f, 0.61f));
 
     }
     private void tempInputs()
@@ -158,7 +160,27 @@ public class TutorialScript : MonoBehaviour
         BowObj.GetComponent<TestBowBehaviour>().CanUpdateBowInputs = bowEnabled;
         BowPullbackSlider.SetActive(bowEnabled);
     }
-
+    public IEnumerator LerpPitch(float time, float endPitch)
+    {
+        float startPitch = currentBackgroundMusic.pitch;
+        float t = new float();
+        float newPitch = new float();
+        while (t < time)
+        {
+            t += 1.0f * Time.deltaTime;
+            float fixedT = t / time;
+            newPitch = Mathf.Lerp(startPitch, endPitch, fixedT);
+            currentBackgroundMusic.pitch = newPitch;
+            yield return null;
+            
+        }
+        yield return null;
+    }
+    public void ActivateStareObj()
+    {
+        tutorialStare.gameObject.SetActive(true);
+        tutorialStare.IsAwaitingStare = true;
+    }
     public void StartTutorialStep(int step)//Steps after stare
     {
         if (step == 4) //Activates platform to teleport to.

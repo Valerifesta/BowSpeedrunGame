@@ -305,6 +305,10 @@ PrefabInstance:
       propertyPath: teleportManager
       value: 
       objectReference: {fileID: 1357235995}
+    - target: {fileID: 1533029267095851330, guid: 271db2c8e67eef3488f09cc313946410, type: 3}
+      propertyPath: CanUpdateBowInputs
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7441023831699415124, guid: 271db2c8e67eef3488f09cc313946410, type: 3}
       propertyPath: m_Name
       value: TestBow
@@ -1174,8 +1178,8 @@ MonoBehaviour:
   Sensitivity: 125
   LockCursor: 1
   TempMovement: 1
-  CanUpdateCamValues: 0
-  ObjectToRotate: {fileID: 0}
+  CanUpdateCamValues: 1
+  ObjectToRotate: {fileID: 239569689}
   dir: {x: 0, y: 0, z: 0}
 --- !u!114 &239569692
 MonoBehaviour:
@@ -5164,6 +5168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   Player: {fileID: 1701501598}
+  mind: {fileID: 0}
   movingObjects:
   - objectToMove: {fileID: 2144169117}
     direction: {x: 1, y: 0, z: 0}
@@ -5704,6 +5709,17 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1194665471 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 784930481100503843, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+  m_PrefabInstance: {fileID: 1552127122}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b256efaa858dfff44b233ca0903c63b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1205783874 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5734456657656969093, guid: 0157c056e4cf071499f5823eb2560edd, type: 3}
@@ -7393,6 +7409,10 @@ PrefabInstance:
       propertyPath: purpleFilter
       value: 
       objectReference: {fileID: 531517681}
+    - target: {fileID: 4587957580201685725, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
+      propertyPath: mind
+      value: 
+      objectReference: {fileID: 1194665471}
     - target: {fileID: 4587957580201685725, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
       propertyPath: Player
       value: 

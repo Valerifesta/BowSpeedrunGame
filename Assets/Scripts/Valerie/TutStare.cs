@@ -81,6 +81,7 @@ public class TutStare : MonoBehaviour
         timeStared = 0;
         IsAwaitingStare = false;
     }
+    
     void tryUpdateMaterial() //For some reason it always goes to red..?
     {
         float t = Mathf.InverseLerp(0.0f, _TimeToGetChecked, timeStared);

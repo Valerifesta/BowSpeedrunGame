@@ -23,15 +23,16 @@ public class CameraBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (LockCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        ToggleCameraLock();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ToggleFreeMouse();
+        }
         if (CanUpdateCamValues)
         {
             if (TempMovement)
@@ -99,5 +100,25 @@ public class CameraBehaviour : MonoBehaviour
     {
         CanUpdateCamValues = !CanUpdateCamValues;
     }
+    public void ToggleCameraLock()
+    {
+        LockCursor = !LockCursor;
 
+        if (LockCursor)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+    }
+
+    public void ToggleFreeMouse()
+    {
+        ToggleCameraRotation();
+        ToggleCameraLock();
+    }
 }

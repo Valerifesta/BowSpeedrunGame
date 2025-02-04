@@ -245,7 +245,8 @@ public class DialoguePlayer : MonoBehaviour
                     ReadNextDoc();
                     break;
                 case 3://look around. "See if you can find us"
-                    FindFirstObjectByType<TutStare>().IsAwaitingStare = true;
+                    //FindFirstObjectByType<TutStare>().IsAwaitingStare = true;
+                    tutorial.ActivateStareObj();
                     
                     break;
                 case 4://Spotted. Activate platforms
