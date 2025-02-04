@@ -17,6 +17,7 @@ public class MasterMind : MonoBehaviour
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
         /*
         IntroSceneOn = true;
@@ -34,6 +35,11 @@ public class MasterMind : MonoBehaviour
         IntroSceneOn = false;
         PlayModeSceneOn = true;
 
+=======
+        Menu = FindAnyObjectByType<MenuManager>();
+        IntroSceneOn = false;
+        PlayModeSceneOn = true;
+>>>>>>> Stashed changes
 =======
         Menu = FindAnyObjectByType<MenuManager>();
         IntroSceneOn = false;
@@ -68,10 +74,13 @@ public class MasterMind : MonoBehaviour
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
     
 
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
        /* if (Input.GetKeyDown(KeyCode.Q))
@@ -79,6 +88,9 @@ public class MasterMind : MonoBehaviour
             TestingIf();
         }*/
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
