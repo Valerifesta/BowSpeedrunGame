@@ -62,7 +62,7 @@ public class TurrentLevel2 : MonoBehaviour
        
         ResetRot();
 
-        float chargeScale = 2 / _BeamChargeUpTime; //2 is the default value and which matches 
+        /*float chargeScale = 2 / _BeamChargeUpTime; //2 is the default value and which matches 
         var mainCharge = ChargeAndShoot[0].main;//Array
         mainCharge.simulationSpeed = 2.2f * chargeScale;
 
@@ -73,7 +73,7 @@ public class TurrentLevel2 : MonoBehaviour
         plasmaBeam = ChargeAndShoot[0].GetComponentsInChildren<ParticleSystem>()[1].GetComponentsInChildren<ParticleSystem>()[1];//Array
         var plasmaMain = plasmaBeam.main;
         plasmaMain.startDelay = 1.9f / chargeScale;
-
+        */
     }
     public void BooleanTransform()//MY shame
     {
