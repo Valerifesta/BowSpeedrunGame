@@ -1,9 +1,4 @@
 using System.Collections;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
-using UnityEditor.ShaderKeywordFilter;
-using UnityEditor.SpeedTree.Importer;
-using UnityEditor.Splines;
 using UnityEngine;
 
 public class TurrentLevel2 : MonoBehaviour
@@ -20,10 +15,10 @@ public class TurrentLevel2 : MonoBehaviour
 
     private float rotatedAngles;
     private float degreesAwayFromPrev;
-    //private float lastRotatedDegs;
+   
     [SerializeField] private float RotationTime;
     [SerializeField] private float RotTimeScale = 1;
-    //public bool CanTargetPlayer;
+  
 
 
     //Zion
@@ -39,8 +34,8 @@ public class TurrentLevel2 : MonoBehaviour
     [SerializeField] public bool isCharging;
     [SerializeField] public bool isShoot;
     [SerializeField] public bool isKillingEnemy;
-    //[SerializeField] public bool isHiting;
 
+    private NewEnemyBehaviour NEB;
 
     //[SerializeField] private float _BurstFragmentInterval;
     //[SerializeField] private float _WholeBurstDelays;
@@ -58,12 +53,13 @@ public class TurrentLevel2 : MonoBehaviour
     private float _stunRemaining;
     private void Start()
     {
+        NEB = GetComponentInParent<NewEnemyBehaviour>();
+
         ESL = GetComponent<EnemySoundList>();
         DA2 = GetComponentsInChildren<DectedAlarm2>();
-        //DA = transform.GetChild(2).GetComponentInChildren<DectedAlarm>();
+        
         Player = FindFirstObjectByType<PlayerManager>().gameObject;
-        //currentEuler = EnemyRotatingObj.transform.eulerAngles;
-        //StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation));
+       
         ResetRot();
 
         float chargeScale = 2 / _BeamChargeUpTime; //2 is the default value and which matches 
@@ -79,13 +75,58 @@ public class TurrentLevel2 : MonoBehaviour
         plasmaMain.startDelay = 1.9f / chargeScale;
 
     }
+    public void BooleanTransform()//MY shame
+    {
+        if(NEB.IsStunned == true)
+        {
+            IsStunned = true;
+        }
+        else
+        {
+            IsStunned = false;
+        }
+        if (NEB.isCharging == true)
+        {
+            isCharging = true;
+        }
+        else
+        {
+            isCharging = false;
+        }
+        if (NEB.isRotate == true)
+        {
+            isRotate = true;
+        }
+        else
+        {
+            isRotate = false;
+        }
+        if (NEB.isShoot == true)
+        {
+            isShoot = true;
+        }
+        else
+        {
+            isShoot = false;
+        }
+        if (NEB.isKillingEnemy == true)
+        {
+            isKillingEnemy = true;
+        }
+        else
+        {
+            isKillingEnemy = false;
+        }
+
+    }
     public void ResetRot()
     {
         EnemyRotatingObj.transform.eulerAngles = Vector3.zero;
     }
     private void Update()
     {
-        if (_stunRemaining > 0)
+        BooleanTransform();
+       /* if (_stunRemaining > 0)
         {
             _stunRemaining -= 1.0f * Time.deltaTime;
         }
@@ -94,12 +135,12 @@ public class TurrentLevel2 : MonoBehaviour
             IsStunned = false;
             _stunRemaining = 0;
             Debug.Log("Enemy is no longer stunned");
-        }
+        }*/
     }
     public void StartIdle()
     {
         StopAllCoroutines();
-        //ChargeAndShoot.Stop();
+        
         isShoot = false;
         isRotate = false;
         isCharging = false;
@@ -198,7 +239,7 @@ public class TurrentLevel2 : MonoBehaviour
         }
         yield return null;
     }
-    public void EnemyOnHit()
+    public void EnemyLevel2OnHit()
     {
         OnHit?.Invoke();
         // isHiting = true;//Zion (material)
@@ -284,14 +325,6 @@ public class TurrentLevel2 : MonoBehaviour
         }
 
     }
-    /*
-    public IEnumerator PauseEnemy(float pauseTime)
-    {
-        CanTargetPlayer = false;
-        Debug.Log("Paused Enemy");
-        yield return new WaitForSeconds(pauseTime);
-        CanTargetPlayer = true;
-        Debug.Log("Paused Enemy");
-        yield return null;
-    }*/
+    
+ 
 }

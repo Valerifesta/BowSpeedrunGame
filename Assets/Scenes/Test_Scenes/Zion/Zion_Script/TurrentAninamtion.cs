@@ -3,25 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 public class TurrentAninamtion : MonoBehaviour
 {
-   
+
     private Animator anim;
     private TurrentLevel2 turrentLevel2;
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        anim =GetComponent<Animator>();
-        turrentLevel2.GetComponent<TurrentLevel2>();
+
+        anim = GetComponent<Animator>();
+        turrentLevel2 = GetComponent<TurrentLevel2>();
+      
+
+
+        if (turrentLevel2 == null)
+        {
+            Debug.LogError("TurrentLevel2-komponenten kunde inte hittas!");
+        }
+
+
     }
 
     // Update is called once per frame
-   private void Update()
+    private void Update()
     {
-        if (turrentLevel2.isRotate == true)
+        if (turrentLevel2.isShoot == false && turrentLevel2.isCharging == false && !turrentLevel2.IsStunned)
         {
-            anim.SetBool("KillPlayer", true);
+            anim.SetBool("KillPlayer", false);
             //anim.SetFloat("Speed", 1.0f);
         }
-        else if (turrentLevel2.isRotate == false && turrentLevel2.isShoot == false && turrentLevel2.isCharging == false && !turrentLevel2.IsStunned)
+        /*else if (turrentLevel2.isRotate == false && turrentLevel2.isShoot == false && turrentLevel2.isCharging == false && !turrentLevel2.IsStunned)
+        {
+            anim.SetBool("KillPlayer", true);
+            //anim.SetFloat("Speed", -1.0f);
+        }*/
+        else if (turrentLevel2.isCharging == true && !turrentLevel2.IsStunned)
+        {
+            anim.SetBool("KillPlayer", true);
+            //anim.SetFloat("Speed", -1.0f);
+        }
+        else if (turrentLevel2.isShoot == true && !turrentLevel2.IsStunned)
         {
             anim.SetBool("KillPlayer", true);
             //anim.SetFloat("Speed", -1.0f);
@@ -32,3 +53,4 @@ public class TurrentAninamtion : MonoBehaviour
         }
     }
 }
+

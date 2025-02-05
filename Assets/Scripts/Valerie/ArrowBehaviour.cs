@@ -85,12 +85,15 @@ public class ArrowBehaviour : MonoBehaviour
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 NewEnemyBehaviour behaviour = collision.gameObject.transform.parent.gameObject.GetComponent<NewEnemyBehaviour>();
+                
                 behaviour.EnemyOnHit();
                 sender.previousEnemies.Remove(behaviour);
                 //GameMan.EnemiesHit += 1;
                 GameMan.OnEnemyHit();
                 Debug.Log("Arrow Hit Enemy");
                 gameObject.SetActive(false);
+
+              
             }
             if (tag == "WalkArea" || tag == "PlayerTrainWalkArea")
             {

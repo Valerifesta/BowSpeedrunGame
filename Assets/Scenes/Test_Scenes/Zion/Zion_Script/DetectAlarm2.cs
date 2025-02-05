@@ -17,15 +17,26 @@ public class DectedAlarm2 : MonoBehaviour// its shame to do a same script twice 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       turrentLevel2 = transform.parent.transform.parent.GetComponent<TurrentLevel2>();
-
+        turrentLevel2 = GetComponentInParent<TurrentLevel2>();
+        // turrentLevel2 = transform.parent.transform.parent.GetComponent<TurrentLevel2>();
+        if (turrentLevel2 == null)
+        {
+            Debug.LogError("TurrentLevel2-komponenten saknas!");
+            return; 
+        }
+      
         Renderer = GetComponent<MeshRenderer>();
-
+        if (Renderer == null)
+        {
+            Debug.LogError("MeshRenderer saknas!");
+        }
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (turrentLevel2 == null) return;
+
         if (turrentLevel2.isShoot == true || turrentLevel2.isCharging == true)
         {
             Renderer.material = GlowMaterialRed;
