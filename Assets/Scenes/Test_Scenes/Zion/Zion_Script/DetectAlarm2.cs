@@ -8,8 +8,8 @@ public class DectedAlarm2 : MonoBehaviour// its shame to do a same script twice 
     [SerializeField] private Material GlowMaterialBlue;
     MeshRenderer renderer;
 
-    private TurrentLevel2 turrentLevel2;
-
+    //private TurrentLevel2 turrentLevel2;
+    private NewEnemyBehaviour NEB;
    
 
 
@@ -17,9 +17,10 @@ public class DectedAlarm2 : MonoBehaviour// its shame to do a same script twice 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        turrentLevel2 = GetComponentInParent<TurrentLevel2>();
+        //turrentLevel2 = GetComponentInParent<TurrentLevel2>();
+        NEB = GetComponentInParent<NewEnemyBehaviour>();
         // turrentLevel2 = transform.parent.transform.parent.GetComponent<TurrentLevel2>();
-        if (turrentLevel2 == null)
+        if (NEB == null)
         {
             Debug.LogError("TurrentLevel2-komponenten saknas!");
             return; 
@@ -35,25 +36,25 @@ public class DectedAlarm2 : MonoBehaviour// its shame to do a same script twice 
     // Update is called once per frame
     private void Update()
     {
-        if (turrentLevel2 == null) return;
+        if (NEB == null) return;
 
-        if (turrentLevel2.isShoot == true || turrentLevel2.isCharging == true)
+        if (NEB.isShoot == true || NEB.isCharging == true)
         {
             Renderer.material = GlowMaterialRed;
             //lightComponent.color = new Color(1.0f, 0.2313725f, 0.3030183f);
 
         }
-        else if (turrentLevel2.isRotate == false && turrentLevel2.isShoot == false && turrentLevel2.isCharging == false && !turrentLevel2.IsStunned)
+        else if (NEB.isRotate == false && NEB.isShoot == false && NEB.isCharging == false && !NEB.IsStunned)
         {
             Renderer.material = GlowMaterialGreen;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
         }
-        else if (turrentLevel2.isRotate == true)
+        else if (NEB.isRotate == true)
         {
             Renderer.material = GlowMaterialYellow;
             //lightComponent.color = new Color(1.0f, 0.6708761f, 0.2327043f);
         }
-        else if (turrentLevel2.IsStunned == true)
+        else if (NEB.IsStunned == true)
         {
             Renderer.material = GlowMaterialBlue;
             //Debug.Log("Attemped at changing color to blue");
