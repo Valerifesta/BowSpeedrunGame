@@ -6,7 +6,7 @@ public class ExploEffekt : MonoBehaviour
 {
     [Header("Material")]
     [SerializeField] private Material DissolveMat;
-    [SerializeField] private Material ExplosionMat;
+   // [SerializeField] private Material ExplosionMat;
     
     MeshRenderer meshRenderer;
     [Header("Settings")]
@@ -15,8 +15,8 @@ public class ExploEffekt : MonoBehaviour
     [SerializeField] private bool isDestroying;
     [SerializeField] private float timeToDisapearing;
 
-    private float currentDissolveValue = 1f;
-    private float currentExplosionDistance = 2f;
+    [SerializeField] private float currentDissolveValue = 1f;
+  //  private float currentExplosionDistance = 2f;
     private bool effectStarted = false;
 
     [Header("Reference")]
@@ -27,7 +27,8 @@ public class ExploEffekt : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        NEB = FindAnyObjectByType<NewEnemyBehaviour>();
+        //NEB = FindAnyObjectByType<NewEnemyBehaviour>();
+       // NEB = GetComponentInParent<NewEnemyBehaviour>();
         //Renderer = GetComponent<MeshRenderer>();//alt1
         meshRenderer = GetComponent<MeshRenderer>();
         aliveYet();
@@ -44,10 +45,10 @@ public class ExploEffekt : MonoBehaviour
            // Renderer.material = ExplosionMat;//alt1
                                              // ActionCoroutine();
             meshRenderer.material = DissolveMat;//alt1
-            meshRenderer.material = ExplosionMat;
+           // meshRenderer.material = ExplosionMat;
 
-            ExplosionMat.SetFloat("_Distance", 2);
-            DissolveMat.SetFloat("_Dissolve", 1);
+          //  ExplosionMat.SetFloat("_Distance", 2);
+           // DissolveMat.SetFloat("_Dissolve", 0);
            
         }
         else
@@ -89,8 +90,8 @@ public class ExploEffekt : MonoBehaviour
         float elapsedTime = 0f;
 
         // Sätt startvärden
-        currentDissolveValue = 1f;
-        currentExplosionDistance = 2f;
+        currentDissolveValue = 0f;
+       // currentExplosionDistance = 2f;
 
         while (elapsedTime < transitionDuration)
         {
@@ -99,20 +100,20 @@ public class ExploEffekt : MonoBehaviour
 
            
             currentDissolveValue = Mathf.Lerp(1f, 0f, t);
-            currentExplosionDistance = Mathf.Lerp(2f, 0f, t);
+           // currentExplosionDistance = Mathf.Lerp(2f, 0f, t);
 
            
             DissolveMat.SetFloat("_Dissolve", currentDissolveValue);
-            ExplosionMat.SetFloat("_Distance", currentExplosionDistance);
+            //ExplosionMat.SetFloat("_Distance", currentExplosionDistance);
 
             yield return null;
         }
 
         // Säkerställ att vi når slutvärdena
-        DissolveMat.SetFloat("_Dissolve", 0f);
-        ExplosionMat.SetFloat("_Distance", 0f);
+       // DissolveMat.SetFloat("_Dissolve", 1f);
+       // ExplosionMat.SetFloat("_Distance", 0f);
 
-        // Valfritt: Förstör objektet när effekten är klar
+        
         Destroy(gameObject);
         print("gameObject destroyed in enemy");////////////////////////////////TEMP_PRINT///////////////////////////
     }

@@ -29,6 +29,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     //Zion
     [SerializeField] private EnemySoundList ESL;
     [SerializeField] private DectedAlarm DA;
+    [SerializeField] private Explosion Ex;
 
     public System.Action OnStartRotating;
     public System.Action OnStartCharging;
@@ -58,6 +59,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     private float _stunRemaining;
     private void Start()
     {
+        Ex = GetComponent<Explosion>();
         ESL = GetComponent<EnemySoundList>();
         //DA = transform.GetChild(2).GetComponentInChildren<DectedAlarm>();
         Player = FindFirstObjectByType<PlayerManager>().gameObject;
@@ -220,7 +222,7 @@ public class NewEnemyBehaviour : MonoBehaviour
         //Player.GetComponent<>
         isKillingEnemy = true;
         gameObject.SetActive(false);
-
+        Ex.explode();
         //add enemy death effet here
 
     }

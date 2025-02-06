@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1673708433920749557
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 747759950955280599, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_Name
+      value: EnemyLevel2FinalFR
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019088789221663625, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: ESL
+      value: 
+      objectReference: {fileID: 4384378258855244377}
+    - target: {fileID: 1019088789221663625, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: RotationTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 37.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 58.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70705897
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.007376722
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7070589
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.008999942
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 1.327
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -89.998
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0.132
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 747759950955280599, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4384378258855244377}
+  m_SourcePrefab: {fileID: 100100000, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+--- !u!1 &2115186891284813602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 747759950955280599, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+  m_PrefabInstance: {fileID: 1673708433920749557}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4384378258855244377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115186891284813602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfdb5009638b70641987343a0f3a0b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ESL:
+  - {fileID: 8300000, guid: 4355d71f91cf46e4695a8b1ec30ceaca, type: 3}
+  - {fileID: 8300000, guid: 4078adba3d14cea4b86ac1325991620e, type: 3}
+  turrentLoadingSound:
+  - {fileID: 8300000, guid: c9e2d2670f33d234ebb6408bad649e91, type: 3}
+  - {fileID: 8300000, guid: 6780265dec573944fac9feec831c3236, type: 3}
+  - {fileID: 8300000, guid: 3940a84b9638e934ba3544ba30369877, type: 3}
+  turrentHitSound:
+  - {fileID: 8300000, guid: c1214982cbcce8f4c9c94996e8c8f9e5, type: 3}
+  - {fileID: 8300000, guid: c4b2513909045414fab689f3bc79c5a6, type: 3}
+  - {fileID: 8300000, guid: 568328b049d0195498a515edda5afc1c, type: 3}
+  - {fileID: 8300000, guid: 4afb8afeb215b1449abdced8404cef58, type: 3}
+  turrentRotateSound: {fileID: 8300000, guid: c90a803ad877be24e9d8a3448b41a998, type: 3}
+  isTurrentLoading: 0
+  isTurrentHit: 0
+  isTurrentRotate: 0
+  EnemyTalking: 0
+  minTimeBetweenSounds: 0.5
