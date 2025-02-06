@@ -83,6 +83,7 @@ public class TutorialScript : MonoBehaviour
     TestBowBehaviour bowBehaviour;
     bool hasReachedTeleportGoal;
     [SerializeField] private float _startPitch;
+    [SerializeField] private GameObject playerUIObj;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -93,6 +94,8 @@ public class TutorialScript : MonoBehaviour
         //currentBackgroundMusic.volume = 0.2f;
         currentBackgroundMusic.pitch = _startPitch;
         bowBehaviour = BowObj.GetComponent<TestBowBehaviour>();
+        playerUIObj.SetActive(false);
+        //bowBehaviour.ToggleBowInputs();
     }
 
     public void StartRoomTransition()
@@ -143,7 +146,7 @@ public class TutorialScript : MonoBehaviour
     public void FinishedBowCalibration() 
     {
         dialogue.ReadNextDoc();
-        ToggleBowInputs();
+        ToggleBow();
         AwaitingCalibration = false;
 
     }
@@ -152,12 +155,14 @@ public class TutorialScript : MonoBehaviour
         Communicator.transform.RotateAround(Communicator.transform.position, Vector3.forward, 10.0f * Time.deltaTime);
         Communicator.transform.RotateAround(Communicator.transform.position, Vector3.right, 10.0f * Time.deltaTime);
     }
-    public void ToggleBowInputs()
+    public void ToggleBow()
     {
         bowEnabled = !bowEnabled;
         Main.GetComponent<CameraBehaviour>().ToggleCameraRotation();
-        BowObj.GetComponent<TestBowBehaviour>().CanUpdateBowInputs = bowEnabled;
-        BowPullbackSlider.SetActive(bowEnabled);
+        //BowObj.GetComponent<TestBowBehaviour>().CanUpdateBowInputs = bowEnabled;
+        playerUIObj.SetActive(true);
+        BowObj.GetComponent<TestBowBehaviour>().ToggleBowInputs();
+        //BowPullbackSlider.SetActive(bowEnabled);
     }
     public IEnumerator LerpSound(float time, float endPitch, float endVolume)
     {
@@ -198,15 +203,14 @@ public class TutorialScript : MonoBehaviour
             _EnemyToSpawn.SetActive(true);
             //_EnemyToSpawn.GetComponent<NewEnemyBehaviour>().spee
             bowBehaviour.UpdateAggros();
-            bowBehaviour.CanUpdateBowInputs = false;
+            bowBehaviour.ToggleBowInputs();
             dialogue.ReadNextDoc(5);
             //bowBehaviour.CanUpdateBowInputs = false;
             Debug.Log("IS GONNA SPAWN ENEMIES");
         }
         if (step == 6)
         {
-            bowBehaviour.CanUpdateBowInputs = true;
-
+            bowBehaviour.ToggleBowInputs();
         }
     }
     public void OnTeleport(Vector3 pos)

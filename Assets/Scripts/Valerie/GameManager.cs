@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    //public void Toggle
     public void AddScore(int pointsToAdd)
     {
         Score += pointsToAdd;

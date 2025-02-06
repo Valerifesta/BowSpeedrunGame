@@ -48,9 +48,6 @@ MonoBehaviour:
   _maxRotaryValue: 350
   _currentRotaryValue: 0
   _degSecReleaseRequirement: 20
-  ObjectToRotate: {fileID: 0}
-  Sensitivity: 125
-  dir: {x: -5, y: -5, z: 1}
   shootCD: 0.5
   ArrowPrefab: {fileID: 161901125665051677, guid: 63638afe90b7cd0478b022c09d229ceb, type: 3}
   MainCam: {fileID: 0}
@@ -60,7 +57,12 @@ MonoBehaviour:
   playerManager: {fileID: 0}
   GMan: {fileID: 0}
   tempInputs: 1
+  CanUpdateBowInputs: 0
   previousEnemies: []
+  AttackIcon: {fileID: 0}
+  TeleportIcon: {fileID: 0}
+  ActiveColor: {r: 1, g: 1, b: 1, a: 1}
+  InactiveColor: {r: 0.27672952, g: 0.27672952, b: 0.27672952, a: 0.34509805}
 --- !u!114 &3399675504014414909
 MonoBehaviour:
   m_ObjectHideFlags: 0

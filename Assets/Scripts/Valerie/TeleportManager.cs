@@ -71,6 +71,10 @@ public class TeleportManager : MonoBehaviour
         Debug.Log("Started Callback");
         float t = new float();
         float fixedT = new float();
+        if (tutorial == null)
+        {
+            playerManager._bow.ToggleBowInputs();
+        }
         Vector3 startPos = objectToTravel.transform.position;
         while (t < CallbackTime)
         {
@@ -78,6 +82,10 @@ public class TeleportManager : MonoBehaviour
             fixedT = t / CallbackTime;
             objectToTravel.transform.position = Vector3.Lerp(startPos, endPos, fixedT);
             yield return null;
+        }
+        if (tutorial == null)
+        {
+            playerManager._bow.ToggleBowInputs();
         }
         objectToTravel.transform.position = endPos;
         playerManager.ToggleRespawnShield();

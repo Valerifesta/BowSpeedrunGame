@@ -44,13 +44,27 @@ public class TestBowBehaviour : MonoBehaviour
     //public int ArrowsFired;
     //public int TimesTeleported;
     public List<NewEnemyBehaviour> previousEnemies = new List<NewEnemyBehaviour>();
+    //[SerializeField] private GameManager PlayerUI;
+    [Header("Arrow Icons")]
+    [SerializeField] private GameObject AttackIcon;
+    [SerializeField] private GameObject TeleportIcon;
+    [SerializeField] private Color ActiveColor;
+    [SerializeField] private Color InactiveColor;
+
+
+    private GameObject[] arrowIcons;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _teleportArrowToggled = true;
+        _teleportArrowToggled = false;
+        arrowIcons = new GameObject[] { AttackIcon, TeleportIcon };
+
+        SetArrowIconVisible();
     }
 
     // Update is called once per frame
+    
     void Update()
     {
         
@@ -118,6 +132,45 @@ public class TestBowBehaviour : MonoBehaviour
     public void ToggleArrow()
     {
         _teleportArrowToggled = !_teleportArrowToggled;
+        SetArrowIconVisible();
+        Debug.Log("Toggled arrow");
+
+    }
+    void SetArrowIconVisible() //should always be called AFTER a toggle has happened.
+    {
+        if (_teleportArrowToggled)
+        {
+            AttackIcon.SetActive(false);
+            TeleportIcon.SetActive(true);
+        }
+        else
+        {
+            AttackIcon.SetActive(true);
+            TeleportIcon.SetActive(false);
+        }
+    }
+    void SetArrowIconColor(bool canTakeInputs)
+    {
+        Color newColor = new Color();
+        if (canTakeInputs)
+        {
+            newColor = ActiveColor;
+        }
+        else
+        {
+            newColor = InactiveColor;
+        }
+        for (int i = 0; i < arrowIcons.Length; i++)
+        {
+            arrowIcons[i].GetComponent<Image>().color = newColor;
+        }
+    }
+    public void ToggleBowInputs()
+    {
+        CanUpdateBowInputs = !CanUpdateBowInputs;
+        SetArrowIconColor(CanUpdateBowInputs);
+        Debug.Log("Toggled Bow Inputs");
+
     }
     public void UpdateRotaryValue(float rotaryInput)
     {
