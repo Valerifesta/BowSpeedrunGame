@@ -9,6 +9,7 @@ public class DectedAlarm : MonoBehaviour
     MeshRenderer renderer;
 
     private NewEnemyBehaviour enemyBehavior;
+
    
     //private Light lightComponent;
 

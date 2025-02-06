@@ -5,20 +5,22 @@ public class TurrentAninamtion : MonoBehaviour
 {
 
     private Animator anim;
-    private TurrentLevel2 turrentLevel2;
+    //private TurrentLevel2 turrentLevel2;
+    private NewEnemyBehaviour NEB;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
         anim = GetComponent<Animator>();
-        turrentLevel2 = GetComponent<TurrentLevel2>();
+       // NEB = GetComponent<TurrentLevel2>();
+        NEB = GetComponentInParent<NewEnemyBehaviour>();
       
 
 
-        if (turrentLevel2 == null)
+        if (NEB == null)
         {
-            Debug.LogError("TurrentLevel2-komponenten kunde inte hittas!");
+            Debug.LogError(" NEB-komponenten kunde inte hittas!");
         }
 
 
@@ -27,7 +29,7 @@ public class TurrentAninamtion : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (turrentLevel2.isShoot == false && turrentLevel2.isCharging == false && !turrentLevel2.IsStunned)
+        if (NEB.isShoot == false && NEB.isCharging == false && !NEB.IsStunned)
         {
             anim.SetBool("KillPlayer", false);
             //anim.SetFloat("Speed", 1.0f);
@@ -37,12 +39,12 @@ public class TurrentAninamtion : MonoBehaviour
             anim.SetBool("KillPlayer", true);
             //anim.SetFloat("Speed", -1.0f);
         }*/
-        else if (turrentLevel2.isCharging == true && !turrentLevel2.IsStunned)
+        else if (NEB.isCharging == true && !NEB.IsStunned)
         {
             anim.SetBool("KillPlayer", true);
             //anim.SetFloat("Speed", -1.0f);
         }
-        else if (turrentLevel2.isShoot == true && !turrentLevel2.IsStunned)
+        else if (NEB.isShoot == true && !NEB.IsStunned)
         {
             anim.SetBool("KillPlayer", true);
             //anim.SetFloat("Speed", -1.0f);
