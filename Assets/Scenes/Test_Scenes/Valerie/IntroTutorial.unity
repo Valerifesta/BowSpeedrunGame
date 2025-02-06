@@ -2860,7 +2860,7 @@ MonoBehaviour:
   dialogue: {fileID: 359661841}
   AwaitingCalibration: 0
   BowObj: {fileID: 1361512154}
-  BowPullbackSlider: {fileID: 774150515}
+  BowPullbackSlider: {fileID: 1236248063}
   Communicator: {fileID: 207813730}
   CommunicatorRotation: {x: 0, y: 0, z: 0}
   currentBackgroundMusic: {fileID: 0}
@@ -3362,6 +3362,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232437411}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1236248063 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8289926013412430073, guid: a14858f0fe213424f8227269a0016afa, type: 3}
+  m_PrefabInstance: {fileID: 6939181554708046779}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1243537306
 GameObject:
   m_ObjectHideFlags: 0

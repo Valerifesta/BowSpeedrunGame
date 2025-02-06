@@ -74,16 +74,24 @@ public class NewEnemyBehaviour : MonoBehaviour
         for (int i = 0; i < length; i++)
         {
             float chargeScale = 2 / _BeamChargeUpTime; //2 is the default value and which matches 
-            var mainCharge = ChargeAndShoot[i].main;
-            mainCharge.simulationSpeed = 2.2f * chargeScale;
+            if (ChargeAndShoot != null)
+            {
+                var mainCharge = ChargeAndShoot[i].main;
+                mainCharge.simulationSpeed = 2.2f * chargeScale;
 
-            chargeBall[i] = ChargeAndShoot[i].GetComponentsInChildren<ParticleSystem>()[1];
-            var chargeBallMain = chargeBall[i].main;
-            chargeBallMain.simulationSpeed = 2.2f * chargeScale;
+                chargeBall[i] = ChargeAndShoot[i].GetComponentsInChildren<ParticleSystem>()[1];
+                var chargeBallMain = chargeBall[i].main;
+                chargeBallMain.simulationSpeed = 2.2f * chargeScale;
 
-            plasmaBeam[i] = ChargeAndShoot[i].GetComponentsInChildren<ParticleSystem>()[1].GetComponentsInChildren<ParticleSystem>()[1];
-            var plasmaMain = plasmaBeam[i].main;
-            plasmaMain.startDelay = 1.9f / chargeScale;
+                plasmaBeam[i] = ChargeAndShoot[i].GetComponentsInChildren<ParticleSystem>()[1].GetComponentsInChildren<ParticleSystem>()[1];
+                var plasmaMain = plasmaBeam[i].main;
+                plasmaMain.startDelay = 1.9f / chargeScale;
+            }
+            else
+            {
+                Debug.Log("Charge and shoot was null");
+            }
+            
         }
         
 

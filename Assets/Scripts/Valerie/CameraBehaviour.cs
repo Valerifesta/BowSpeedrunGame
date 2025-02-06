@@ -123,6 +123,11 @@ public class CameraBehaviour : MonoBehaviour
         ToggleCameraRotation();
         ToggleCameraLock();
     }
+    public void ChangeFOV(float max, float min, float currentT)
+    {
+        float newFOV = Mathf.Lerp(min, max, currentT);
+        MainCam.fieldOfView = newFOV;
+    }
     public void SaveRotation()
     {
         GameSettings.CameraRotLastScene = MainCam.transform.rotation;

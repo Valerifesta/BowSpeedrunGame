@@ -10,7 +10,7 @@ public class TestBowBehaviour : MonoBehaviour
 {
     [SerializeField] private float _maxRotaryValue;
     [SerializeField] private float _currentRotaryValue;
-    [SerializeField] private float _degSecReleaseRequirement; //Adapt to controller
+    [SerializeField] private float _degSecReleaseRequirement; //Adapt to controller. 363.6 without  controller.
     private bool _activeRelease;
     private float _rotaryValueOnRelease;
 
@@ -29,6 +29,7 @@ public class TestBowBehaviour : MonoBehaviour
     public GameObject Player;
     [SerializeField] private Slider RotaryIndicator;
     [SerializeField] private TeleportManager teleportManager;
+    private CameraBehaviour camBehaviour;
 
     public PlayerManager playerManager;
     [SerializeField] private GameManager GMan;
@@ -57,9 +58,10 @@ public class TestBowBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        camBehaviour = MainCam.GetComponent<CameraBehaviour>();
+
         _teleportArrowToggled = false;
         arrowIcons = new GameObject[] { AttackIcon, TeleportIcon };
-
         SetArrowIconVisible();
     }
 
@@ -225,7 +227,10 @@ public class TestBowBehaviour : MonoBehaviour
     }
     void UpdateRotaryIndicator()
     {
-        RotaryIndicator.value = _currentRotaryValue / 10;
+        float t = Mathf.InverseLerp(0, _maxRotaryValue, _currentRotaryValue);
+        RotaryIndicator.value = t;
+        camBehaviour.ChangeFOV(60.0f, 55.0f, t);
+
     }
 
     public void TeleportPlayer(Vector3 position)
