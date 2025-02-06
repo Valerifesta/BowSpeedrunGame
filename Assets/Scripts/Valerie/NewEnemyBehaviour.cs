@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEditor.ShaderKeywordFilter;
@@ -11,9 +12,9 @@ public class NewEnemyBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject EnemyRotatingObj; //Will always rotate the assigned object on the horizontal axis. 
-    [SerializeField] private ParticleSystem ChargeAndShoot;
-    private ParticleSystem chargeBall;
-    private ParticleSystem plasmaBeam;
+    [SerializeField] private ParticleSystem[] ChargeAndShoot;
+    private ParticleSystem[] chargeBall;
+    private ParticleSystem[] plasmaBeam;
 
     [SerializeField] private ParticleSystem DetectEffect;
     [SerializeField] private ParticleSystem StunnedEffect;
@@ -28,7 +29,7 @@ public class NewEnemyBehaviour : MonoBehaviour
 
     //Zion
     [SerializeField] private EnemySoundList ESL;
-    [SerializeField] private DectedAlarm DA;
+    [SerializeField] private DectedAlarm[] DA;
     [SerializeField] private Explosion Ex;
 
     public System.Action OnStartRotating;
@@ -66,18 +67,29 @@ public class NewEnemyBehaviour : MonoBehaviour
         //currentEuler = EnemyRotatingObj.transform.eulerAngles;
         //StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation));
         ResetRot();
+        int length = ChargeAndShoot.Length;
+        chargeBall = new ParticleSystem[length];
+        plasmaBeam = new ParticleSystem[length];
 
-        float chargeScale = 2 / _BeamChargeUpTime; //2 is the default value and which matches 
-        var mainCharge = ChargeAndShoot.main;
-        mainCharge.simulationSpeed = 2.2f * chargeScale;
+        for (int i = 0; i < length; i++)
+        {
+            float chargeScale = 2 / _BeamChargeUpTime; //2 is the default value and which matches 
+            var mainCharge = ChargeAndShoot[i].main;
+            mainCharge.simulationSpeed = 2.2f * chargeScale;
 
-        chargeBall = ChargeAndShoot.GetComponentsInChildren<ParticleSystem>()[1];
-        var chargeBallMain = chargeBall.main;
-        chargeBallMain.simulationSpeed = 2.2f * chargeScale;
+            chargeBall[i] = ChargeAndShoot[i].GetComponentsInChildren<ParticleSystem>()[1];
+            var chargeBallMain = chargeBall[i].main;
+            chargeBallMain.simulationSpeed = 2.2f * chargeScale;
 
-        plasmaBeam = ChargeAndShoot.GetComponentsInChildren<ParticleSystem>()[1].GetComponentsInChildren<ParticleSystem>()[1];
-        var plasmaMain = plasmaBeam.main;
-        plasmaMain.startDelay = 1.9f / chargeScale;
+            plasmaBeam[i] = ChargeAndShoot[i].GetComponentsInChildren<ParticleSystem>()[1].GetComponentsInChildren<ParticleSystem>()[1];
+            var plasmaMain = plasmaBeam[i].main;
+            plasmaMain.startDelay = 1.9f / chargeScale;
+        }
+        
+
+        
+
+        
 
     }
     public void ResetRot()
@@ -144,7 +156,12 @@ public class NewEnemyBehaviour : MonoBehaviour
         
         
         StopAllCoroutines();
-        ChargeAndShoot.Stop();
+        foreach (ParticleSystem chargeUp in ChargeAndShoot)
+        {
+            chargeUp.Stop();
+        }
+
+       // ChargeAndShoot.Stop();
         if (!isRotate && !isCharging && !isShoot)
         {
             DetectEffect.Play();
@@ -233,8 +250,13 @@ public class NewEnemyBehaviour : MonoBehaviour
         isRotate = false;
         isShoot = false;
         Vector3 orgin = EnemyRotatingObj.transform.position + EnemyRotatingObj.transform.forward;
-        ChargeAndShoot.transform.forward = (Player.transform.position - orgin).normalized;
-        ChargeAndShoot.Play();
+        foreach (ParticleSystem chargeUp in ChargeAndShoot)
+        {
+            chargeUp.transform.forward = (Player.transform.position - orgin).normalized;
+            chargeUp.Play();
+
+
+        }
 
         float elapsedChargeTime = new float();
         float elapsedDelayTime = new float();

@@ -4301,6 +4301,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9100097163373180412, guid: 0e644aa01ef3cb241a5483bfca427e8c, type: 3}
+      propertyPath: ChargeAndShoot.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9100097163373180412, guid: 0e644aa01ef3cb241a5483bfca427e8c, type: 3}
+      propertyPath: 'ChargeAndShoot.Array.data[1]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9100097163373180412, guid: 0e644aa01ef3cb241a5483bfca427e8c, type: 3}
+      propertyPath: 'ChargeAndShoot.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

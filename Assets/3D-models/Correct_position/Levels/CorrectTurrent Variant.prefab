@@ -24719,16 +24719,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   EnemyRotatingObj: {fileID: 4922714358061291239}
-  ChargeAndShoot: {fileID: 8222714829096621454}
+  ChargeAndShoot:
+  - {fileID: 8222714829096621454}
   DetectEffect: {fileID: 5610599943249043625}
   StunnedEffect: {fileID: 741889524536299177}
   RotationTime: 0.25
   RotTimeScale: 1
   ESL: {fileID: 4334441941825834115}
-  DA: {fileID: 8225394123616377535}
+  DA:
+  - {fileID: 8225394123616377535}
+  Ex: {fileID: 0}
   isRotate: 0
   isCharging: 0
   isShoot: 0
+  isKillingEnemy: 0
   _BulletBeamDelay: 2
   _BeamChargeUpTime: 2
   _LowerLimRotDistance: 2
