@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Explosion : MonoBehaviour
 {
+    [Header("Explosion Settings")]
+
     public float cubeSize = 0.2f;
     public int cubesInRow = 5;
     float cubesPivotDistance;
@@ -10,8 +12,11 @@ public class Explosion : MonoBehaviour
     public float explosionForce = 50f;
     public float explosionRadius = 4f;
     public float explosionUpward = 0.4f;
+    public bool useColliders;
 
     public float pieceLifetime = 2f;
+    //[Header("Explosion Object")]
+    //[SerializeField] private GameObject explosionObj;
 
     //private NewEnemyBehaviour EnemybehaviourScript;
     // Use this for initialization
@@ -66,8 +71,18 @@ public class Explosion : MonoBehaviour
     void createPiece(int x, int y, int z)
     {
         //create piece
+
         GameObject piece;
-        piece = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //if (explosionObj == null)
+        {
+            piece = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        }/*
+        else
+        {
+            piece = GameObject.Instantiate(explosionObj);
+        }*/
+
+        piece.GetComponent<Collider>().isTrigger = useColliders;
         //set piece position and scale
         piece.transform.position = transform.position + new Vector3(cubeSize * x, cubeSize * y, cubeSize * z) - cubesPivot;
         piece.transform.localScale = new Vector3(cubeSize, cubeSize, cubeSize);

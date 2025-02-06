@@ -12,6 +12,9 @@ public class ArrowBehaviour : MonoBehaviour
     public GameManager GameMan;
     private bool flying;
     private float timeUntilDespawn;
+
+    [SerializeField] private GameObject TeleportTrail;
+    [SerializeField] private ParticleSystem TeleportIco;
     private void Start()
     {
         flying = true;
@@ -20,6 +23,7 @@ public class ArrowBehaviour : MonoBehaviour
         if (!teleportToggled)
         {
             GetComponent<ParticleSystem>().Play();
+            TeleportTrail.SetActive(false);
         }
     }
 
@@ -62,6 +66,9 @@ public class ArrowBehaviour : MonoBehaviour
                     }
                 }*/
                 sender.TeleportPlayer(point + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0));
+                TeleportIco.Play();
+                TeleportIco.transform.parent = null;
+                Destroy(TeleportIco, 5);
 
                 if (tag == "PlayerTrainWalkArea")
                 {

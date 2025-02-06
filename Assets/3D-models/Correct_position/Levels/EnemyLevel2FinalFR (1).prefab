@@ -29321,6 +29321,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 132383930075330733, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: ESL
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 132383930075330733, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -29361,6 +29365,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1019088789221663625, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: DetectionRange
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019088789221663625, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: 'DA.Array.data[0]'
       value: 
       objectReference: {fileID: 3845394211626669836}
@@ -29372,6 +29380,10 @@ PrefabInstance:
       propertyPath: 'DA.Array.data[2]'
       value: 
       objectReference: {fileID: 5811539067851120092}
+    - target: {fileID: 1019088789221663625, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+      propertyPath: _BeamChargeUpTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1019088789221663625, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: ChargeAndShoot.Array.size
       value: 3
@@ -29390,15 +29402,15 @@ PrefabInstance:
       objectReference: {fileID: 3035057483076289408}
     - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 28.82
+      value: 106.57
       objectReference: {fileID: 0}
     - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.6
+      value: 9.31
       objectReference: {fileID: 0}
     - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 58.49
+      value: 55.863
       objectReference: {fileID: 0}
     - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -29432,6 +29444,7 @@ PrefabInstance:
     - {fileID: 7545526617774095318, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
     - {fileID: 9087779831560489820, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
     - {fileID: 8660321931807200049, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
+    - {fileID: 4901951227498626511, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6882497865404700055, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
@@ -29634,11 +29647,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823f37be8c76ade4b944787096fc1726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubeSize: 0.0008722558
-  cubesInRow: 5
+  cubeSize: 0.2
+  cubesInRow: 4
   explosionForce: 50
   explosionRadius: 4
   explosionUpward: 27.7
+  useColliders: 0
   pieceLifetime: 2
 --- !u!198 &8411342087664023237 stripped
 ParticleSystem:

@@ -52,6 +52,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float _LowerLimRotDistance = 2;
 
     [SerializeField] private float RotationStartDelay;
+    [SerializeField] private float DetectionRange; //Should be Individual between variants.
     
     //[SerializeField] private Vector3 currentEuler;
     //private Coroutine runningCoroutine;
@@ -155,29 +156,33 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     public void TargetPlayer(float linearDistance)
     {
-        if (linearDistance > _LowerLimRotDistance)
+        if (linearDistance < DetectionRange)
         {
-            RotTimeScale = _LowerLimRotDistance / linearDistance;
-            //CanTargetPlayer = true;
-            Debug.Log("Distance between player and enemy is above Lower Distance Limit and is therefore affecting rotation time.");
-        }
-        
-        
-        StopAllCoroutines();
-        foreach (ParticleSystem chargeUp in ChargeAndShoot)
-        {
-            chargeUp.Stop();
-        }
+            if (linearDistance > _LowerLimRotDistance)
+            {
+                RotTimeScale = _LowerLimRotDistance / linearDistance;
+                //CanTargetPlayer = true;
+                Debug.Log("Distance between player and enemy is above Lower Distance Limit and is therefore affecting rotation time.");
+            }
 
-       // ChargeAndShoot.Stop();
-        if (!isRotate && !isCharging && !isShoot)
-        {
-            DetectEffect.Play();
+
+            StopAllCoroutines();
+            foreach (ParticleSystem chargeUp in ChargeAndShoot)
+            {
+                chargeUp.Stop();
+            }
+
+            // ChargeAndShoot.Stop();
+            if (!isRotate && !isCharging && !isShoot)
+            {
+                DetectEffect.Play();
+            }
+            // if (CanTargetPlayer)
+            {
+                StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
+            }
         }
-       // if (CanTargetPlayer)
-        {
-            StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
-        }
+        
 
     }
     public IEnumerator RotateTowardsPlayer(Quaternion startRot, float timeToRotate)

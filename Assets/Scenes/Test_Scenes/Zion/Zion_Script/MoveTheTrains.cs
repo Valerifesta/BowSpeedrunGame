@@ -65,6 +65,10 @@ public class MoveTrainIntro : MonoBehaviour
                 if (obj.timer >= timeUntilStop)
                 {
                     obj.hasStopped = true;
+                    if (obj.speed == 165.0f) //if it is the game scene
+                    {
+                        obj.speed = 35.0f;
+                    }
                     UnparentPlayer();
 
                     if (deactivateOnStop)

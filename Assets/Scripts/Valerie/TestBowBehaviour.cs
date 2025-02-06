@@ -258,7 +258,16 @@ public class TestBowBehaviour : MonoBehaviour
     }
     public Collider[] GetNearestEnemyColliders()
     {
-        return Physics.OverlapSphere(Player.transform.position, 10, ~LayerMask.NameToLayer("Enemy"));
+        float targetDistance = new float();
+        if (playerManager.RespawnShieldActive)
+        {
+            targetDistance = 10.0f;
+        }
+        else
+        {
+            targetDistance = 31.0f;
+        }
+        return Physics.OverlapSphere(Player.transform.position, targetDistance, ~LayerMask.NameToLayer("Enemy")); //all targets within 20 units
         
     }
     public void DetectSurroundingEnemies()

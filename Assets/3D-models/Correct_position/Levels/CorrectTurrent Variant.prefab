@@ -24740,6 +24740,7 @@ MonoBehaviour:
   _BeamChargeUpTime: 2
   _LowerLimRotDistance: 2
   RotationStartDelay: 0.25
+  DetectionRange: 20
   IsStunned: 0
 --- !u!114 &4334441941825834115
 MonoBehaviour:
@@ -24788,6 +24789,7 @@ MonoBehaviour:
   explosionForce: 50
   explosionRadius: 4
   explosionUpward: 0.4
+  useColliders: 0
   pieceLifetime: 2
 --- !u!4 &8564478725511596110 stripped
 Transform:

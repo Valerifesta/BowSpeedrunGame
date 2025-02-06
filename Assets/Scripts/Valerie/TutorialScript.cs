@@ -89,7 +89,7 @@ public class TutorialScript : MonoBehaviour
     void Start()
     {
         StartCoroutine(Fade(new Color32(0, 0, 0, 255), new Color32(0, 0, 0, 0), 5, 1, FadeTime));
-        dialogue.ReadNextDoc(5 + FadeTime);
+        dialogue.ReadNextDoc(2.5f + FadeTime);
         currentBackgroundMusic = FindFirstObjectByType<MusicChanger>().GetComponent<AudioSource>();
         //currentBackgroundMusic.volume = 0.2f;
         currentBackgroundMusic.pitch = _startPitch;
