@@ -14,14 +14,46 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Scrollbar Threshold;
     private Vector3 sliderVector;
     private float _thresholdScrollValue;
-    bool settingsActive;
+    public bool SettingsActive;
     public GameObject TV;
     public GameObject VideoScreen;
     public GameObject wholeCanvas;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameSettings.CameraSensitivity = sliderVector;
+        Vector3 currentSense = GameSettings.CameraSensitivity;
+        if (currentSense == Vector3.zero)
+        {
+            GameSettings.CameraSensitivity = Vector3.one;
+            currentSense = GameSettings.CameraSensitivity;
+             
+        }
+
+        if (SenseSliders.Length > 0)
+        {
+            foreach (Slider slider in SenseSliders)
+            {
+                slider.minValue = 1;
+                slider.maxValue = 10;
+            }
+
+            SenseSliders[0].value = currentSense.x;
+            SenseSliders[1].value = currentSense.y;
+            SenseSliders[2].value = currentSense.z;
+
+            
+        }
+        if (GameSettings.DegSecReleaseThreshold == 0)
+        {
+            GameSettings.DegSecReleaseThreshold = 1;
+        }
+        _thresholdScrollValue = GameSettings.DegSecReleaseThreshold;
+        if (Threshold)
+        {
+            Threshold.value = _thresholdScrollValue / 10;
+        }
+
+        
 
     }
 
@@ -32,7 +64,7 @@ public class MenuManager : MonoBehaviour
         {
             sliderVector = new Vector3(SenseSliders[0].value, SenseSliders[1].value, SenseSliders[2].value);
         }
-        if (settingsActive)
+        if (SettingsActive)
         {
             if (GameSettings.CameraSensitivity != sliderVector)
             {
@@ -41,11 +73,24 @@ public class MenuManager : MonoBehaviour
                 Debug.Log(GameSettings.CameraSensitivity);
             }
             
-            _thresholdScrollValue = Threshold.value * 9;
-            if (GameSettings.DegSecReleaseThreshold != _thresholdScrollValue)
+            if (Threshold != null)
             {
-                GameSettings.DegSecReleaseThreshold = _thresholdScrollValue;
+                _thresholdScrollValue = Threshold.value * 10.0f;
+                if (GameSettings.DegSecReleaseThreshold != _thresholdScrollValue)
+                {
+                    GameSettings.DegSecReleaseThreshold = _thresholdScrollValue;
+                }
+                if (_thresholdScrollValue == 0)
+                {
+                    Threshold.transform.GetChild(0).GetComponentInChildren<Image>().color = Color.red;
+                }
+                else
+                {
+                    Threshold.transform.GetChild(0).GetComponentInChildren<Image>().color = Color.white;
+
+                }
             }
+            
             
         }
 
@@ -74,8 +119,8 @@ public class MenuManager : MonoBehaviour
     }
     public void ToggleSetting()
     {
-        settingsActive = !settingsActive;
-        if (settingsActive)
+        SettingsActive = !SettingsActive;
+        if (SettingsActive)
         {
             foreach (GameObject nonSetting in _nonSettingsUI)
             {

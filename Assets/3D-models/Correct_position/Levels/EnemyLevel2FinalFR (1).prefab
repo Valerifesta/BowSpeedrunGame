@@ -29402,15 +29402,15 @@ PrefabInstance:
       objectReference: {fileID: 3035057483076289408}
     - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 106.57
+      value: 196.87
       objectReference: {fileID: 0}
     - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.31
+      value: 9.32
       objectReference: {fileID: 0}
     - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 55.863
+      value: 61.29
       objectReference: {fileID: 0}
     - target: {fileID: 2182154382816528725, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -29654,6 +29654,12 @@ MonoBehaviour:
   explosionUpward: 27.7
   useColliders: 0
   pieceLifetime: 2
+  explosionObjMaterials:
+  - {fileID: 2100000, guid: 5bfce5ae5505c3e4497be0b12fa370ab, type: 2}
+  - {fileID: 2100000, guid: c2373b2ab9b649347b5b48b7d3344993, type: 2}
+  - {fileID: 2100000, guid: a3176b5261627a44ba542dac2c1371e3, type: 2}
+  - {fileID: 2100000, guid: 7ea5535b22e79e7469cefce4cc958958, type: 2}
+  - {fileID: 2100000, guid: 29d38d4284fcb8740b41b14e8d079fec, type: 2}
 --- !u!198 &8411342087664023237 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 2209580330626436299, guid: ec40574a70c0cd048854a8905b6ff4e5, type: 3}

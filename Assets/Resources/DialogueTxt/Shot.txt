@@ -2,4 +2,4 @@ That was a turret, one of many enemies you will face during your tests./
 When you ware hit, you were transported back to your previous location.
 We call this ability a "Callback"./
 During a period from after you have exited the "Callback"-state, all enemies around you will be temporarily stunned./
-Now, toggle your back attack arrow and try to hit the turret that shot you.@/
+Now, toggle [E] back the attack arrow and try to hit the turret that shot you.@/

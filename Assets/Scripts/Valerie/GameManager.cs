@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] _pauseMenuObjs;
 
     [SerializeField] private PlayerManager player;
-    
+    [SerializeField] private MenuManager menu;
     public bool TutorialActive;
 
     public bool CanToggleMenu;
@@ -61,18 +61,23 @@ public class GameManager : MonoBehaviour
             TimerTimeElasped += 1.0f * Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !FinishedLevel)
+        if (Input.GetKeyDown(KeyCode.Escape) && !FinishedLevel && CanToggleMenu)
         {
             ToggleMenu();
         }
     }
     public void ToggleMenu()
     {
+        if (menu.SettingsActive)
+        {
+            menu.ToggleSetting();
+        }
         player.TogglePlayerInputs();
         foreach (GameObject obj in _pauseMenuObjs)
         {
             obj.SetActive(!obj.activeSelf);
         }
+        
 
     }
     //public void Toggle

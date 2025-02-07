@@ -67,6 +67,13 @@ public class TestBowBehaviour : MonoBehaviour
         _teleportArrowToggled = false;
         arrowIcons = new GameObject[] { AttackIcon, TeleportIcon };
         SetArrowIconVisible();
+
+        float thres = GameSettings.DegSecReleaseThreshold;
+        if (thres <= 0)
+        {
+            GameSettings.DegSecReleaseThreshold = 1;
+        }
+
     }
 
     // Update is called once per frame
@@ -208,7 +215,7 @@ public class TestBowBehaviour : MonoBehaviour
         else if (nextValue < _currentRotaryValue)
         {
 
-            if (deltaloss > _degSecReleaseRequirement) {
+            if (GameSettings.DegSecReleaseThreshold * deltaloss > _degSecReleaseRequirement) { //SHOULD DEG THRESHOLD BE IMPLEMENTED HERE?
               lastrotaryvalue = _currentRotaryValue;
               Debug.Log(lastrotaryvalue);
               shoot = true;

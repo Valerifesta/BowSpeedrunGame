@@ -24791,6 +24791,12 @@ MonoBehaviour:
   explosionUpward: 0.4
   useColliders: 0
   pieceLifetime: 2
+  explosionObjMaterials:
+  - {fileID: 2100000, guid: a3176b5261627a44ba542dac2c1371e3, type: 2}
+  - {fileID: 2100000, guid: 434504511f8d01d4797b49c57e28ce8c, type: 2}
+  - {fileID: 2100000, guid: c2373b2ab9b649347b5b48b7d3344993, type: 2}
+  - {fileID: 2100000, guid: 7ea5535b22e79e7469cefce4cc958958, type: 2}
+  - {fileID: 2100000, guid: 29d38d4284fcb8740b41b14e8d079fec, type: 2}
 --- !u!4 &8564478725511596110 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4178106657175979994, guid: 79b516c4fc49f974ab59a8874411acad, type: 3}

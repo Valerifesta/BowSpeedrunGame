@@ -1,4 +1,4 @@
-using UnityEditor.XR;
+//using UnityEditor.XR;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI.Table;
@@ -24,7 +24,12 @@ public class CameraBehaviour : MonoBehaviour
     void Start()
     {
         ToggleCameraLock();
+        Vector3 currentSense = GameSettings.CameraSensitivity;
+        if (currentSense == Vector3.zero)
+        {
+            GameSettings.CameraSensitivity = Vector3.one;
 
+        }
     }
 
     // Update is called once per frame
@@ -59,7 +64,8 @@ public class CameraBehaviour : MonoBehaviour
     {
         Vector3 dir = new Vector3(Input.GetAxisRaw("Mouse Y"), -Input.GetAxisRaw("Mouse X"));
         Vector3 valueToAdd = -dir * Sensitivity * Time.deltaTime;
-        currentRot += valueToAdd;
+        Vector3 sens = GameSettings.CameraSensitivity;
+        currentRot += new Vector3(valueToAdd.x * sens.x, valueToAdd.y * sens.y, valueToAdd.z * sens.z);
         
 
         if (Input.GetKeyDown(KeyCode.R))

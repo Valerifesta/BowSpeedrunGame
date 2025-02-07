@@ -15,6 +15,7 @@ public class Explosion : MonoBehaviour
     public bool useColliders;
 
     public float pieceLifetime = 2f;
+    public Material[] explosionObjMaterials;
     //[Header("Explosion Object")]
     //[SerializeField] private GameObject explosionObj;
 
@@ -76,6 +77,9 @@ public class Explosion : MonoBehaviour
         //if (explosionObj == null)
         {
             piece = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            int randomMatIndex = Random.Range(0, explosionObjMaterials.Length);
+
+            piece.GetComponent<MeshRenderer>().material = explosionObjMaterials[randomMatIndex];
         }/*
         else
         {
