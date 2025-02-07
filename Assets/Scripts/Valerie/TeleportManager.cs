@@ -5,7 +5,7 @@ using UnityEngine;
 public class TeleportManager : MonoBehaviour
 {
     [SerializeField] Vector3[] PreviousTeleportPos = new Vector3[2];
-    [SerializeField] Vector3 SpawnPos;
+    //[SerializeField] Vector3 SpawnPos;
     [SerializeField] private GameObject _spawnPosObj;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private GameObject player;
@@ -18,13 +18,20 @@ public class TeleportManager : MonoBehaviour
 
     public void Start()
     {
-        SpawnPos = _spawnPosObj.transform.position;
+        //SpawnPos = _spawnPosObj.transform.position;
         playerManager = FindFirstObjectByType<PlayerManager>();
         tutorial = FindFirstObjectByType<TutorialScript>();
 
         if (CallbackTime <= 0)
         {
             CallbackTime = 1.0f;
+        }
+        if (tutorial == null)
+        {
+            if (GameSettings.PlayerPosLastScene != Vector3.zero)
+            {
+                _spawnPosObj.transform.localPosition = GameSettings.PlayerPosLastScene;
+            }
         }
     }
     public void UpdateTeleportArray(Vector3 newTeleportPos)
@@ -55,7 +62,7 @@ public class TeleportManager : MonoBehaviour
         }
         else
         {
-            lastPoint = SpawnPos;
+            lastPoint = _spawnPosObj.transform.position;
         }
         UpdateTeleportArray(lastPoint);
         StartCoroutine(Callback(objectToTeleport, lastPoint));

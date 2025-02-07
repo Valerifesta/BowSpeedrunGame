@@ -56,6 +56,8 @@ MonoBehaviour:
   teleportManager: {fileID: 0}
   playerManager: {fileID: 0}
   GMan: {fileID: 0}
+  TeleportIco: {fileID: 7998332075599570851, guid: 8c77b9a1c7d47504d95dd69001f5a1ae, type: 3}
+  StunIco: {fileID: 2919107601169409451, guid: 14a563a57a8fe004bbbfdb1a35575a4b, type: 3}
   tempInputs: 1
   CanUpdateBowInputs: 0
   previousEnemies: []
@@ -63,6 +65,7 @@ MonoBehaviour:
   TeleportIcon: {fileID: 0}
   ActiveColor: {r: 1, g: 1, b: 1, a: 1}
   InactiveColor: {r: 0.27672952, g: 0.27672952, b: 0.27672952, a: 0.34509805}
+  lastHitPos: {x: 0, y: 0, z: 0}
 --- !u!114 &3399675504014414909
 MonoBehaviour:
   m_ObjectHideFlags: 0

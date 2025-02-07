@@ -34,6 +34,9 @@ public class TestBowBehaviour : MonoBehaviour
     public PlayerManager playerManager;
     [SerializeField] private GameManager GMan;
 
+    [SerializeField] private ParticleSystem TeleportIco;
+    [SerializeField] private ParticleSystem StunIco;
+
     public bool tempInputs = false;
     
 
@@ -54,6 +57,7 @@ public class TestBowBehaviour : MonoBehaviour
 
 
     private GameObject[] arrowIcons;
+    public Vector3 lastHitPos;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -241,20 +245,42 @@ public class TestBowBehaviour : MonoBehaviour
 
         UpdateAggros();
     }
-    public void UpdateAggros()
+    public void UpdateAggros(bool useVFX = true)
     {
         //Check if there are enemies within bounding volume
         DetectSurroundingEnemies();
 
         float elaspedShield = playerManager.ShieldTimeRemaining;
+        ParticleSystem particleToPlay = new ParticleSystem();
         if (elaspedShield > 0)
         {
             StunSurroundingtEnemies(elaspedShield);
+            particleToPlay = StunIco;
         }
         else
         {
             AggroSurroundingEnemies();
+            particleToPlay = TeleportIco;
+            
         }
+        if (useVFX)
+        {
+            ParticleSystem newParticle = GameObject.Instantiate(particleToPlay);
+            if (particleToPlay == StunIco)
+            {
+                newParticle.gameObject.transform.position = Player.transform.position;
+            }
+            else
+            {
+                newParticle.gameObject.transform.position = lastHitPos;
+            }
+            newParticle.gameObject.SetActive(true);
+            //newParticle.transform.parent = null;
+            //newParticle.transform.localScale = Vector3.one;
+            newParticle.Play();
+            Destroy(newParticle.gameObject, 5);
+        }
+        
     }
     public Collider[] GetNearestEnemyColliders()
     {

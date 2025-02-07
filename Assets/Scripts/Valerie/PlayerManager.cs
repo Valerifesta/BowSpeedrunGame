@@ -40,7 +40,7 @@ public class PlayerManager : MonoBehaviour
         {
             Debug.Log("RemovedShield");
             ShieldTimeRemaining = 0;
-            _bow.UpdateAggros();
+            _bow.UpdateAggros(false);
             //RespawnShieldActive = false;
             //remove ethereal material on player
 

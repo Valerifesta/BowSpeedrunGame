@@ -14,7 +14,7 @@ public class ArrowBehaviour : MonoBehaviour
     private float timeUntilDespawn;
 
     [SerializeField] private GameObject TeleportTrail;
-    [SerializeField] private ParticleSystem TeleportIco;
+    
     private void Start()
     {
         flying = true;
@@ -65,10 +65,11 @@ public class ArrowBehaviour : MonoBehaviour
                         Debug.Log("Teleported to the platform above");
                     }
                 }*/
-                sender.TeleportPlayer(point + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0));
-                TeleportIco.Play();
-                TeleportIco.transform.parent = null;
-                Destroy(TeleportIco, 5);
+                Vector3 dir = (point - sender.Player.transform.position).normalized;
+                Vector3 offset = new Vector3(-dir.x, 0.0f, -dir.z);
+
+                sender.lastHitPos = point;
+                sender.TeleportPlayer(point + offset + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0));
 
                 if (tag == "PlayerTrainWalkArea")
                 {
