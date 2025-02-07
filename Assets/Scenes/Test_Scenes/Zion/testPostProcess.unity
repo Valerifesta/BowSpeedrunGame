@@ -594,11 +594,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275347b3f9712ce4eae71db7823b4203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissolveMat: {fileID: 0}
+  DissolveMat: {fileID: 0}
   transitionDuration: 2
   startDelay: 1
   isDestroying: 0
-  enemyBehaviour: {fileID: 0}
+  timeToDisapearing: 0
+  currentDissolveValue: 1
+  NEB: {fileID: 0}
 --- !u!1001 &429195804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1564,11 +1566,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275347b3f9712ce4eae71db7823b4203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissolveMat: {fileID: 2100000, guid: c356d880deed0e54db0294e7db10cb17, type: 2}
+  DissolveMat: {fileID: 0}
   transitionDuration: 4
   startDelay: 0.25
   isDestroying: 0
-  enemyBehaviour: {fileID: 0}
+  timeToDisapearing: 0
+  currentDissolveValue: 1
+  NEB: {fileID: 0}
 --- !u!135 &1107785411
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1747,11 +1751,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275347b3f9712ce4eae71db7823b4203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissolveMat: {fileID: 0}
+  DissolveMat: {fileID: 0}
   transitionDuration: 4
   startDelay: 0
   isDestroying: 0
-  enemyBehaviour: {fileID: 0}
+  timeToDisapearing: 0
+  currentDissolveValue: 1
+  NEB: {fileID: 0}
 --- !u!1001 &1472335564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2498,11 +2504,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275347b3f9712ce4eae71db7823b4203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissolveMat: {fileID: 0}
+  DissolveMat: {fileID: 0}
   transitionDuration: 2
   startDelay: 1
   isDestroying: 0
-  enemyBehaviour: {fileID: 0}
+  timeToDisapearing: 0
+  currentDissolveValue: 1
+  NEB: {fileID: 0}
 --- !u!1001 &2009820032
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2617,11 +2625,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275347b3f9712ce4eae71db7823b4203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissolveMat: {fileID: 0}
+  DissolveMat: {fileID: 0}
   transitionDuration: 4
   startDelay: 0
   isDestroying: 0
-  enemyBehaviour: {fileID: 0}
+  timeToDisapearing: 0
+  currentDissolveValue: 1
+  NEB: {fileID: 0}
 --- !u!1 &2026313151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a6e6693c2bea33a46965bddc0f0fc604, type: 3}
@@ -2639,11 +2649,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275347b3f9712ce4eae71db7823b4203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dissolveMat: {fileID: 0}
+  DissolveMat: {fileID: 0}
   transitionDuration: 2
   startDelay: 1
   isDestroying: 0
-  enemyBehaviour: {fileID: 0}
+  timeToDisapearing: 0
+  currentDissolveValue: 1
+  NEB: {fileID: 0}
 --- !u!114 &2026313156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2658,13 +2670,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   EnemyRotatingObj: {fileID: 0}
-  ChargeAndShoot: {fileID: 0}
+  ChargeAndShoot:
+  - {fileID: 0}
   DetectEffect: {fileID: 0}
   StunnedEffect: {fileID: 0}
   RotationTime: 0
   RotTimeScale: 1
   ESL: {fileID: 0}
-  DA: {fileID: 0}
+  DA:
+  - {fileID: 0}
+  Ex: {fileID: 0}
   isRotate: 0
   isCharging: 0
   isShoot: 0
