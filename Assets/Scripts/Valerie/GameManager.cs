@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     public MoveTrainIntro TrainMover;
     [SerializeField] private Volume purpleFilter;
     [SerializeField] private TextMeshProUGUI winText;
-    [SerializeField] private DialoguePlayer _dialogue;
+    public DialoguePlayer _dialogue;
     [SerializeField] private Button[] _endUiButtons;
     [SerializeField] private GameObject[] _pauseMenuObjs;
 
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     
     public bool TutorialActive;
 
-    
+    public bool CanToggleMenu;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,6 +42,14 @@ public class GameManager : MonoBehaviour
             Camera.main.GetComponent<CameraBehaviour>().LoadLastSceneRotation();
         }
         player = FindFirstObjectByType<PlayerManager>();
+        if (TutorialActive)
+        {
+            CanToggleMenu = false;
+        }
+        else
+        {
+            CanToggleMenu = true;
+        }
     }
 
     // Update is called once per frame
@@ -82,7 +90,18 @@ public class GameManager : MonoBehaviour
             
         }
     }
-    
+    public void OnFinishLevel()
+    {
+        if (!FinishedLevel)
+        {
+            if (TutorialActive)
+            {
+                _dialogue.EndCurrentDocEarly();
+                _dialogue.ReadNextDoc();
+            }
+            FinishedLevel = true;
+        }
+    }
     public void ToggleTimer()
     {
         TimerEnabled = !TimerEnabled;

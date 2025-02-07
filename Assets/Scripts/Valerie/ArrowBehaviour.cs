@@ -79,6 +79,7 @@ public class ArrowBehaviour : MonoBehaviour
                         MoveTrainIntro mover = GameMan.TrainMover;
                         mover.PlayerTrainExitLevel();
                         GameSettings.PlayerPosLastScene = sender.Player.transform.localPosition;
+                        
 
                     }
                 }

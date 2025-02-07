@@ -28,7 +28,10 @@ public class MenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        sliderVector = new Vector3(SenseSliders[0].value, SenseSliders[1].value, SenseSliders[2].value);
+        if (SenseSliders.Length > 0)
+        {
+            sliderVector = new Vector3(SenseSliders[0].value, SenseSliders[1].value, SenseSliders[2].value);
+        }
         if (settingsActive)
         {
             if (GameSettings.CameraSensitivity != sliderVector)

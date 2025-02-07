@@ -1,2 +1,7 @@
-We will now walk you through the basics./
-Begin to look around the scene, see if you can find us.@/
+﻿As you may already know; 
+We have been looking for suitable volunteers to field test our latest prototype-bow in a number of simulated scenarios,
+most of which being combat-related./
+By participating in this, you will be able to contribute with data that will be essential for it's continued development./
+For this, you have the institution's gratitude./
+We will now proceed to walk you through the basics of utilizing the prototype, as well as getting used to your current virtual body./
+Begin to look around the scene by dragging around your mouse (←↑→↓), see if you can find the red rings.@/

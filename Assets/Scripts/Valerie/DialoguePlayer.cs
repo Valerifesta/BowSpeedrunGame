@@ -136,7 +136,15 @@ public class DialoguePlayer : MonoBehaviour
         return docText;
 
     }
-   
+    public void EndCurrentDocEarly()
+    {
+        StopAllCoroutines();
+        TextSentances.Clear();
+        isReadingDoc = false;
+        DialogueDisplay.text = string.Empty; //Visually removes text
+
+
+    }
     IEnumerator PlayDialogue(int sentanceIndex, float delay)
     {
         if (delay > 0)
@@ -267,6 +275,8 @@ public class DialoguePlayer : MonoBehaviour
 
                 case 7: //Shot last enemy. Moving in train
                     
+                    break; //goodluck?
+                case 8:
                     break;
 
             }

@@ -1,13 +1,13 @@
 /
 [CALLBACK PING]/
-LOG: X-X-1-4
-DATE: 2064-01-25/
-SUBJECT ID: X-X-X-3
-ENVIORMENT: HOME
-THREAD STATUS: UNSTABLE/
+LOG: [X-X-1-4]
+DATE: [2064-01-25]/
+SUBJECT ID: X-X-X-[3]
+ENVIORMENT: [HOME]
+THREAD STATUS: [UNSTABLE]/
 [CALLBACK PING]/
-This is ######### speaking./
+This is TR-08 speaking./
 Connection to the device could not be established during startup.
 We will attempt a calibration./
-S-3, request a link by pressing [LINK BUTTON] on the device and letting it rest.
+[S-3], request a link by pressing -SPACEBAR- on the device and letting it rest.
 After a few moments, the thread should be stabilized again.@/

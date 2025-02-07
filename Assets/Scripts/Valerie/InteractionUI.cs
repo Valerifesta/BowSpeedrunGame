@@ -15,7 +15,10 @@ public class InteractionUI : MonoBehaviour
     {
         
     }
-
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
     public void SwitchToScene(string sceneName)
     {
         //int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;

@@ -1,2 +1,8 @@
-Good./
-Now, toggle your teleport arrow and get to the green platform.@/
+Good, let us continue./
+You will see two icons to your left.
+These icons represents the two types of arrows you will be able to use;/
+One with deadly electricity (YELLOW) and one with the ability to teleport the sender to it's point of impact (BLUE)./
+You are able to toggle between these two by pressing (E). The arrow that is currently equipped will have it's icon in front of the other./
+While having any arrow equipped, you can load and charge it up with your bow by holding down (LMB).
+Releasing (LMB) will in turn release the arrow in the direction you are looking./
+Now, toggle (E) your teleport arrow and try to get on top of the green platform.@/

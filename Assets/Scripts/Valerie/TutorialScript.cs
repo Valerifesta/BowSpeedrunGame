@@ -29,6 +29,7 @@ public class TutorialScript : MonoBehaviour
     [SerializeField] private ParticleSystem floorParticles;
 
     [SerializeField] private TutStare tutorialStare;
+    [SerializeField] private GameManager gMan;
    
 
     [System.Serializable]
@@ -119,6 +120,7 @@ public class TutorialScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && AwaitingCalibration)
         {
             FinishedBowCalibration();
+            gMan.CanToggleMenu = true;
         }
         /*
         if (Input.GetKeyDown(KeyCode.E))

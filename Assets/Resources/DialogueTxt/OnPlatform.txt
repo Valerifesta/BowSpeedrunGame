@@ -1,2 +1,8 @@
-Nice./
-Watch yourself now.@/
+Nice.
+Next up we will talk about levels and enemies./
+You will be dropped of at a location, or "level", by train at the start of each combat simulation.
+These levels will have enemies stationed throughout the enviorment./
+Once you have eliminated every enemy the same train that you arrived with will station itself nearby the end of a level./
+Teleporting onto it's roof will allow you to proceed to the next level. Remember that you can also exit anytime through the pause menu by pressing -ESC-./
+Throughout your tests, we will collect data about your performance with the bow which will be presented to you on each cleared level./
+Now, going back to enemies..@/

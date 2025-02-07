@@ -102,26 +102,30 @@ public class MoveTrainIntro : MonoBehaviour
     }
     public void PlayerTrainExitLevel()
     {
-        gameManager.FinishedLevel = true;
-        gameManager.StartCoroutine(gameManager.ShowEndScreen(5.0f));
-
-        for (int i = 0; i < movingObjects.Count; i++)
+        if (!gameManager.FinishedLevel)
         {
-            if (movingObjects[i].isPlayerTrain)
+            gameManager.OnFinishLevel();
+            gameManager.StartCoroutine(gameManager.ShowEndScreen(5.0f));
+
+            for (int i = 0; i < movingObjects.Count; i++)
             {
-                ParentPlayerToTrain(movingObjects[i].objectToMove);
-                /*
-                if (GameSettings.PlayerPosLastScene != Vector3.zero)
+                if (movingObjects[i].isPlayerTrain)
                 {
-                    Player.gameObject.transform.localPosition = GameSettings.PlayerPosLastScene;
-                }*/
-                timeUntilStop = 30.0f;
-                ResetAllObjects();
-                
-                mind.OnWin();
-                break;
+                    ParentPlayerToTrain(movingObjects[i].objectToMove);
+                    /*
+                    if (GameSettings.PlayerPosLastScene != Vector3.zero)
+                    {
+                        Player.gameObject.transform.localPosition = GameSettings.PlayerPosLastScene;
+                    }*/
+                    timeUntilStop = 30.0f;
+                    ResetAllObjects();
+
+                    mind.OnWin();
+                    break;
+                }
             }
         }
+        
 
     }
     public void ParentPlayerToTrain(GameObject train, bool loadLocalPos = false)

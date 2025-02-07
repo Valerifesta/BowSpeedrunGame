@@ -1042,6 +1042,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
   - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
   - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
+  - {fileID: 8300000, guid: 028e10c9c8d89ef45824413412500b3f, type: 3}
   currentTextDoc: 
   textDocsOrder:
   - BSRG_DialogueIntro
@@ -1052,6 +1053,7 @@ MonoBehaviour:
   - OnPlatform
   - Shot
   - KilledEnemy
+  - Goodluck
   tutorial: {fileID: 1002972079}
   clearTextBeforeNext: 0
 --- !u!4 &359661842
@@ -3280,6 +3282,7 @@ MonoBehaviour:
   roomParticles: {fileID: 1753868239}
   floorParticles: {fileID: 1419065175}
   tutorialStare: {fileID: 1268870334}
+  gMan: {fileID: 953079017}
   objs:
   - objToRotate: {fileID: 2086511631}
     AxisToRotateAround: {x: 1, y: 1, z: 0}
@@ -3870,6 +3873,7 @@ MonoBehaviour:
   _pauseMenuObjs: []
   player: {fileID: 0}
   TutorialActive: 0
+  CanToggleMenu: 0
 --- !u!1 &1249087143
 GameObject:
   m_ObjectHideFlags: 0
