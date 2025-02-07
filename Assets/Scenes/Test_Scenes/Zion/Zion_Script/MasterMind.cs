@@ -10,7 +10,9 @@ public class MasterMind : MonoBehaviour
     [SerializeField] public bool WinningSceneOn; // Winning
     [SerializeField] private MenuManager Menu;
 
-   
+   // [SerializeField] public bool ShiedlOn;
+    //[SerializeField] public bool TeleportOn;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -67,7 +69,7 @@ public class MasterMind : MonoBehaviour
     {
 
     
-
+        
 
        /* if (Input.GetKeyDown(KeyCode.Q))
         {

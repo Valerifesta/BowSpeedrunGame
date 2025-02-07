@@ -5,10 +5,11 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 public class PostProcessManager : MonoBehaviour
 {
-    private MasterMind mm;
-    private ArrowBehaviour AB;
-    private TeleportManager TM;
-    private TestBowBehaviour TBB;
+    [SerializeField] private MasterMind mm;
+     private ArrowBehaviour AB;
+    [SerializeField] private TeleportManager TM;
+    [SerializeField] private TestBowBehaviour TBB;
+    [SerializeField] private PlayerManager PM;
 
     private Volume volume;
     private LiftGammaGain LGG;//gameover and winn effect
@@ -62,9 +63,13 @@ public class PostProcessManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        PM = FindFirstObjectByType<PlayerManager>();
         mm = FindObjectOfType<MasterMind>();
         AB = FindAnyObjectByType<ArrowBehaviour>();
         TBB = FindAnyObjectByType<TestBowBehaviour>();
+        TM = FindFirstObjectByType<TeleportManager>();
+
+      
         volume = GetComponent<Volume>();
         volume.profile.TryGet<Vignette>(out vignette);
 
@@ -206,6 +211,7 @@ public class PostProcessManager : MonoBehaviour
         if (timeRemaining > 0)
         {
             Invoke("_tick", 0.5f);
+            TM.TeleportOn = false;
         }
         else
         {
@@ -244,6 +250,15 @@ public class PostProcessManager : MonoBehaviour
             RegularFilter();
 
         }
+
+        if(PM.RespawnShieldActive == true)
+        {
+            ShieldFas();
+        }
+        else
+        {
+
+        }
     }
 
 
@@ -252,9 +267,10 @@ public class PostProcessManager : MonoBehaviour
     public void Update()
     {
         CheckFilter();
-        if (TBB.tempInputs == false)
+        if (TM.TeleportOn == true)
         {
             Invoke("TeleportFilter", 0);
+           
         }
        
 /*

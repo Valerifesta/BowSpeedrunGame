@@ -1731,6 +1731,8 @@ GameObject:
   - component: {fileID: 239569693}
   - component: {fileID: 239569692}
   - component: {fileID: 239569691}
+  - component: {fileID: 239569697}
+  - component: {fileID: 239569696}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1935,6 +1937,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1701501599}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &239569696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239569689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: c3c4b775a28bcaf46ba33288398df8f8, type: 2}
+--- !u!114 &239569697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239569689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66cdb5c9aea3a7c4ea8d462271e33a40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mm: {fileID: 0}
+  AB: {fileID: 0}
+  TM: {fileID: 0}
+  TBB: {fileID: 0}
+  PM: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 1}
+  center: {x: 0.5, y: 0.5}
+  darknessSpeed: 0.5
+  duration: 2
+  timeRemaining: 0
+  isCountingDown: 0
 --- !u!4 &245463898 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5118587467160172160, guid: 0157c056e4cf071499f5823eb2560edd, type: 3}
@@ -8834,6 +8876,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5854673676769745056, guid: dcfab7c5144676e4184835c9201b4113, type: 3}
+      propertyPath: PPM
+      value: 
+      objectReference: {fileID: 239569697}
     - target: {fileID: 5854673676769745056, guid: dcfab7c5144676e4184835c9201b4113, type: 3}
       propertyPath: player
       value: 

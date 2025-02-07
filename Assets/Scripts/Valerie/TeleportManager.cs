@@ -9,6 +9,9 @@ public class TeleportManager : MonoBehaviour
     [SerializeField] private GameObject _spawnPosObj;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private GameObject player;
+    //[SerializeField] private MasterMind mm;
+    [SerializeField] private PostProcessManager PPM;
+    [SerializeField] public bool TeleportOn;
     //[SerializeField] private bool CanTeleportBack;
     public float CallbackTime;
 
@@ -21,6 +24,8 @@ public class TeleportManager : MonoBehaviour
         //SpawnPos = _spawnPosObj.transform.position;
         playerManager = FindFirstObjectByType<PlayerManager>();
         tutorial = FindFirstObjectByType<TutorialScript>();
+        //mm = FindFirstObjectByType<MasterMind>();
+        PPM = FindFirstObjectByType<PostProcessManager>();
 
         if (CallbackTime <= 0)
         {
@@ -66,7 +71,8 @@ public class TeleportManager : MonoBehaviour
         }
         UpdateTeleportArray(lastPoint);
         StartCoroutine(Callback(objectToTeleport, lastPoint));
-
+        // mm.TeleportOn = true;
+        TeleportOn = true;
         //special effect here
         //delay for after
 
