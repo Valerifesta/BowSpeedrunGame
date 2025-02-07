@@ -19,6 +19,7 @@ public class PostProcessManager : MonoBehaviour
 
     private LensDistortion LD;
     private ShadowsMidtonesHighlights SMH;
+    private LensDistortion lensDist;
 
     //[SerializeField] private AnimationCurve IntensitySmoothStartAnimation;
     //[SerializeField] private AnimationCurve IntensitySmoothLastTimeAnimation;
@@ -33,7 +34,7 @@ public class PostProcessManager : MonoBehaviour
 
 
 
-
+    
 
     // varibles for Vignette-Z
     public Color color = new Color(0.00f, 0.0f, 0.00f);
@@ -42,12 +43,18 @@ public class PostProcessManager : MonoBehaviour
     public float darknessSpeed = 0.5f;
     private float currentDarkness = 0f;
 
-
+    public float teleportVfxDuration;
     // Variabler för ChromaticAberration
     //public float chromaticAberrationIntensity = 0f;
     public int duration = 2;
     public int timeRemaining;
-    public bool isCountingDown = false;
+    public bool hasStartedTeleport = false;
+    bool shieldVFXActive;
+
+    private VolumeProfile regularProfile;
+    [SerializeField] private VolumeProfile ShieldProfile;
+    [SerializeField] private VolumeProfile teleportProfile;
+    
 
 
     // Variabler för WhiteBalance
@@ -82,8 +89,11 @@ public class PostProcessManager : MonoBehaviour
         volume.profile.TryGet<LensDistortion>(out LD);
         volume.profile.TryGet<ShadowsMidtonesHighlights>(out SMH);
 
+        teleportProfile.TryGet<LensDistortion>(out lensDist);
+
 
         RegularFilter();
+        regularProfile = volume.profile;
 
     }
 
@@ -138,16 +148,14 @@ public class PostProcessManager : MonoBehaviour
     private void TeleportFilter()
     {
        
-        CA.intensity.value = 1f;
+        //CA.intensity.value = 1f;
 
-
-
-
-        if (!isCountingDown)
+        if (!hasStartedTeleport)
         {
-            isCountingDown = true;
+            hasStartedTeleport = true;
             timeRemaining = duration;
-            Invoke("_tick", 1f);
+            StartCoroutine(teleportVfx(teleportVfxDuration));
+            //Invoke("_tick", 1f);
         }
 
     }
@@ -188,7 +196,7 @@ public class PostProcessManager : MonoBehaviour
         LD.yMultiplier.value = 1f;
         LD.scale.value = 1.1f;
 
-
+        Debug.Log("ShieldFast Should be activated");
        
 
     }
@@ -197,68 +205,161 @@ public class PostProcessManager : MonoBehaviour
 
         CA.intensity.value = 1f;
 
-        if (!isCountingDown)
+        if (!hasStartedTeleport)
         {
-            isCountingDown = true;
+            hasStartedTeleport = true;
             timeRemaining = duration;
-            Invoke("_tick", 1f);
+            volume.profile = teleportProfile;
+            tick();
+            //Invoke("_tick", 1f);
         }
 
     }
-    private void _tick()
+    IEnumerator teleportVfx(float duration)
+    {
+        Debug.Log("Tried to start teleport VFX");
+        volume.profile = teleportProfile;
+
+        //lensDist;
+        float startDistortion = 0;
+        float endDistortion = 0.5f;
+        float t = new float();
+        float fixedT = new float();
+        
+        while (t < duration)
+        {
+            fixedT = Mathf.InverseLerp(0, duration, t);
+            //teleportProfile.components.inte
+            if (fixedT < 0.5f)
+            {
+                lensDist.intensity.Override(Mathf.Lerp(startDistortion, endDistortion, fixedT * 2));
+            }
+            else
+            {
+                lensDist.intensity.Override(Mathf.Lerp(endDistortion, startDistortion, (fixedT - 0.5f) * 2));
+
+                //dist.intensity.Interp(endDistortion, startDistortion, t * 2);
+
+            }
+            t += 1.0f * Time.deltaTime;
+            yield return null;
+
+        }
+        if (shieldVFXActive)
+        {
+            volume.profile = ShieldProfile;
+        }
+        else
+        {
+            volume.profile = regularProfile;
+
+        }
+        hasStartedTeleport = false;
+        TM.TeleportOn = false;
+
+        yield return null;
+    }
+    private void tick()
     {
         timeRemaining--;
         if (timeRemaining > 0)
         {
-            Invoke("_tick", 0.5f);
+            Invoke("tick", 1f);
+            //Invoke("_tick", 0.5f);
             TM.TeleportOn = false;
+            
         }
         else
         {
-            isCountingDown = false;
+            
+            hasStartedTeleport = false;
             CA.intensity.value = 0f;
+            if (!PM.RespawnShieldActive)
+            {
+                volume.profile = regularProfile;
+            }
            
-
+            
 
         }
+        Debug.Log("Tick");
     }
 
     private void RegularFilter()
     {
+        /*
         vignette.active = true;
         vignette.intensity.value = 0.319f;//0.119f;//0.319f;
         vignette.smoothness.value = 1f;
         LGG.gamma.Override(new Vector4(1.54f, 1.42f, 1.46f, -0.09793615f));
         LGG.gain.Override(new Vector4(1.07f, 1.12f, 1.12f, 0.3322843f));
         LGG.lift.Override(new Vector4(0.76f, 0.66f, 0.86f, -0.05596373f));
-        vignette.color.Override(new Color(0f, 0f, 0f));
+        vignette.color.Override(new Color(0f, 0f, 0f));*/
+
+        
     }
 
 
     private void CheckFilter()
     {
-        if (mm.GameOverSceneOn == true)
-        {
-            GameOverFilter();
-        }
-        if (mm.WinningSceneOn == true)
-        {
-            WinnerFilter();
-        }
-        if (mm.PlayModeSceneOn == true)
+        /*
+        if (shieldVFXActive)
         {
             RegularFilter();
-
-        }
-
-        if(PM.RespawnShieldActive == true)
+            shieldVFXActive = false;
+        }*/
+        if (PM.RespawnShieldActive && shieldVFXActive == false)
         {
-            ShieldFas();
+            volume.profile = ShieldProfile;
+            shieldVFXActive = true;
+        }
+        
+
+        if (TM.TeleportOn == true)
+        {
+            TeleportFilter();
+
         }
         else
         {
+            if (!PM.RespawnShieldActive && shieldVFXActive)
+            {
+                volume.profile = regularProfile;
+                shieldVFXActive = false;
+            }
 
+            if (mm.GameOverSceneOn == true)
+            {
+                GameOverFilter();
+                Debug.Log("Activated Game Over VFX");
+
+            }
+            if (mm.WinningSceneOn == true)
+            {
+                WinnerFilter();
+                Debug.Log("Activated Winner  VFX");
+
+            }
+            if (mm.PlayModeSceneOn == true)
+            {
+                RegularFilter();
+                Debug.Log("Activated Playmode VFX");
+
+            }
         }
+
+        
+        /*
+
+        if (PM.RespawnShieldActive == true && shieldVFXActive)
+        {
+           ShieldFas();
+            Debug.Log("Activated Shield VFX");
+        }
+        else
+        {
+            
+        }*/
     }
 
 
@@ -267,11 +368,7 @@ public class PostProcessManager : MonoBehaviour
     public void Update()
     {
         CheckFilter();
-        if (TM.TeleportOn == true)
-        {
-            Invoke("TeleportFilter", 0);
-           
-        }
+        
        
 /*
 

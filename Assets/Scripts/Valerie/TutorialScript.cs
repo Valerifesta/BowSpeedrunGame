@@ -265,6 +265,10 @@ public class TutorialScript : MonoBehaviour
                 elapsedFadeTime = 0;
                 UnityEngine.Debug.Log("Ended Fade");
                 
+                if (reason == 1)
+                {
+                    screenFadeImage.gameObject.SetActive(false);
+                }
                 break;
             }
             else

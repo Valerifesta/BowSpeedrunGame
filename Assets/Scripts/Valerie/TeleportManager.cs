@@ -53,7 +53,10 @@ public class TeleportManager : MonoBehaviour
         if (tutorial != null)
         {
             tutorial.OnTeleport(desiredPos);
+
         }
+        TeleportOn = true;
+
 
         //add sound effect calls here
     }

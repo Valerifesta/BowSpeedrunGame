@@ -1890,7 +1890,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
@@ -1967,16 +1967,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mm: {fileID: 0}
-  AB: {fileID: 0}
   TM: {fileID: 0}
   TBB: {fileID: 0}
   PM: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 1}
   center: {x: 0.5, y: 0.5}
   darknessSpeed: 0.5
+  teleportVfxDuration: 0
   duration: 2
   timeRemaining: 0
-  isCountingDown: 0
+  hasStartedTeleport: 0
+  ShieldProfile: {fileID: 11400000, guid: b9a3e7dbb67c01b4cadb2132ebc6cf88, type: 2}
+  teleportProfile: {fileID: 11400000, guid: b2fb85dfc81bea545a128738ef54e5a2, type: 2}
 --- !u!4 &245463898 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5118587467160172160, guid: 0157c056e4cf071499f5823eb2560edd, type: 3}
