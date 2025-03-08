@@ -16,7 +16,7 @@ public class CameraBehaviour : MonoBehaviour
    
     [SerializeField] private Vector3 dir;
     Vector3 rot;
-    bool reset = false;
+    public bool reset = false;
 
 
 
@@ -40,6 +40,10 @@ public class CameraBehaviour : MonoBehaviour
         {
             ToggleFreeMouse();
         }*/
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetRot();
+        }
         if (CanUpdateCamValues)
         {
             if (TempMovement)
@@ -75,17 +79,18 @@ public class CameraBehaviour : MonoBehaviour
     }
     void controllerCamMovement()
     {
-        Vector3 sense = GameSettings.CameraSensitivity;
+        Vector3 sense = GameSettings.CameraSensitivity * 20.0f;
+        Vector3 mov = new Vector3(rot.x * sense.x, rot.y * sense.y, rot.z * sense.z) * Time.deltaTime;
+        Debug.Log("conMov " +mov);
 
-        if (sense == Vector3.zero)
-        {
-            sense = new Vector3(10, 10, 10);
-        }
-        currentRot += new Vector3(rot.x * sense.x, rot.y * sense.y, rot.z * sense.z) * Time.deltaTime;
+        currentRot += mov;
+        rot = Vector3.zero;
+
         if (reset)
         {
             reset = false;
             currentRot = new Vector3(0, 180, 0);
+            Debug.Log("Reset Rotation!");
         }
     }
     public void UpdateCameraRot(Vector3 deltaRot) // Deg/s
@@ -97,7 +102,8 @@ public class CameraBehaviour : MonoBehaviour
         }
         else
         {
-            rot = new Vector3(-deltaRot.y * dir.y, deltaRot.x * dir.x, deltaRot.z * dir.z);
+            Debug.Log("worksa " + deltaRot);
+            rot += new Vector3(-deltaRot.y * dir.y, deltaRot.x * dir.x, deltaRot.z * dir.z);
         }
     }
     public void ResetRot()

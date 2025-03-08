@@ -298,6 +298,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1927835471}
     - target: {fileID: 1533029267095851330, guid: 271db2c8e67eef3488f09cc313946410, type: 3}
+      propertyPath: tempInputs
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1533029267095851330, guid: 271db2c8e67eef3488f09cc313946410, type: 3}
       propertyPath: TeleportIco
       value: 
       objectReference: {fileID: 7998332075599570851, guid: 8c77b9a1c7d47504d95dd69001f5a1ae, type: 3}
@@ -344,6 +348,10 @@ PrefabInstance:
     - target: {fileID: 1533029267095851330, guid: 271db2c8e67eef3488f09cc313946410, type: 3}
       propertyPath: _degSecReleaseRequirement
       value: 363.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399675504014414909, guid: 271db2c8e67eef3488f09cc313946410, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7441023831699415124, guid: 271db2c8e67eef3488f09cc313946410, type: 3}
       propertyPath: m_Name
@@ -1806,10 +1814,11 @@ MonoBehaviour:
   MainCam: {fileID: 239569690}
   Sensitivity: 125
   LockCursor: 1
-  TempMovement: 1
+  TempMovement: 0
   CanUpdateCamValues: 1
   ObjectToRotate: {fileID: 239569689}
-  dir: {x: 0, y: 0, z: 0}
+  dir: {x: 1, y: 1, z: 0}
+  reset: 0
 --- !u!114 &239569692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15046,7 +15055,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9085137513202171680, guid: ab1c78d0905880b49a8b48ad5b50fe20, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

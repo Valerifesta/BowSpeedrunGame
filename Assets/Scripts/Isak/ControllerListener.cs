@@ -20,7 +20,7 @@ using System.Linq;
 
 public class ControllerListener : MonoBehaviour
 {
-    Byte[] starting_bytes = new Byte[16]{255, 254, 100, 50, 51, 101, 253, 252, 70, 80, 96, 75, 71,81, 97, 76}; 
+    Byte[] starting_bytes = new Byte[15]{149, 1, 151, 117, 160, 9, 213, 175, 241, 100, 81, 213, 41, 114, 194 }; 
     SerialPort port;
     bool calibrated = false;
     //SerialWrap stream;
@@ -30,6 +30,7 @@ public class ControllerListener : MonoBehaviour
     private TestBowBehaviour bowBehaviour;
     private CameraBehaviour camBehaviour;
 
+    bool toggleButtonPressed;
     
     private void Awake()
     {
@@ -92,8 +93,13 @@ public class ControllerListener : MonoBehaviour
     {
       WriteToArduino(1);
       WriteToArduino(2);
-      //WriteToArduino(3);
+      WriteToArduino(3);
       //WriteToArduino(4);
+      if (toggleButtonPressed)
+        {
+            bowBehaviour.ToggleArrow();
+            toggleButtonPressed = false;
+        }
     }
     void ReadFromThread(){
       reader = new BinaryReader(port.BaseStream);
@@ -147,7 +153,7 @@ public class ControllerListener : MonoBehaviour
       try{
         Byte checkbyte = reader.ReadByte();
         if(checkbyte == starting_bytes[length]){
-          if(length == 15){
+          if(length == 14){
             return true;
           }
           else{
@@ -196,9 +202,11 @@ public class ControllerListener : MonoBehaviour
               Debug.Log("Same twice!");
             }
           }
-          //if(type == 3){
-          //  Debug.Log("Button 1 pressed!");
-          //}
+          if(type == 3){
+
+              Debug.Log("Button 1 pressed!");
+                toggleButtonPressed = true;
+          }
           //if(type == 4){
           //  Debug.Log("Button 2 pressed!");
           //  WriteToArduino(5);
