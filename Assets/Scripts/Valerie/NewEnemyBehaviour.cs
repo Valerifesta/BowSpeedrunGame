@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 //using UnityEditor.SpeedTree.Importer;
 //using UnityEditor.Splines;
 using UnityEngine;
+using System;
 
 public class NewEnemyBehaviour : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class NewEnemyBehaviour : MonoBehaviour
     public System.Action OnStartCharging;
     public System.Action OnShoot;
     public System.Action OnHit;
+    public static event Action<NewEnemyBehaviour> OnEnemyHit;// that´s for to make point sound for the player
 
     [SerializeField] public bool isRotate;
     [SerializeField] public bool isCharging;
@@ -247,7 +249,8 @@ public class NewEnemyBehaviour : MonoBehaviour
     public void EnemyOnHit()
     {
         OnHit?.Invoke();
-       // isHiting = true;//Zion (material)
+        OnEnemyHit?.Invoke(this);//Zion
+        // isHiting = true;//Zion (material)
         Debug.Log("Enemy got hit by bow");
         //Player.GetComponent<>
         isKillingEnemy = true;

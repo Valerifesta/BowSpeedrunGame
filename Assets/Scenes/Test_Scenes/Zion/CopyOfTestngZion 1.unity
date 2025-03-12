@@ -11312,6 +11312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PM: {fileID: 1701501598}
+  TM: {fileID: 1357235995}
   teleportBack:
   - {fileID: 8300000, guid: 15242d37101c5ff4d8a209bb83d85f66, type: 3}
   - {fileID: 8300000, guid: 4499203144569e748a9d137088fe1e37, type: 3}
@@ -11327,6 +11328,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1ce7939692e603146b89e74b35840473, type: 3}
   hitWrong:
   - {fileID: 8300000, guid: 520614096d5935743a884c8bb2e72084, type: 3}
+  PlayingThisClip: {fileID: 0}
 --- !u!1 &1723298393
 GameObject:
   m_ObjectHideFlags: 0

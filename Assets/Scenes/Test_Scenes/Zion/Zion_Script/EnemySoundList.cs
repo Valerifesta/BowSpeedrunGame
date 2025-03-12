@@ -16,7 +16,7 @@ public class EnemySoundList : MonoBehaviour
     [Header("Turrent rotate sound List")]
     [SerializeField] private AudioClip turrentRotateSound;
 
-
+   
 
     [Header("Enemy sounds States")]
     [SerializeField] private bool isTurrentLoading;
@@ -71,6 +71,7 @@ public class EnemySoundList : MonoBehaviour
     public void PlayHitSound()
     {
         PlayEnemySound(turrentHitSound, "hit");
+
     }
 
     public void PlayShootSound()

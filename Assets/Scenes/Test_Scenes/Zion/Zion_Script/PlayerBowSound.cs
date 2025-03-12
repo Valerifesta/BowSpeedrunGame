@@ -4,6 +4,7 @@ public class PlayerBowSound : MonoBehaviour
 {
     public PlayerManager PM;
     public TeleportManager TM;
+    private NewEnemyBehaviour NEB;
     [Header("Player goes back")]
     [SerializeField] private AudioClip[] teleportBack;
     [Header("Player get hit")]
@@ -20,8 +21,10 @@ public class PlayerBowSound : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
         TM = FindAnyObjectByType<TeleportManager>();
         PM = GetComponent<PlayerManager>();
+        
         if (PM == null)
         {
             Debug.LogError("PlayerManager saknas!");
@@ -31,9 +34,22 @@ public class PlayerBowSound : MonoBehaviour
         {
             Debug.LogError("TeleportManager saknas!");
         }
+
+    }
+    private void OnEnable() // system.action, Zion, another nice way to send music
+    {
+        NewEnemyBehaviour.OnEnemyHit += PlayHitSound;
     }
 
-
+    private void OnDisable()// system.action, Zion, another nice way to send music
+    {
+        NewEnemyBehaviour.OnEnemyHit -= PlayHitSound;
+    }
+    private void PlayHitSound(NewEnemyBehaviour hitEnemy)// system.action, Zion, another nice way to send music
+    {
+        //This function will make it eaiser for this script to found right enemy-script due to its a lot of them.
+        PlayPlayerBowSound(hitBack, "Kill an enemy");
+    }
     private void PlayPlayerBowSound(AudioClip[] soundArray, string phase)
     {
         // Spela bara om vi är i en ny fas
@@ -65,6 +81,7 @@ public class PlayerBowSound : MonoBehaviour
         {
 
         }
+      
        
     }
 }
