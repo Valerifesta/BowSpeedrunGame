@@ -77,14 +77,23 @@ public class PlayerBowSound : MonoBehaviour
         if (TM.TeleportOn == true)
         {
             print("======------");
-            PlayPlayerBowSound(teleportBack, "Teleport Forward");
+            PlayPlayerBowSound(teleportBack, "Teleport Back");
             print("-----=======");
         }
         else
         {
             print("=====");
         }
-      
-       
+        if (PM.RespawnShieldActive==true)
+        {
+            
+            PlayPlayerBowSound(teleportForward, "Teleport Forward");
+            
+        }
+        else
+        {
+            print("=====");
+        }
+
     }
 }
