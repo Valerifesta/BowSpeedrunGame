@@ -47,7 +47,7 @@ public class EnemySoundList : MonoBehaviour
         soundTimers["hit"] = 0f;
         soundTimers["rotate"] = 0f;
 
-        // Lägg till lyssnare för ljuden
+        // Add lyssnare för ljuden
         EnemybehaviourScript.OnStartRotating += PlayRotateSound;
         EnemybehaviourScript.OnStartCharging += PlayLoadingSound;
         EnemybehaviourScript.OnShoot += PlayShootSound;
@@ -56,6 +56,7 @@ public class EnemySoundList : MonoBehaviour
 
     public void PlayRotateSound()
     {
+        
         if (SoundSFXManager.instance != null && turrentRotateSound != null)
         {
             SoundSFXManager.instance.PlaySoundFXClip(turrentRotateSound, transform, 1f);
@@ -74,13 +75,13 @@ public class EnemySoundList : MonoBehaviour
 
     public void PlayShootSound()
     {
-        // Om du har specifika skjutljud, lägg till dem här
-        PlayEnemySound(ESL, "talk"); // Använder ESL tills du har specifika skjutljud
+        
+        PlayEnemySound(ESL, "talk"); 
     }
 
-   
+ 
 
-    // Städa upp när objektet förstörs
+    // Städar upp när objektet förstörs
     private void OnDestroy()
     {
         if (EnemybehaviourScript != null)
@@ -95,7 +96,7 @@ public class EnemySoundList : MonoBehaviour
 
     private void PlayEnemySound(AudioClip[] soundArray, string soundType)
     {
-        // Uppdatera timer för denna ljudtyp
+       
         if (soundTimers[soundType] <= 0 && soundArray.Length > 0)
         {
             AudioClip clip = soundArray[Random.Range(0, soundArray.Length)];
@@ -114,6 +115,7 @@ public class EnemySoundList : MonoBehaviour
     private void Update()
     {
         UpdateSoundTimers();
+       
     }
 
     private void UpdateSoundTimers()

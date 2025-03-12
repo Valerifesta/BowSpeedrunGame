@@ -1810,6 +1810,7 @@ MonoBehaviour:
   CanUpdateCamValues: 1
   ObjectToRotate: {fileID: 239569689}
   dir: {x: 0, y: 0, z: 0}
+  reset: 0
 --- !u!114 &239569692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11180,6 +11181,7 @@ GameObject:
   - component: {fileID: 1701501601}
   - component: {fileID: 1701501600}
   - component: {fileID: 1701501598}
+  - component: {fileID: 1701501603}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -11297,6 +11299,34 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701501597}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1701501603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701501597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae44a488adcd384fbd2dee9d30aa7e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PM: {fileID: 1701501598}
+  teleportBack:
+  - {fileID: 8300000, guid: 15242d37101c5ff4d8a209bb83d85f66, type: 3}
+  - {fileID: 8300000, guid: 4499203144569e748a9d137088fe1e37, type: 3}
+  - {fileID: 8300000, guid: 6ec4eb617c72c7047b794b0e0685a7a1, type: 3}
+  - {fileID: 8300000, guid: 6f3024b76bca52f4194f175c1e3962f4, type: 3}
+  - {fileID: 8300000, guid: 7a04fbf9cb579ae4f8d87d060aeadb1b, type: 3}
+  hitBack:
+  - {fileID: 8300000, guid: 8c4acf76182669642942dde044a123aa, type: 3}
+  - {fileID: 8300000, guid: 4d7e15b5e0e5fba41a832784c8962c4b, type: 3}
+  teleportForward:
+  - {fileID: 8300000, guid: 9e68f6b1e0d5c1441b24ef526c094570, type: 3}
+  - {fileID: 8300000, guid: 3d2c038dba5cfe34595573ad4ceb3e32, type: 3}
+  - {fileID: 8300000, guid: 1ce7939692e603146b89e74b35840473, type: 3}
+  hitWrong:
+  - {fileID: 8300000, guid: 520614096d5935743a884c8bb2e72084, type: 3}
 --- !u!1 &1723298393
 GameObject:
   m_ObjectHideFlags: 0
