@@ -11314,11 +11314,19 @@ MonoBehaviour:
   PM: {fileID: 1701501598}
   TM: {fileID: 1357235995}
   teleportBack:
-  - {fileID: 8300000, guid: 15242d37101c5ff4d8a209bb83d85f66, type: 3}
-  - {fileID: 8300000, guid: 4499203144569e748a9d137088fe1e37, type: 3}
-  - {fileID: 8300000, guid: 6ec4eb617c72c7047b794b0e0685a7a1, type: 3}
-  - {fileID: 8300000, guid: 6f3024b76bca52f4194f175c1e3962f4, type: 3}
-  - {fileID: 8300000, guid: 7a04fbf9cb579ae4f8d87d060aeadb1b, type: 3}
+  - {fileID: 8300000, guid: 72712dfb724fd4b41ba0bdd9172e147d, type: 3}
+  - {fileID: 8300000, guid: 60258781bde50d34186fb5bb03e3b333, type: 3}
+  - {fileID: 8300000, guid: da472b06a820fad4bb9a4d7eff178672, type: 3}
+  - {fileID: 8300000, guid: 8eb4cca7c6c0b1a4c8a2f80b0a065767, type: 3}
+  - {fileID: 8300000, guid: 140320aac404bc947a84fd3e2b4287de, type: 3}
+  - {fileID: 8300000, guid: 148a3fcc8e455024b94e4aae86883dbd, type: 3}
+  - {fileID: 8300000, guid: 184eef18419c7ae47bb48a7959069611, type: 3}
+  - {fileID: 8300000, guid: 29d76aa5c6b0fb243a521e0e6db77959, type: 3}
+  - {fileID: 8300000, guid: 83fd0851c4c9b7d478d1a1a357579bac, type: 3}
+  - {fileID: 8300000, guid: 92a6b6811ba8e3845b7555b1786afdd3, type: 3}
+  - {fileID: 8300000, guid: 6727981874cd6eb45ad2a0566a7bf145, type: 3}
+  - {fileID: 8300000, guid: e9ab3fb79073337419adc4dee66903f9, type: 3}
+  - {fileID: 8300000, guid: 0959629b06ed9f5479f088d4de513f5f, type: 3}
   hitBack:
   - {fileID: 8300000, guid: 8c4acf76182669642942dde044a123aa, type: 3}
   - {fileID: 8300000, guid: 4d7e15b5e0e5fba41a832784c8962c4b, type: 3}

@@ -47,12 +47,13 @@ public class PlayerBowSound : MonoBehaviour
     }
     private void PlayHitSound(NewEnemyBehaviour hitEnemy)// system.action, Zion, another nice way to send music
     {
+        
         //This function will make it eaiser for this script to found right enemy-script due to its a lot of them.
         PlayPlayerBowSound(hitBack, "Kill an enemy");
     }
     private void PlayPlayerBowSound(AudioClip[] soundArray, string phase)
     {
-        // Spela bara om vi är i en ny fas
+        
         if (soundArray.Length > 0)
         {
             AudioClip clip = soundArray[Random.Range(0, soundArray.Length)];
@@ -75,11 +76,13 @@ public class PlayerBowSound : MonoBehaviour
     {
         if (TM.TeleportOn == true)
         {
+            print("======------");
             PlayPlayerBowSound(teleportBack, "Teleport Forward");
+            print("-----=======");
         }
         else
         {
-
+            print("=====");
         }
       
        
