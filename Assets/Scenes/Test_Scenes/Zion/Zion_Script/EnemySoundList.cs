@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class EnemySoundList : MonoBehaviour
+public class EnemySoundList : MonoBehaviour//By ZION
 {
     [Header("Enemy Talk List")]
     [SerializeField] private AudioClip[] ESL;

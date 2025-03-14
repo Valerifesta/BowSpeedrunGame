@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Guest_train : Train_Inheritance
+public class Guest_train : Train_Inheritance//By ZION
 {
     public bool HaveALeader;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Cran_train : Train_Inheritance
+public class Cran_train : Train_Inheritance//By ZION
 {
     public bool HaveALeader;
 
