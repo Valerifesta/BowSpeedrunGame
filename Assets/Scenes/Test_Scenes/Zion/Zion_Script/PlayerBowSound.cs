@@ -18,7 +18,7 @@ public class PlayerBowSound : MonoBehaviour
 
     [SerializeField] private AudioClip PlayingThisClip;
 
-    private bool hasTeleportedBack = false;
+    private bool hasTeleportedBack = false; // for 
     private IEnumerator coroutine; 
 
 
@@ -77,14 +77,9 @@ public class PlayerBowSound : MonoBehaviour
 
     public IEnumerator toggleBooleanTeleportSound()
     {
-        //hasTeleportedBack = !hasTeleportedBack;
-       
-
-        print("HELLO GARDEN");
-        //hasTeleportedBack = false; 
         yield return new WaitForSeconds(1.0f);
         hasTeleportedBack = false;  
-        print("Godbye garden");
+       
        
 
     }
@@ -92,24 +87,24 @@ public class PlayerBowSound : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("TeleportOn: " + TM.TeleportOn);
-        Debug.Log("hasTeleportedBack: " + hasTeleportedBack);
-        if (TM.TeleportOn == true)
+        Debug.Log("TeleportOn: " + TM.TeleportSoundBool);
+       //Debug.Log("hasTeleportedBack: " + hasTeleportedBack);
+        if (TM.TeleportSoundBool == true)
         {
-            print("======------");
-            PlayPlayerBowSound(teleportBack, "Teleport Back");
-            print("-----=======");
+          
+            PlayPlayerBowSound(teleportBack, "Teleport Forward");
+            
         }
         else
         {
-            print("=====");
+           
         }
         if (PM.RespawnShieldActive== true && !hasTeleportedBack)
         {
             //hasTeleportedBack = true;
 
             print("HElLO findus");
-            PlayPlayerBowSound(teleportForward, "Teleport Forward");
+            PlayPlayerBowSound(teleportForward, "Teleport Back");
 
            
             hasTeleportedBack = true; // true was the first option but false is the solution if you want hear an annoying sound.           
@@ -118,7 +113,7 @@ public class PlayerBowSound : MonoBehaviour
         }
         else
         {
-            print("=====");
+          
             
         }
 

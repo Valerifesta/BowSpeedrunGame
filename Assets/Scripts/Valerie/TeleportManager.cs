@@ -10,17 +10,21 @@ public class TeleportManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private GameObject player;
     //[SerializeField] private MasterMind mm;
-    [SerializeField] private PostProcessManager PPM;
-    [SerializeField] public bool TeleportOn;
+    [SerializeField] private PostProcessManager PPM;//Zion
+    [SerializeField] private PlayerBowSound PBS;
+    [SerializeField] public bool TeleportOn = false;
     //[SerializeField] private bool CanTeleportBack;
     public float CallbackTime;
 
     private TutorialScript tutorial;
+    public bool TeleportSoundBool = false;
+    
     //public float T;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public void Start()
     {
+        PBS = FindAnyObjectByType<PlayerBowSound>(); //Zion
         //SpawnPos = _spawnPosObj.transform.position;
         playerManager = FindFirstObjectByType<PlayerManager>();
         tutorial = FindFirstObjectByType<TutorialScript>();
@@ -57,8 +61,24 @@ public class TeleportManager : MonoBehaviour
         }
         TeleportOn = true;
 
+        TeleportSoundBool = true;
+        if (TeleportSoundBool == true)//Zion
+        {
+            StartCoroutine(toggleTeleportSound());
+            Debug.Log("Boolean ändrad till: " + TeleportSoundBool);
+        }
+
+
+
 
         //add sound effect calls here
+    }
+
+    public IEnumerator toggleTeleportSound() // Zion- switch the boolean-value
+    {
+      
+        yield return new WaitForSeconds(0.0f);
+        TeleportSoundBool = !TeleportSoundBool;
     }
     public void TeleportToLast(GameObject objectToTeleport)
     {
@@ -109,5 +129,10 @@ public class TeleportManager : MonoBehaviour
 
         yield return null;
     }
-    
+
+    public void Update()
+    {
+        // Debug.Log("TeleportOn: " + TeleportOn);
+        
+    }
 }
