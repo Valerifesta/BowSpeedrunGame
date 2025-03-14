@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerBowSound : MonoBehaviour
 {
@@ -16,8 +18,10 @@ public class PlayerBowSound : MonoBehaviour
 
     [SerializeField] private AudioClip PlayingThisClip;
 
+    private bool hasTeleportedBack = false;
+    private IEnumerator coroutine; 
 
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -71,9 +75,25 @@ public class PlayerBowSound : MonoBehaviour
         }
     }
 
+    public IEnumerator toggleBooleanTeleportSound()
+    {
+        //hasTeleportedBack = !hasTeleportedBack;
+       
+
+        print("HELLO GARDEN");
+        //hasTeleportedBack = false; 
+        yield return new WaitForSeconds(1.0f);
+        hasTeleportedBack = false;  
+        print("Godbye garden");
+       
+
+    }
+
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("TeleportOn: " + TM.TeleportOn);
+        Debug.Log("hasTeleportedBack: " + hasTeleportedBack);
         if (TM.TeleportOn == true)
         {
             print("======------");
@@ -84,15 +104,22 @@ public class PlayerBowSound : MonoBehaviour
         {
             print("=====");
         }
-        if (PM.RespawnShieldActive==true)
+        if (PM.RespawnShieldActive== true && !hasTeleportedBack)
         {
-            
+            //hasTeleportedBack = true;
+
+            print("HElLO findus");
             PlayPlayerBowSound(teleportForward, "Teleport Forward");
-            
+
+           
+            hasTeleportedBack = true; // true was the first option but false is the solution if you want hear an annoying sound.           
+
+            StartCoroutine(toggleBooleanTeleportSound());
         }
         else
         {
             print("=====");
+            
         }
 
     }
