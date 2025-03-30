@@ -1321,7 +1321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TextSentances: []
-  CharDelay: 0.0375
+  CharDelay: 0.028125
   PeriodDelay: 0
   CommaDelay: 0.25
   EndTextDelay: 0.5
@@ -3613,6 +3613,7 @@ MonoBehaviour:
   CanUpdateCamValues: 0
   ObjectToRotate: {fileID: 0}
   dir: {x: 0, y: 0, z: 0}
+  reset: 0
 --- !u!114 &953079017 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1899681295876869340, guid: 640286240066a3a4c9d2fb9b0c1fe90f, type: 3}
@@ -17803,8 +17804,10 @@ MonoBehaviour:
   playerManager: {fileID: 1268437014}
   player: {fileID: 1268437009}
   PPM: {fileID: 0}
+  PBS: {fileID: 0}
   TeleportOn: 0
   CallbackTime: 0
+  TeleportSoundBool: 0
 --- !u!4 &1921039996
 Transform:
   m_ObjectHideFlags: 0

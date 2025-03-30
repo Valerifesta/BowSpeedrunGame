@@ -95,14 +95,14 @@ public class MenuManager : MonoBehaviour
         }
 
     }
-    public void StartMoveTowardsTV()
+    public void StartMoveTowardsTV(bool tutorial)
     {
         wholeCanvas.SetActive(false);
         VideoScreen.SetActive(false);
         
-        StartCoroutine(MoveTowardsTV());
+        StartCoroutine(MoveTowardsTV(tutorial));
     }
-    public IEnumerator MoveTowardsTV()
+    public IEnumerator MoveTowardsTV(bool willActivateTutorial)
     {
         Camera main = Camera.main;
         Vector3 startPos = main.transform.position;
@@ -113,7 +113,16 @@ public class MenuManager : MonoBehaviour
             main.transform.position = Vector3.Lerp(startPos, TV.transform.position, t);
             yield return null;
         }
-        SceneManager.LoadScene("IntroTutorial");
+        string sceneNameToLoad = string.Empty;
+        if (willActivateTutorial)
+        {
+            sceneNameToLoad = "IntroTutorial";
+        }
+        else
+        {
+            sceneNameToLoad = "CopyOfTestngZion";
+        }
+        SceneManager.LoadScene(sceneNameToLoad);
         yield return null;
 
     }
