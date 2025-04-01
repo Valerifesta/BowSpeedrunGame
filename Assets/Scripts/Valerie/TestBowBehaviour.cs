@@ -20,6 +20,7 @@ public class TestBowBehaviour : MonoBehaviour
     float time_wait; 
 
     private bool _teleportArrowToggled;
+    public bool _switchArrow;
 
     [SerializeField] float shootCD; 
     float currentCD;
@@ -149,18 +150,21 @@ public class TestBowBehaviour : MonoBehaviour
         Debug.Log("Toggled arrow");
 
     }
-    void SetArrowIconVisible() //should always be called AFTER a toggle has happened.
+    public void SetArrowIconVisible() //should always be called AFTER a toggle has happened.
     {
         if (_teleportArrowToggled)
         {
             AttackIcon.SetActive(false);
             TeleportIcon.SetActive(true);
+            _switchArrow = true;
         }
         else
         {
             AttackIcon.SetActive(true);
             TeleportIcon.SetActive(false);
+            _switchArrow = false;
         }
+        
     }
     void SetArrowIconColor(bool canTakeInputs)
     {

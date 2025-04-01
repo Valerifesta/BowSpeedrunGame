@@ -11427,6 +11427,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PM: {fileID: 1701501598}
   TM: {fileID: 1357235995}
+  switchToElArrow: {fileID: 8300000, guid: 14ddffc991009f640bc15af83321e55c, type: 3}
+  switchToTPArrow: {fileID: 8300000, guid: 72712dfb724fd4b41ba0bdd9172e147d, type: 3}
   teleportBack:
   - {fileID: 8300000, guid: 72712dfb724fd4b41ba0bdd9172e147d, type: 3}
   - {fileID: 8300000, guid: 60258781bde50d34186fb5bb03e3b333, type: 3}
