@@ -23,7 +23,9 @@ public class GameManager : MonoBehaviour
     public MoveTrainIntro TrainMover;
     [SerializeField] private Volume purpleFilter;
     [SerializeField] private TextMeshProUGUI winText;
-    public DialoguePlayer _dialogue;
+    public TextMeshProUGUI EnemyCountDisplay;
+    public TextMeshProUGUI TimerDisplay;
+    public DialoguePlayer _dialogue; //Assign in inspector
     [SerializeField] private Button[] _endUiButtons;
     [SerializeField] private GameObject[] _pauseMenuObjs;
 
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
     {
         NewEnemyBehaviour[] enemies = FindObjectsByType<NewEnemyBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         EnemiesRemaining = enemies.Length;
+        UpdateEnemyDisplay();
         if (!TutorialActive)
         {
             Camera.main.GetComponent<CameraBehaviour>().LoadLastSceneRotation();
@@ -50,6 +53,9 @@ public class GameManager : MonoBehaviour
         {
             CanToggleMenu = true;
         }
+
+        _dialogue.gameMan = this;
+        _dialogue.ReadNextDoc();
     }
 
     // Update is called once per frame
@@ -59,6 +65,7 @@ public class GameManager : MonoBehaviour
         if (TimerEnabled)
         {
             TimerTimeElasped += 1.0f * Time.deltaTime;
+            TimerDisplay.text = "Time elapsed " + Mathf.RoundToInt(TimerTimeElasped);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && !FinishedLevel && CanToggleMenu)
@@ -88,12 +95,17 @@ public class GameManager : MonoBehaviour
     public void OnEnemyHit()
     {
         EnemiesRemaining -= 1;
+        UpdateEnemyDisplay();
         if (EnemiesRemaining <= 0)
         {
             Debug.Log("Last enemy destroyed.");
             ReadyTrainForExit();
             
         }
+    }
+    void UpdateEnemyDisplay()
+    {
+        EnemyCountDisplay.text = "Enemies left: " + EnemiesRemaining;
     }
     public void OnFinishLevel()
     {
