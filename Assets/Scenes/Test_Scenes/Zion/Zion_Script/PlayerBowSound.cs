@@ -7,6 +7,13 @@ public class PlayerBowSound : MonoBehaviour//By ZION
     public PlayerManager PM;
     public TeleportManager TM;
     private NewEnemyBehaviour NEB;
+    private TestBowBehaviour TBB;
+    private SoundSFXManager SFX;
+
+    [SerializeField] private AudioClip switchToElArrow;
+    [SerializeField] private AudioClip switchToTPArrow;
+    //private bool hasSwitch;
+
     [Header("Player goes back")]
     [SerializeField] private AudioClip[] teleportBack;
     [Header("Player get hit")]
@@ -16,9 +23,11 @@ public class PlayerBowSound : MonoBehaviour//By ZION
     [Header("Player hit something")]
     [SerializeField] private AudioClip[] hitWrong;
 
+    [Header("Playing rn")]
     [SerializeField] private AudioClip PlayingThisClip;
 
     private bool hasTeleportedBack = false; // for 
+    private bool previousSwitchArrowState = false;
     private IEnumerator coroutine; 
 
 
@@ -28,7 +37,12 @@ public class PlayerBowSound : MonoBehaviour//By ZION
         
         TM = FindAnyObjectByType<TeleportManager>();
         PM = GetComponent<PlayerManager>();
-        
+        TBB = FindAnyObjectByType<TestBowBehaviour>();
+        if (TBB == null)
+        {
+            Debug.LogError("TestBowBehaviour saknas!");
+        }
+
         if (PM == null)
         {
             Debug.LogError("PlayerManager saknas!");
@@ -38,7 +52,10 @@ public class PlayerBowSound : MonoBehaviour//By ZION
         {
             Debug.LogError("TeleportManager saknas!");
         }
-
+        if (TBB != null)
+        {
+            previousSwitchArrowState = TBB._switchArrow;
+        }
     }
     private void OnEnable() // system.action, Zion, another nice way to send music
     {
@@ -84,11 +101,39 @@ public class PlayerBowSound : MonoBehaviour//By ZION
 
     }
 
+   
+ 
+    public void switchArrowSound()// make sound when you switch arrow-type 
+    {
+        if (TBB == null) return;
+
+        print("whats going on");
+        if (TBB._switchArrow)
+        {
+            SoundSFXManager.instance.PlaySoundFXClip(switchToTPArrow, transform, 1f);
+            print("Bytte till TP-pil");
+        }
+        else
+        {
+            SoundSFXManager.instance.PlaySoundFXClip(switchToElArrow, transform, 1f);
+            print("Bytte till EL-pil");
+        }
+
+    }
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("TeleportOn: " + TM.TeleportSoundBool);
-       //Debug.Log("hasTeleportedBack: " + hasTeleportedBack);
+        Debug.Log("TBB._switchArrow: " + TBB._switchArrow);
+
+        //Debug.Log("TeleportOn: " + TM.TeleportSoundBool);
+        //Debug.Log("hasTeleportedBack: " + hasTeleportedBack);
+
+        if (TBB != null && TBB._switchArrow != previousSwitchArrowState)
+        {
+            switchArrowSound();
+            previousSwitchArrowState = TBB._switchArrow;
+        }
+
         if (TM.TeleportSoundBool == true)
         {
           
@@ -103,7 +148,7 @@ public class PlayerBowSound : MonoBehaviour//By ZION
         {
             //hasTeleportedBack = true;
 
-            print("HElLO findus");
+           
             PlayPlayerBowSound(teleportForward, "Teleport Back");
 
            
