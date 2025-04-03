@@ -6,6 +6,7 @@ using UnityEngine.Rendering.RenderGraphModule;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.Audio;
+using Unity.VisualScripting;
 
 public class DialoguePlayer : MonoBehaviour
 {
@@ -31,8 +32,10 @@ public class DialoguePlayer : MonoBehaviour
     private bool isReadingDoc;
 
     [SerializeField] TutorialScript tutorial;
+    [HideInInspector] public GameManager gameMan;
 
     [SerializeField] private bool clearTextBeforeNext;
+    [SerializeField] private GameObject MissionBackground;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -175,8 +178,27 @@ public class DialoguePlayer : MonoBehaviour
             {
                 source.PlayOneShot(_dialogueVoiceOrder[currentDocIndex]);
             }
+
             switch (letter)
             {
+                case ">":
+                    
+                    if (i > 1)
+                    {
+                        string middleChar = DialogueDisplay.text[i - 1].ToString();
+                        string firstChar = DialogueDisplay.text[i - 2].ToString();
+                        if (middleChar == "X" && firstChar == "<")
+                        {
+                            DialogueDisplay.text = DialogueDisplay.text.Insert(i+1, gameMan.EnemiesRemaining.ToString());
+                            DialogueDisplay.text = DialogueDisplay.text.Remove(i - 2, 3);
+                            print("Tried to replace X");
+                            Animator animator = MissionBackground.GetComponent<Animator>();
+                            StartCoroutine(RemoveLevelIntro(1));
+
+                        }
+                    }
+                    break;
+
                 case ".":
                     delayTime = PeriodDelay;
                     break;
@@ -232,59 +254,111 @@ public class DialoguePlayer : MonoBehaviour
             {
                 DialogueDisplay.text = string.Empty; //Visually removes text
             }
-
-            switch (currentDocIndex)
+            
+            if (gameMan.TutorialActive)
             {
-                case 0:
-                    Debug.Log("Started to await calibratiobn");
-                    tutorial.AwaitingCalibration = true;
-                    break;
+                switch (currentDocIndex)
+                {
+                    case 0:
+                        Debug.Log("Started to await calibratiobn");
+                        tutorial.AwaitingCalibration = true;
+                        break;
 
-                case 1:
-                    Debug.Log("Attempted to start room transition");
-                    tutorial.StartRoomTransition();
-                    EndTextDelay = 2;
-                    break;
+                    case 1:
+                        Debug.Log("Attempted to start room transition");
+                        tutorial.StartRoomTransition();
+                        EndTextDelay = 2;
+                        break;
 
-                case 2://Finished room transition
-                    EndTextDelay = 0.5f;
-                    clearTextBeforeNext = false;
-                    
-                    ReadNextDoc();
-                    break;
-                case 3://look around. "See if you can find us"
-                    //FindFirstObjectByType<TutStare>().IsAwaitingStare = true;
-                    tutorial.ActivateStareObj();
-                    
-                    break;
-                case 4://Spotted. Activate platforms
-                    tutorial.StartTutorialStep(currentDocIndex);
-                    clearTextBeforeNext = true;
-                    break;
-                case 5://Reached green platform. Spawns enemeies.
-                    tutorial.StartTutorialStep(currentDocIndex);
-                    clearTextBeforeNext = false;
-                    //Cross out toggle icons
+                    case 2://Finished room transition
+                        EndTextDelay = 0.5f;
+                        clearTextBeforeNext = false;
 
-                    break;
-                case 6://Got shot. Let player use bow again
-                    //tutorial.ToggleBowInputs();
-                    tutorial.StartTutorialStep(currentDocIndex);
-                    //indicate that bow cant be shot, nor arrow toggled
-                    break;
+                        ReadNextDoc();
+                        break;
+                    case 3://look around. "See if you can find us"
+                           //FindFirstObjectByType<TutStare>().IsAwaitingStare = true;
+                        tutorial.ActivateStareObj();
 
-                case 7: //Shot last enemy. Moving in train
-                    
-                    break; //goodluck?
-                case 8:
-                    break;
+                        break;
+                    case 4://Spotted. Activate platforms
+                        tutorial.StartTutorialStep(currentDocIndex);
+                        clearTextBeforeNext = true;
+                        break;
+                    case 5://Reached green platform. Spawns enemeies.
+                        tutorial.StartTutorialStep(currentDocIndex);
+                        clearTextBeforeNext = false;
+                        //Cross out toggle icons
 
+                        break;
+                    case 6://Got shot. Let player use bow again
+                           //tutorial.ToggleBowInputs();
+                        tutorial.StartTutorialStep(currentDocIndex);
+                        //indicate that bow cant be shot, nor arrow toggled
+                        break;
+
+                    case 7: //Shot last enemy. Moving in train
+
+                        break; //goodluck?
+                    case 8:
+                        break;
+
+                }
             }
+
+            
 
         }
         
         
 
+        yield return null;
+    }
+
+    IEnumerator RemoveLevelIntro(float timeToScale)
+    {
+        yield return new WaitForSeconds(2.0f);
+        RectTransform rect = MissionBackground.GetComponent<RectTransform>();
+        Vector3 originalScale = rect.localScale;
+        float t = new float();
+
+        Color32 dialogueColor = DialogueDisplay.color;
+        StartCoroutine(FadeText(DialogueDisplay, new Color32(dialogueColor.r, dialogueColor.g, dialogueColor.b, 0), 1.0f));
+        //Scales away the background
+        yield return new WaitForSeconds(1.0f);
+        while (t < 1)
+        {
+            t += (1.0f * Time.deltaTime) / timeToScale;
+            rect.localScale = Vector3.Lerp(originalScale, Vector3.one, t);
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f);
+
+        Color32 enemyCountColor = gameMan.EnemyCountDisplay.color;
+        StartCoroutine(FadeText(gameMan.EnemyCountDisplay, new Color32(enemyCountColor.r, enemyCountColor.g, enemyCountColor.b, 255), 1.0f));
+
+        yield return new WaitForSeconds(0.5f);
+
+        Color32 timerColor = gameMan.TimerDisplay.color;
+        StartCoroutine(FadeText(gameMan.TimerDisplay, new Color32(timerColor.r, timerColor.g, timerColor.b, 255), 1.0f));
+        yield return new WaitForSeconds(1.0f);
+
+
+
+        Debug.Log("Finished scaling");
+        yield return null;
+
+    }
+    IEnumerator FadeText(TextMeshProUGUI text, Color32 desiredColor, float timeToFade)
+    {
+        Color32 originalColor = text.color;
+        float t = new float();
+        while (t < 1)
+        {
+            t += (1.0f * Time.deltaTime) / timeToFade;
+            text.color = Color32.Lerp(originalColor, desiredColor, t);
+            yield return null;
+        }
         yield return null;
     }
 }
