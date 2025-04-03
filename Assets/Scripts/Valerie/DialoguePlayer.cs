@@ -28,7 +28,7 @@ public class DialoguePlayer : MonoBehaviour
 
     [SerializeField] private string currentTextDoc;
     [SerializeField] private string[] textDocsOrder;
-    private int currentDocIndex;
+    private int currentDocIndex = -1;
     private bool isReadingDoc;
 
     [SerializeField] TutorialScript tutorial;
@@ -39,12 +39,13 @@ public class DialoguePlayer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //currentDocIndex = -1;
+
         if (source == null)
         {
             source = GetComponent<AudioSource>();
         }
         AttemptDefaultDelays();
-        currentDocIndex = -1;
         //FullTextToRead = GetTxtString("BSRG_DialogueIntro");
     }
 
@@ -66,6 +67,7 @@ public class DialoguePlayer : MonoBehaviour
     }
     public void ReadNextDoc(float delay = 0)
     {
+        Debug.Log("Called a dialogue");
         if (!clearTextBeforeNext)
         {
             DialogueDisplay.text = string.Empty; //Visually removes text
@@ -176,11 +178,17 @@ public class DialoguePlayer : MonoBehaviour
             string letter = textChars[i].ToString();
             if (!string.IsNullOrWhiteSpace(letter) && letter != "@")
             {
+                Debug.Log(source);
+                Debug.Log(_dialogueVoiceOrder);
+                Debug.Log(_dialogueVoiceOrder[currentDocIndex]);
                 source.PlayOneShot(_dialogueVoiceOrder[currentDocIndex]);
             }
 
             switch (letter)
             {
+                case "$":
+                    MissionBackground.SetActive(true);
+                    break;
                 case ">":
                     
                     if (i > 1)
@@ -192,7 +200,6 @@ public class DialoguePlayer : MonoBehaviour
                             DialogueDisplay.text = DialogueDisplay.text.Insert(i+1, gameMan.EnemiesRemaining.ToString());
                             DialogueDisplay.text = DialogueDisplay.text.Remove(i - 2, 3);
                             print("Tried to replace X");
-                            Animator animator = MissionBackground.GetComponent<Animator>();
                             StartCoroutine(RemoveLevelIntro(1));
 
                         }

@@ -55,7 +55,10 @@ public class GameManager : MonoBehaviour
         }
 
         _dialogue.gameMan = this;
-        _dialogue.ReadNextDoc();
+        if (!TutorialActive)
+        {
+            _dialogue.ReadNextDoc(1);
+        }
     }
 
     // Update is called once per frame
