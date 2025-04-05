@@ -31,11 +31,11 @@ public class MoveTrainIntro : MonoBehaviour
     [Header("Stop Settings")]
     [SerializeField] private bool deactivateOnStop = false;
 
-
-    
+    bool hasBegunGame = false;
 
     private void Start()
     {
+        
         for (int i = 0; i < movingObjects.Count; i++)
         {
             if (movingObjects[i].isPlayerTrain && !gameManager.TutorialActive)
@@ -65,9 +65,11 @@ public class MoveTrainIntro : MonoBehaviour
                 if (obj.timer >= timeUntilStop)
                 {
                     obj.hasStopped = true;
-                    if (obj.speed == 165.0f) //if it is the game scene
+                    if (!hasBegunGame)
                     {
-                        obj.speed = 35.0f;
+                        obj.speed = 40.0f;
+                        hasBegunGame = true;
+                        Debug.Log("Stopped train for the first time");
                     }
                     UnparentPlayer();
 
