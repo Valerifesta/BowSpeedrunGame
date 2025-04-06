@@ -48,7 +48,7 @@ public class TestBowBehaviour : MonoBehaviour
 
     //public int ArrowsFired;
     //public int TimesTeleported;
-    public List<NewEnemyBehaviour> previousEnemies = new List<NewEnemyBehaviour>();
+    public List<EnemyBase> previousEnemies = new List<EnemyBase>();
     //[SerializeField] private GameManager PlayerUI;
     [Header("Arrow Icons")]
     [SerializeField] private GameObject AttackIcon;
@@ -310,7 +310,7 @@ public class TestBowBehaviour : MonoBehaviour
     public void DetectSurroundingEnemies()
     {
         Collider[] colls = GetNearestEnemyColliders();
-        NewEnemyBehaviour[] behaviourArray = new NewEnemyBehaviour[colls.Length];
+        EnemyBase[] behaviourArray = new EnemyBase[colls.Length];
         
         if (colls.Length != 0)
         {
@@ -318,7 +318,7 @@ public class TestBowBehaviour : MonoBehaviour
             {
                 GameObject enemyParent = colls[i].gameObject.transform.parent.gameObject;
                 //dist = Vector3.Distance(Player.transform.position, enemyParent.transform.position);
-                NewEnemyBehaviour behaviour = enemyParent.GetComponent<NewEnemyBehaviour>();
+                EnemyBase behaviour = enemyParent.GetComponent<EnemyBase>();
                 Debug.Log(" behaviour is " +behaviour);
                 behaviourArray[i] = behaviour;
                 if (!previousEnemies.Contains(behaviourArray[i]))
@@ -329,7 +329,7 @@ public class TestBowBehaviour : MonoBehaviour
             }
         }
 
-        NewEnemyBehaviour[] enemiesToDeaggro = new NewEnemyBehaviour[previousEnemies.Count];
+        EnemyBase[] enemiesToDeaggro = new EnemyBase[previousEnemies.Count];
 
         for (int i = 0; i < previousEnemies.Count; i++)
         {
@@ -350,21 +350,22 @@ public class TestBowBehaviour : MonoBehaviour
             {
                 previousEnemies.Remove(enemiesToDeaggro[i]);
                 enemiesToDeaggro[i].StartIdle();
-               // Debug.Log("Deaggrod " + enemiesToDeaggro[i]);
+
+                // Debug.Log("Deaggrod " + enemiesToDeaggro[i]);
             }
             
         }
     }
     private void AggroSurroundingEnemies()
     {
-        foreach (NewEnemyBehaviour behaviour in previousEnemies)
+        foreach (EnemyBase behaviour in previousEnemies)
         {
             behaviour.TargetPlayer(Vector3.Distance(Player.transform.position, behaviour.gameObject.transform.position));
         }
     }
     private void StunSurroundingtEnemies(float remainingStunTime)
     {
-        foreach (NewEnemyBehaviour behaviour in previousEnemies)
+        foreach (EnemyBase behaviour in previousEnemies)
         {
             if (!behaviour.IsStunned)
             {

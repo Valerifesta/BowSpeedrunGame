@@ -93,7 +93,7 @@ public class ArrowBehaviour : MonoBehaviour
         {
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                NewEnemyBehaviour behaviour = collision.gameObject.transform.parent.gameObject.GetComponent<NewEnemyBehaviour>();
+                EnemyBase behaviour = collision.gameObject.transform.parent.gameObject.GetComponent<EnemyBase>();
                 
                 behaviour.EnemyOnHit();
                 sender.previousEnemies.Remove(behaviour);

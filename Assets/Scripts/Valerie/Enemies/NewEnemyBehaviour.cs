@@ -8,17 +8,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System;
 
-public class NewEnemyBehaviour : MonoBehaviour
+public class NewEnemyBehaviour : EnemyBase //TurretScript
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField] private GameObject Player;
     [SerializeField] private GameObject EnemyRotatingObj; //Will always rotate the assigned object on the horizontal axis. 
     [SerializeField] private ParticleSystem[] ChargeAndShoot;
     private ParticleSystem[] chargeBall;
     private ParticleSystem[] plasmaBeam;
 
     [SerializeField] private ParticleSystem DetectEffect;
-    [SerializeField] private ParticleSystem StunnedEffect;
+    
     
     private float rotatedAngles;
     private float degreesAwayFromPrev;
@@ -54,21 +53,18 @@ public class NewEnemyBehaviour : MonoBehaviour
     [SerializeField] private float _LowerLimRotDistance = 2;
 
     [SerializeField] private float RotationStartDelay;
-    [SerializeField] private float DetectionRange; //Should be Individual between variants.
     
     //[SerializeField] private Vector3 currentEuler;
     //private Coroutine runningCoroutine;
 
-    public bool IsStunned;
-    private float _stunRemaining;
-    private void Start()
+    
+    public override void Start()
     {
+        base.Start();
+
         Ex = GetComponent<Explosion>();
         ESL = GetComponent<EnemySoundList>();
-        //DA = transform.GetChild(2).GetComponentInChildren<DectedAlarm>();
-        Player = FindFirstObjectByType<PlayerManager>().gameObject;
-        //currentEuler = EnemyRotatingObj.transform.eulerAngles;
-        //StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation));
+
         ResetRot();
         int length = ChargeAndShoot.Length;
         chargeBall = new ParticleSystem[length];
@@ -109,56 +105,30 @@ public class NewEnemyBehaviour : MonoBehaviour
     }
     private void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TargetPlayer(Vector3.Distance(EnemyRotatingObj.transform.position, Player.transform.position));
-        }
         
-        /*
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Quaternion fixedRot = Quaternion.AngleAxis(rotatedAngles - lastRotatedDegs, Vector3.up);
-
-            EnemyRotatingObj.transform.rotation = fixedRot;
-        }*/
-        if (_stunRemaining > 0)
-        {
-            _stunRemaining -= 1.0f * Time.deltaTime;
-        }
-        else if (IsStunned == true)
-        {
-            IsStunned = false;
-            _stunRemaining = 0;
-            Debug.Log("Enemy is no longer stunned");
-        }
+        
     }
-    public void StartIdle()
+    public override void StartIdle()
     {
-        StopAllCoroutines();
+        base.StartIdle();
         //ChargeAndShoot.Stop();
         isShoot = false;
         isRotate = false;
         isCharging = false;
-        Debug.Log("Made " + gameObject + " idle");
+        
     }
-    public void StunEnemy(float remainingStunTime)
+    public override void StunEnemy(float remainingStunTime)
     {
-        StopAllCoroutines();
-        var main = StunnedEffect.main;
-        main.duration = main.simulationSpeed * remainingStunTime;
-        StunnedEffect.Play();
-
-        IsStunned = true;
-        _stunRemaining = remainingStunTime;
+        base.StunEnemy(remainingStunTime);
         isRotate = false;
         isCharging = false;
         isShoot = false;
-        Debug.Log("Stunned Enemy");
     }
-    public void TargetPlayer(float linearDistance)
+    public override void TargetPlayer(float linearDistance)
     {
-        if (linearDistance < DetectionRange)
+        base.TargetPlayer(linearDistance);
+
+        if (playerWithinDetectionRange)
         {
             if (linearDistance > _LowerLimRotDistance)
             {
@@ -167,24 +137,19 @@ public class NewEnemyBehaviour : MonoBehaviour
                 Debug.Log("Distance between player and enemy is above Lower Distance Limit and is therefore affecting rotation time.");
             }
 
-
-            StopAllCoroutines();
             foreach (ParticleSystem chargeUp in ChargeAndShoot)
             {
                 chargeUp.Stop();
             }
 
-            // ChargeAndShoot.Stop();
+
             if (!isRotate && !isCharging && !isShoot)
             {
                 DetectEffect.Play();
             }
-            // if (CanTargetPlayer)
-            {
-                StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
-            }
+            StartCoroutine(RotateTowardsPlayer(EnemyRotatingObj.transform.rotation, RotationTime));
+
         }
-        
 
     }
     public IEnumerator RotateTowardsPlayer(Quaternion startRot, float timeToRotate)
@@ -246,12 +211,13 @@ public class NewEnemyBehaviour : MonoBehaviour
         }
         yield return null;
     }
-    public void EnemyOnHit()
+    public override void EnemyOnHit() //When hit by player
     {
+        base.EnemyOnHit();
+
         OnHit?.Invoke();
         OnEnemyHit?.Invoke(this);//Zion
         // isHiting = true;//Zion (material)
-        Debug.Log("Enemy got hit by bow");
         //Player.GetComponent<>
         isKillingEnemy = true;
         gameObject.SetActive(false);
