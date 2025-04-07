@@ -1116,7 +1116,7 @@ GameObject:
   - component: {fileID: 7275170770336132263}
   - component: {fileID: 4959225144595055841}
   - component: {fileID: 2353842247362691627}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: NotWalkArea
   m_TagString: NotWalkArea
   m_Icon: {fileID: 0}
@@ -1264,7 +1264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsStunned: 0
-  DetectionRange: 5
+  DetectionRange: 20
   StunnedEffect: {fileID: 0}
 --- !u!95 &1768512898794959879
 Animator:

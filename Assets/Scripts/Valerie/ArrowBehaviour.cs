@@ -76,13 +76,15 @@ public class ArrowBehaviour : MonoBehaviour
                 GameObject train = collision.transform.parent.transform.parent.gameObject;
                 if (train != null && train.GetComponent<VFXTrainMoveAnimation>())
                 {
-                    if (sender.previousOnTrain != null)
+                    VFXTrainMoveAnimation trainAnimation = train.GetComponent<VFXTrainMoveAnimation>();
+                    if (sender.previousOnTrain != null && sender.previousOnTrain != trainAnimation)
                     {
                         sender.previousOnTrain.endAnimation();
                         //stop animation of previous train here
 
                     }
-                    train.GetComponent<VFXTrainMoveAnimation>().startAnimation();
+                    trainAnimation.startAnimation();
+                    sender.previousOnTrain = trainAnimation;
 
                     //start animation of new train here
                 }
