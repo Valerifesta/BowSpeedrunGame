@@ -15,6 +15,7 @@ public class ArrowBehaviour : MonoBehaviour
 
     [SerializeField] private GameObject TeleportTrail;
     
+
     private void Start()
     {
         flying = true;
@@ -71,6 +72,18 @@ public class ArrowBehaviour : MonoBehaviour
                 sender.lastHitPos = point;
                 sender.TeleportPlayer(point + offset + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0));
 
+                //Starts and stops animation of trains
+                GameObject train = collision.transform.parent.transform.parent.gameObject;
+                if (train != null && train.GetComponent<VFXTrainMoveAnimation>())
+                {
+                    if (sender.previousOnTrain != null)
+                    {
+                        //stop animation of previous train here
+
+                    }
+                    //start animation of new train here
+                }
+                //
                 if (tag == "PlayerTrainWalkArea")
                 {
                     Debug.Log("Teleported to player train");
@@ -83,6 +96,7 @@ public class ArrowBehaviour : MonoBehaviour
 
                     }
                 }
+                
                 gameObject.SetActive(false);
 
 

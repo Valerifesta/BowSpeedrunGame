@@ -14,6 +14,8 @@ public class TestBowBehaviour : MonoBehaviour
     private bool _activeRelease;
     private float _rotaryValueOnRelease;
 
+    [HideInInspector] public VFXTrainMoveAnimation previousOnTrain;
+
    
     bool decreasing;
     float max_time_wait = 0.2f;
