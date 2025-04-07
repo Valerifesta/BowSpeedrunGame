@@ -54,6 +54,7 @@ public class TeleportManager : MonoBehaviour
     public void Teleport(GameObject objectToTeleport, Vector3 desiredPos)
     {
         objectToTeleport.transform.position = desiredPos;
+        playerManager.TryChangeWholeTrainAnimation();
         if (tutorial != null)
         {
             tutorial.OnTeleport(desiredPos);
@@ -125,6 +126,7 @@ public class TeleportManager : MonoBehaviour
         }
         objectToTravel.transform.position = endPos;
         playerManager.ToggleRespawnShield();
+        playerManager.TryChangeWholeTrainAnimation();
         Debug.Log("Ended Callback");
 
         yield return null;

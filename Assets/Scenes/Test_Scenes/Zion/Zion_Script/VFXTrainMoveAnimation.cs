@@ -26,7 +26,7 @@ public class VFXTrainMoveAnimation : MonoBehaviour
       
         if (isPlaying == true)
         {
-            anim.SetBool("Paused", false);
+            //anim.SetBool("Paused", false);
             anim.SetTrigger("NonePlayer");
         }
       
@@ -43,7 +43,10 @@ public class VFXTrainMoveAnimation : MonoBehaviour
         anim.speed = 1;
         anim.SetTrigger("NonePlayer");
     }
-
+    public void resumeAnimation()
+    {
+        anim.speed = 1;
+    }
     public void endAnimation()
     {
         anim.SetBool("Paused", true);

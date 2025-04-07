@@ -11,11 +11,15 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private TeleportManager _TeleportMan;
     public float ShieldTimeRemaining;
     public TestBowBehaviour _bow;
-    
+    private Collider playerColl;
+
+    [HideInInspector] public VFXTrainMoveAnimation previousOnTrain;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        playerColl = GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -75,6 +79,70 @@ public class PlayerManager : MonoBehaviour
         }
         ToggleRespawnShield();
         yield return null;
+    }
+
+    public GameObject StandingOnTrain() //only works for non-player trains. Collider should be a child of the train cart.
+    {
+        RaycastHit[] hits;
+        hits = Physics.SphereCastAll(gameObject.transform.position + -gameObject.transform.up, 1.5f, Vector3.down);
+        foreach (RaycastHit rayHit in hits)
+        {
+            Collider coll = rayHit.collider;
+            if (coll != playerColl)
+            {
+                if (coll.tag == "WalkArea" && coll.transform.parent != null)
+                {
+                    Debug.Log("Returned parented train of collider underneath");
+                    return coll.transform.parent.gameObject;
+                }
+                else if (coll.transform.parent == null)
+                {
+                    Debug.Log("There is no parent underneath you!!!!");
+                }
+            }
+            
+        }
+        
+         
+        return null;
+    }
+
+    public void TryChangeWholeTrainAnimation()
+    {
+        Debug.Log("Trying to change whole train animation");
+        GameObject train = StandingOnTrain();
+        if (train != null && train.transform.parent != null)
+        {
+            GameObject wholeTrain = train.transform.parent.gameObject;
+            if (wholeTrain != null && wholeTrain.GetComponent<VFXTrainMoveAnimation>())
+            {
+                VFXTrainMoveAnimation trainAnimation = wholeTrain.GetComponent<VFXTrainMoveAnimation>();
+                if (previousOnTrain != null && previousOnTrain != trainAnimation)
+                {
+                    previousOnTrain.resumeAnimation();
+                    //Restart animation of previous train here
+                    Debug.Log("Ended previous train animation");
+
+                }
+                else
+                {
+                    Debug.Log("either previousOnTrain is null or the same train as you teleported to.");
+                }
+                trainAnimation.endAnimation();
+
+                previousOnTrain = trainAnimation;
+                Debug.Log("Started new train animation");
+                //start animation of new train here
+            }
+            else
+            {
+                Debug.Log("No whole train or vfx train animation");
+            }
+        }
+        else
+        {
+            Debug.Log("Train or full train is null");
+        }
     }
 
 }

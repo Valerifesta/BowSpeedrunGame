@@ -53,6 +53,7 @@ public class ArrowBehaviour : MonoBehaviour
         tag = collision.collider.tag;
         if (teleportToggled)
         {
+            
             if (tag == "WalkArea" || tag == "PlayerTrainWalkArea")// && sender.playerManager.ShieldTimeRemaining <= 0)
             {
                 Vector3 offsettedPos = new Vector3();
@@ -72,23 +73,9 @@ public class ArrowBehaviour : MonoBehaviour
                 sender.lastHitPos = point;
                 sender.TeleportPlayer(point + offset + new Vector3(0.0f, sender.Player.GetComponent<CapsuleCollider>().height / 2, 0));
 
-                //Starts and stops animation of trains
-                GameObject train = collision.transform.parent.transform.parent.gameObject;
-                if (train != null && train.GetComponent<VFXTrainMoveAnimation>())
-                {
-                    VFXTrainMoveAnimation trainAnimation = train.GetComponent<VFXTrainMoveAnimation>();
-                    if (sender.previousOnTrain != null && sender.previousOnTrain != trainAnimation)
-                    {
-                        sender.previousOnTrain.endAnimation();
-                        //stop animation of previous train here
-
-                    }
-                    trainAnimation.startAnimation();
-                    sender.previousOnTrain = trainAnimation;
-
-                    //start animation of new train here
-                }
-                //
+                
+                
+                
                 if (tag == "PlayerTrainWalkArea")
                 {
                     Debug.Log("Teleported to player train");
