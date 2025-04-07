@@ -80,7 +80,6 @@ public class EnemyBase : MonoBehaviour
         {
             playerWithinDetectionRange = true;
 
-            StopAllCoroutines();
         }
 
     }

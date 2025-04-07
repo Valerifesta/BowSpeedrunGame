@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Drawing;
 using Unity.Hierarchy;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 public class TeslaTower : EnemyBase
@@ -12,11 +14,12 @@ public class TeslaTower : EnemyBase
     [SerializeField] private GameObject TeslaAOE_prefab;
     [SerializeField] private GameObject TeslaAOE_pivot;
     private GameObject _aoeObject;
-
+    private Vector3 _aoeOriginalScale;
+    private float _timeSinceLastAttack;
     [Header("Stats")]
     [SerializeField] private float Range; //Radius of AOE
     [SerializeField] private float TimeToFullyCharge;
-    
+    [SerializeField] private float AttackIntervals;
     public override void Start()
     {
         base.Start();
@@ -26,6 +29,17 @@ public class TeslaTower : EnemyBase
         
     }
 
+    void Update()
+    {
+        if (!IsAttacking && hasDeployed && !IsStunned)
+        {
+            _timeSinceLastAttack += 1.0f * Time.deltaTime;
+            if (_timeSinceLastAttack > AttackIntervals)
+            {
+                StartCoroutine(InitiateAttack(0.0f));
+            }
+        }
+    }
     // Update is called once per frame
 
     public override void TargetPlayer(float linearDistance)
@@ -33,8 +47,8 @@ public class TeslaTower : EnemyBase
         base.TargetPlayer(linearDistance);
         if (playerWithinDetectionRange && !hasDeployed) //Takes ish 3 seconds for it to visually finish deploying. Call "OnFinishDeploy" in 3 seconds?
         {
-            teslaAnimator.SetTrigger("PlayerHere");
             hasDeployed = true;
+            teslaAnimator.SetTrigger("PlayerHere");
             StartCoroutine(OnFinishDeploy(3.0f));
         }
     }
@@ -55,22 +69,36 @@ public class TeslaTower : EnemyBase
             _aoeObject.transform.parent = gameObject.transform;
             _aoeObject.transform.position = TeslaAOE_pivot.transform.position;
             _aoeObject.SetActive(false);
+            _aoeOriginalScale = _aoeObject.transform.localScale;
         }
+    }
+    public override void StunEnemy(float remainingStunTime)
+    {
+        base.StunEnemy(remainingStunTime);
+        
     }
     IEnumerator OnFinishDeploy(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Debug.Log("Tesla finished deploying");
+
 
         //OnDeploy VFX
         //OnDeploy SFX
 
-        StartCoroutine(InitiateAttack(5.0f));
+        StartCoroutine(InitiateAttack(3.0f));
         yield return null;
     }
     IEnumerator InitiateAttack(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        yield return null;
+
+        IsAttacking = true;
         _aoeObject.SetActive(true);
+        Debug.Log("Tesla delaying attack with " +delay + " seconds");
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Tesla started to initiate attack");
+
 
         float t = new float();
         float currentChargeRange = new float();
@@ -80,10 +108,32 @@ public class TeslaTower : EnemyBase
             t += 1.0f * Time.deltaTime;
             fixedT = Mathf.InverseLerp(0.0f, TimeToFullyCharge, t);
             currentChargeRange = Mathf.Lerp(0.0f, Range, fixedT);
+            _aoeObject.transform.localScale = (Vector3.one * currentChargeRange) / 2.0f;
             
             yield return null;
         }
 
+        Debug.Log("Tesla executing attack");
+
+        Collider[] colls = Physics.OverlapSphere(_aoeObject.transform.position, Range);
+        foreach (Collider collider in colls)
+        {
+            Debug.Log("Tesla hit " + collider);
+            if (collider.GetComponent<PlayerManager>())
+            {
+                collider.GetComponent<PlayerManager>().OnPlayerHit();
+            }
+            yield return null;
+        }
+        _aoeObject.SetActive(false);
+        Debug.Log("Tesla finished attack");
+        IsAttacking = false;
         yield return null;
+    }
+  
+    void cancelAttack()
+    {
+        IsAttacking = false;
+        _aoeObject.SetActive(false);
     }
 }

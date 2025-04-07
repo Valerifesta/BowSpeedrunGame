@@ -127,6 +127,7 @@ public class NewEnemyBehaviour : EnemyBase //TurretScript
     public override void TargetPlayer(float linearDistance)
     {
         base.TargetPlayer(linearDistance);
+        StopAllCoroutines();
 
         if (playerWithinDetectionRange)
         {
