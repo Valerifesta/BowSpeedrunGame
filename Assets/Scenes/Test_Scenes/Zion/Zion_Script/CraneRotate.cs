@@ -16,7 +16,7 @@ public class CraneRotate : MonoBehaviour
     [SerializeField] private AnimationCurve rotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     private Quaternion originalRotation;
-    private bool isRotating = false;
+    public bool isRotating = false;
 
     private void Start()
     {
