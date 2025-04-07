@@ -103,11 +103,7 @@ public class NewEnemyBehaviour : EnemyBase //TurretScript
     {
         EnemyRotatingObj.transform.eulerAngles = Vector3.zero;
     }
-    private void Update()
-    {
-        
-        
-    }
+   
     public override void StartIdle()
     {
         base.StartIdle();

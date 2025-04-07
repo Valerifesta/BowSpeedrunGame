@@ -9,7 +9,7 @@ public class TeslaTower : EnemyBase
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private Animator teslaAnimator;
     private bool hasDeployed;
-
+    private bool canBeginAttackCycle;
     private bool IsAttacking;
     [SerializeField] private GameObject TeslaAOE_prefab;
     [SerializeField] private GameObject TeslaAOE_pivot;
@@ -29,9 +29,10 @@ public class TeslaTower : EnemyBase
         
     }
 
-    void Update()
+    public override void Update()
     {
-        if (!IsAttacking && hasDeployed && !IsStunned)
+        base.Update();
+        if (!IsAttacking && hasDeployed && !IsStunned && canBeginAttackCycle)
         {
             _timeSinceLastAttack += 1.0f * Time.deltaTime;
             if (_timeSinceLastAttack > AttackIntervals)
@@ -48,6 +49,7 @@ public class TeslaTower : EnemyBase
         if (playerWithinDetectionRange && !hasDeployed) //Takes ish 3 seconds for it to visually finish deploying. Call "OnFinishDeploy" in 3 seconds?
         {
             hasDeployed = true;
+            canBeginAttackCycle = false;
             teslaAnimator.SetTrigger("PlayerHere");
             StartCoroutine(OnFinishDeploy(3.0f));
         }
@@ -75,6 +77,11 @@ public class TeslaTower : EnemyBase
     public override void StunEnemy(float remainingStunTime)
     {
         base.StunEnemy(remainingStunTime);
+        if (IsAttacking)
+        {
+            cancelAttack();
+        }
+           
         
     }
     IEnumerator OnFinishDeploy(float delay)
@@ -87,6 +94,7 @@ public class TeslaTower : EnemyBase
         //OnDeploy SFX
 
         StartCoroutine(InitiateAttack(3.0f));
+        canBeginAttackCycle = true;
         yield return null;
     }
     IEnumerator InitiateAttack(float delay)
@@ -126,6 +134,7 @@ public class TeslaTower : EnemyBase
             yield return null;
         }
         _aoeObject.SetActive(false);
+        _aoeObject.transform.localScale = _aoeOriginalScale;
         Debug.Log("Tesla finished attack");
         IsAttacking = false;
         yield return null;
@@ -134,6 +143,7 @@ public class TeslaTower : EnemyBase
     void cancelAttack()
     {
         IsAttacking = false;
+        _aoeObject.transform.localScale = _aoeOriginalScale;
         _aoeObject.SetActive(false);
     }
 }

@@ -2,4 +2,4 @@ MISSION TYPE.
 TIME BASED ELIMINATION.
 
 
-<X> Turrets@/
+<X> Enemies@/

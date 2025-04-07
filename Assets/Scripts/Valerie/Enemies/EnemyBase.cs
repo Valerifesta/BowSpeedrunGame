@@ -27,7 +27,7 @@ public class EnemyBase : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         if (_stunRemaining > 0)
         {
