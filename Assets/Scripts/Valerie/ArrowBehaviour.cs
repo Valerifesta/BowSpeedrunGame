@@ -78,9 +78,12 @@ public class ArrowBehaviour : MonoBehaviour
                 {
                     if (sender.previousOnTrain != null)
                     {
+                        sender.previousOnTrain.endAnimation();
                         //stop animation of previous train here
 
                     }
+                    train.GetComponent<VFXTrainMoveAnimation>().startAnimation();
+
                     //start animation of new train here
                 }
                 //
