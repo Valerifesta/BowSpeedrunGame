@@ -35,56 +35,20 @@ public class VFXTrainMoveAnimation : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        
-        
-        if(other.CompareTag("Player"))
-        {
-            isPlaying = false;
-            print("Player on bridge");
-           
-            if(isPlaying == false)
-            {
-               
-               
-                anim.SetBool("Paused", true);
-                // Pausa animationen
-                anim.speed = 0;
-                Debug.Log("Animation pausad");
-            }
-            
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-       
-        if (other.CompareTag("Player"))
-        {
-            
-            isPlaying = true;
-            if (isPlaying == true)
-            {
-               
-                anim.SetBool("Paused", false);
-                // Återuppta animationen
-                anim.speed = 1;
-                
-                Debug.Log("Animation återupptagen");
-            }
-            
-        }
-    }
-
+   
 
     public void startAnimation()
     {
+        anim.SetBool("Paused", false);
+        anim.speed = 1;
         anim.SetTrigger("NonePlayer");
     }
 
     public void endAnimation()
     {
-
+        anim.SetBool("Paused", true);
+        // Pausa animationen
+        anim.speed = 0;
+        Debug.Log("Animation pausad");
     }
 }
