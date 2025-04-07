@@ -23,7 +23,7 @@ public class VFXTrainMoveAnimation : MonoBehaviour
 
        
         // Starta NonePlayer-animationen vid start
-        //anim.SetTrigger("NonePlayer");
+      
         if (isPlaying == true)
         {
             anim.SetBool("Paused", false);
@@ -47,7 +47,7 @@ public class VFXTrainMoveAnimation : MonoBehaviour
             if(isPlaying == false)
             {
                
-                //isPlaying = false;
+               
                 anim.SetBool("Paused", true);
                 // Pausa animationen
                 anim.speed = 0;
@@ -62,11 +62,11 @@ public class VFXTrainMoveAnimation : MonoBehaviour
        
         if (other.CompareTag("Player"))
         {
-            //isPlaying = false;
+            
             isPlaying = true;
             if (isPlaying == true)
             {
-                //isPlaying = true;
+               
                 anim.SetBool("Paused", false);
                 // Återuppta animationen
                 anim.speed = 1;
@@ -75,5 +75,16 @@ public class VFXTrainMoveAnimation : MonoBehaviour
             }
             
         }
+    }
+
+
+    public void startAnimation()
+    {
+        anim.SetTrigger("NonePlayer");
+    }
+
+    public void endAnimation()
+    {
+
     }
 }
