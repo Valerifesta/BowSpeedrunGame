@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Drawing;
 using Unity.Hierarchy;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
@@ -11,15 +12,20 @@ public class TeslaTower : EnemyBase
     private bool hasDeployed;
     private bool canBeginAttackCycle;
     private bool IsAttacking;
+    private bool EngineDestroyed;
     [SerializeField] private GameObject TeslaAOE_prefab;
     [SerializeField] private GameObject TeslaAOE_pivot;
+    [SerializeField] private GameObject EngineObject;
     private GameObject _aoeObject;
     private Vector3 _aoeOriginalScale;
     private float _timeSinceLastAttack;
+
+    
     [Header("Stats")]
     [SerializeField] private float Range; //Radius of AOE
     [SerializeField] private float TimeToFullyCharge;
     [SerializeField] private float AttackIntervals;
+    
     public override void Start()
     {
         base.Start();
@@ -43,10 +49,22 @@ public class TeslaTower : EnemyBase
     }
     // Update is called once per frame
 
+    public override void EnemyOnHit()
+    {
+        base.EnemyOnHit();
+        if (IsAttacking)
+        {
+            cancelAttack();
+        }
+        EngineObject.gameObject.SetActive(false);
+        EngineDestroyed = true;
+        StartIdle();
+
+    }
     public override void TargetPlayer(float linearDistance)
     {
         base.TargetPlayer(linearDistance);
-        if (playerWithinDetectionRange && !hasDeployed) //Takes ish 3 seconds for it to visually finish deploying. Call "OnFinishDeploy" in 3 seconds?
+        if (playerWithinDetectionRange && !hasDeployed && !EngineDestroyed) //Takes ish 3 seconds for it to visually finish deploying. Call "OnFinishDeploy" in 3 seconds?
         {
             hasDeployed = true;
             canBeginAttackCycle = false;
