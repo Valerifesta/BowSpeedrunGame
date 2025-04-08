@@ -9,10 +9,11 @@ public class TeslaTower : EnemyBase
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private Animator teslaAnimator;
-    private bool hasDeployed;
+    private TeslaSFX sfx;
+    public bool hasDeployed;
     private bool canBeginAttackCycle;
-    private bool IsAttacking;
-    private bool EngineDestroyed;
+    public bool IsAttacking;
+    public bool EngineDestroyed;
     [SerializeField] private GameObject TeslaAOE_prefab;
     [SerializeField] private GameObject TeslaAOE_pivot;
     [SerializeField] private GameObject EngineObject;
@@ -30,7 +31,11 @@ public class TeslaTower : EnemyBase
     {
         base.Start();
         teslaAnimator = GetComponent<Animator>();
-
+        sfx = GetComponent<TeslaSFX>();
+        if (sfx == null)
+        {
+            Debug.LogError("sfx för Teslan saknas!");
+        }
         TrySpawnReusableAOE();
         
     }
@@ -56,8 +61,10 @@ public class TeslaTower : EnemyBase
         {
             cancelAttack();
         }
+       
         EngineObject.gameObject.SetActive(false);
         EngineDestroyed = true;
+        sfx.teslaEngineExplosionSFX(); // Sound for explosion, Ziion ??___________________________________________________________________
         StartIdle();
 
     }
@@ -70,6 +77,7 @@ public class TeslaTower : EnemyBase
             canBeginAttackCycle = false;
             teslaAnimator.SetTrigger("PlayerHere");
             StartCoroutine(OnFinishDeploy(AttackIntervals));
+            sfx.teslaIsOnSFX();// Sound for loading, Zion ??___________________________________________________________________
         }
     }
     public override void StartIdle()
@@ -110,6 +118,7 @@ public class TeslaTower : EnemyBase
 
         //OnDeploy VFX
         //OnDeploy SFX
+       
 
         StartCoroutine(InitiateAttack(3.0f));
         canBeginAttackCycle = true;
@@ -121,6 +130,7 @@ public class TeslaTower : EnemyBase
 
         IsAttacking = true;
         _aoeObject.SetActive(true);
+        sfx.teslaShootingSFX(); //sound for tesla shooting Zion___________________________________________________________________
         Debug.Log("Tesla delaying attack with " +delay + " seconds");
         yield return new WaitForSeconds(delay);
         Debug.Log("Tesla started to initiate attack");
@@ -135,7 +145,6 @@ public class TeslaTower : EnemyBase
             fixedT = Mathf.InverseLerp(0.0f, TimeToFullyCharge, t);
             currentChargeRange = Mathf.Lerp(0.0f, Range, fixedT);
             _aoeObject.transform.localScale = (Vector3.one * currentChargeRange) / 2.0f;
-            
             yield return null;
         }
 
@@ -147,6 +156,8 @@ public class TeslaTower : EnemyBase
             Debug.Log("Tesla hit " + collider);
             if (collider.GetComponent<PlayerManager>())
             {
+               
+               
                 collider.GetComponent<PlayerManager>().OnPlayerHit();
             }
             yield return null;

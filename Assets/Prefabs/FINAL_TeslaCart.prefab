@@ -615,6 +615,7 @@ GameObject:
   - component: {fileID: 1396619320934705894}
   - component: {fileID: 5133267158490001417}
   - component: {fileID: 1426443958126748221}
+  - component: {fileID: -3734324145896703363}
   m_Layer: 7
   m_Name: FINAL_TeslaCart
   m_TagString: Untagged
@@ -687,6 +688,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3734324145896703363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531455206878675588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8bebe1c1fc8f3449f8e909c8a72463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teslaStarts: {fileID: 8300000, guid: 1fd1ae882a29d754d8ea6824f99136be, type: 3}
+  teslaEngineExp: {fileID: 8300000, guid: 519a46acb93348d4da3d4bebc6b56653, type: 3}
+  teslaBoom: {fileID: 8300000, guid: 39c3a02a90f0de84e827b550c968a6d2, type: 3}
 --- !u!1 &4630090675074867304
 GameObject:
   m_ObjectHideFlags: 0

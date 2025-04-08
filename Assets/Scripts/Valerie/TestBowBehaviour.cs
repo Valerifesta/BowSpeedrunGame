@@ -43,7 +43,7 @@ public class TestBowBehaviour : MonoBehaviour
     
 
     float lastrotaryvalue = 0;
-    bool shoot = false;
+    public bool shoot = false;
 
     public bool CanUpdateBowInputs;
 

@@ -8,10 +8,12 @@ public class PlayerBowSound : MonoBehaviour//By ZION
     public TeleportManager TM;
     private NewEnemyBehaviour NEB;
     private TestBowBehaviour TBB;
-    private SoundSFXManager SFX;
+   // private SoundSFXManager SFX;
 
+    [Header("Arrow sounds")]
     [SerializeField] private AudioClip switchToElArrow;
     [SerializeField] private AudioClip switchToTPArrow;
+    [SerializeField] private AudioClip FlyLittleBird;
     //private bool hasSwitch;
 
     [Header("Player goes back")]
@@ -120,11 +122,22 @@ public class PlayerBowSound : MonoBehaviour//By ZION
         }
 
     }
+
+    public void FlyBird()
+    {
+        
+        SoundSFXManager.instance.PlaySoundFXClip(FlyLittleBird, transform, 1f);
+  
+    }
     // Update is called once per frame
     void Update()
     {
         Debug.Log("TBB._switchArrow: " + TBB._switchArrow);
 
+        if (TBB.shoot== true)
+        {
+            FlyBird();
+        }
         //Debug.Log("TeleportOn: " + TM.TeleportSoundBool);
         //Debug.Log("hasTeleportedBack: " + hasTeleportedBack);
 
