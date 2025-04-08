@@ -664,7 +664,7 @@ MonoBehaviour:
   EngineObject: {fileID: 7612453233471041526}
   Range: 55
   TimeToFullyCharge: 5
-  AttackIntervals: 5
+  AttackIntervals: 2
 --- !u!95 &1426443958126748221
 Animator:
   serializedVersion: 7

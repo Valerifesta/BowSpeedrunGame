@@ -133,10 +133,11 @@ public class MoveTrainIntro : MonoBehaviour
     public void ParentPlayerToTrain(GameObject train, bool loadLocalPos = false)
     {
         Player.gameObject.transform.parent = train.transform;
+        /*Bugs out like crazy
         if (loadLocalPos && GameSettings.PlayerPosLastScene != Vector3.zero)
         {
             Player.gameObject.transform.localPosition = GameSettings.PlayerPosLastScene;
-        }
+        }*/
 
     }
     public void TutorialShowPlayerTrain()

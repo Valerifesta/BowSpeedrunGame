@@ -69,13 +69,13 @@ public class TeslaTower : EnemyBase
             hasDeployed = true;
             canBeginAttackCycle = false;
             teslaAnimator.SetTrigger("PlayerHere");
-            StartCoroutine(OnFinishDeploy(3.0f));
+            StartCoroutine(OnFinishDeploy(AttackIntervals));
         }
     }
     public override void StartIdle()
     {
         base.StartIdle();
-        if (hasDeployed && !IsAttacking)
+        if (hasDeployed && !IsAttacking&& !IsStunned)
         {
             teslaAnimator.SetTrigger("NoPlayerHere");
             hasDeployed = false;

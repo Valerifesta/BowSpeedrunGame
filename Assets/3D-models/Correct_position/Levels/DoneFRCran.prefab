@@ -63,6 +63,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7803329275694892790}
     m_Modifications:
+    - target: {fileID: 1602106422131749027, guid: 90023ae017ec3b943948534897515c6a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.2353995
+      objectReference: {fileID: 0}
     - target: {fileID: 2685235596213845579, guid: 90023ae017ec3b943948534897515c6a, type: 3}
       propertyPath: m_Name
       value: FinishCran
@@ -106,6 +110,10 @@ PrefabInstance:
     - target: {fileID: 3316917758360233201, guid: 90023ae017ec3b943948534897515c6a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5110424044319549690, guid: 90023ae017ec3b943948534897515c6a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.37
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
