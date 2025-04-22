@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
         EnemyBase[] enemies = FindObjectsByType<EnemyBase>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         EnemiesRemaining = enemies.Length;
         UpdateEnemyDisplay();
+
         if (!TutorialActive)
         {
             Camera.main.GetComponent<CameraBehaviour>().LoadLastSceneRotation();

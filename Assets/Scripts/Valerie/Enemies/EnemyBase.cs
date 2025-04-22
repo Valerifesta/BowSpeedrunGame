@@ -22,7 +22,6 @@ public class EnemyBase : MonoBehaviour
     public virtual void Start()
     {
         Player = FindFirstObjectByType<PlayerManager>().gameObject;
-
     }
 
 

@@ -160,20 +160,13 @@ public class NewEnemyBehaviour : EnemyBase //TurretScript
         isCharging = false;
         isShoot = false;
 
-        /*
-        if (!CanTargetPlayer)
-        {
-            Debug.Log("Cannot target, therefore not rotate towards player");
-            //runningCoroutine = null;
-            yield break;
-        }*/
         Debug.Log("Started Rotating Enemy" );
         
         Vector3 dir = Player.transform.position - EnemyRotatingObj.transform.position;
         dir.y = 0;
 
         Debug.Log("prev was " + degreesAwayFromPrev);
-        float horizontalAngle = Vector3.SignedAngle(EnemyRotatingObj.transform.forward, dir, Vector3.up) - degreesAwayFromPrev; //- (lastRotatedDegs); //Forward can sometimes be wrong depending on the model orientation
+        float horizontalAngle = Vector3.SignedAngle(EnemyRotatingObj.transform.forward, dir, Vector3.up) - degreesAwayFromPrev; //- (lastRotatedDegs); //Forward can sometimes be wrong depending on the model orientation/pivot
         rotatedAngles += horizontalAngle;
         //lastRotatedDegs = 0;
         Debug.Log("angle between to player is " + horizontalAngle);
@@ -181,7 +174,7 @@ public class NewEnemyBehaviour : EnemyBase //TurretScript
         {
             float t = new float();
             float elapsedTime = new float();
-            Quaternion endRot = Quaternion.AngleAxis(rotatedAngles, Vector3.up); //to finish+
+            Quaternion endRot = Quaternion.AngleAxis(rotatedAngles, Vector3.up);
             Quaternion tRot = new Quaternion();
 
             while (t < 1) //Play turning SFX that lasts for the duration of "timeToRotate"
@@ -296,14 +289,5 @@ public class NewEnemyBehaviour : EnemyBase //TurretScript
         }
 
     }
-    /*
-    public IEnumerator PauseEnemy(float pauseTime)
-    {
-        CanTargetPlayer = false;
-        Debug.Log("Paused Enemy");
-        yield return new WaitForSeconds(pauseTime);
-        CanTargetPlayer = true;
-        Debug.Log("Paused Enemy");
-        yield return null;
-    }*/
+  
 }

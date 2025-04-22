@@ -82,18 +82,15 @@ public class TestBowBehaviour : MonoBehaviour
     
     void Update()
     {
-        
-
-        //^this is for camera. Should prolly move later.
         if (CanUpdateBowInputs)
         {
-            if (tempInputs)
+            if (tempInputs) //Allows the player to affect the Bow's variables without using the real bow controller, which controller listener script instead affects the values.
             {
-                temp_inputs();
+                temp_inputs(); //Checks and responds to keyboard & mouse inputs
             }
 
 
-            UpdateRotaryIndicator(); //visual slider
+            UpdateRotaryIndicator(); //Shows how much the bow has been pulled back.
 
             if (shoot && currentCD < 0 && time_wait < 0.2)
             {
@@ -123,10 +120,9 @@ public class TestBowBehaviour : MonoBehaviour
                 UpdateRotaryValue(_rotaryValueOnRelease * -1);
                 print("value is " + _rotaryValueOnRelease * -1);
             }
-            else if (_currentRotaryValue > 0)
+            else if (_currentRotaryValue > 0) //When mouse is released
             {
                 UpdateRotaryValue(-80); //Standard release value
-
             }
         }
         if (Input.GetKeyDown(KeyCode.E))
@@ -151,7 +147,8 @@ public class TestBowBehaviour : MonoBehaviour
         Debug.Log("Toggled arrow");
 
     }
-    public void SetArrowIconVisible() //should always be called AFTER a toggle has happened.
+    public void SetArrowIconVisible() //Visualizes the toggling between arrow types.
+                                      //should always be called AFTER a toggle has happened.
     {
         if (_teleportArrowToggled)
         {

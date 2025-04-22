@@ -131,10 +131,4 @@ public class TeleportManager : MonoBehaviour
 
         yield return null;
     }
-
-    public void Update()
-    {
-        // Debug.Log("TeleportOn: " + TeleportOn);
-        
-    }
 }

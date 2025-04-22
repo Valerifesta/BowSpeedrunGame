@@ -50,6 +50,7 @@ public class DialoguePlayer : MonoBehaviour
     }
 
     // Update is called once per frame
+    /*Debugging
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !AutoPlay)
@@ -60,7 +61,7 @@ public class DialoguePlayer : MonoBehaviour
         {
             ReadNextDoc();
         }
-    }
+    }*/
     public void SetTextColor(Color color)
     {
         DialogueDisplay.color = color;
@@ -86,10 +87,11 @@ public class DialoguePlayer : MonoBehaviour
             Debug.Log("No dialogue docs left.");
         }
     }
-    public void CallNextSentance(float delay = 0)
+    public void CallNextSentance(float delay = 0) //When a sentance is played, all the text within that sentance gets displayed over time.
+                                                  //When a sentance is finished, the visible text is cleared after a defined "delay" time, followed by the next sentance content.
     {
-        ActiveSentanceIndex += 1;
-        StartCoroutine(PlayDialogue(ActiveSentanceIndex, delay));
+        ActiveSentanceIndex += 1; 
+        StartCoroutine(PlayDialogue(ActiveSentanceIndex, delay)); //Starts playing the next sentance.
     }
     public void AttemptDefaultDelays()
     {
@@ -115,14 +117,15 @@ public class DialoguePlayer : MonoBehaviour
         }
     }
 
-    public string GetTxtString(string txtFileName) //The .txt file has to be in the dialogue resource folder.
+    public string GetTxtString(string txtFileName) //Returns full string of defined txt file.
+                                                   //The .txt file has to be in the dialogue resource folder.
     {
-        string docText = Resources.Load("DialogueTxt/" + txtFileName).ToString();
+        string docText = Resources.Load("DialogueTxt/" + txtFileName).ToString(); //converts entire text doc into a string.
 
         string sentance = string.Empty;
-        for (int i = 0; i < docText.Length; i++)
+        for (int i = 0; i < docText.Length; i++)//Splits the converted string into "sentances", which are manually typed out in each dialogue document.
         {
-            
+
             string letter = docText[i].ToString();
             if (letter != "/")
             {
@@ -141,7 +144,7 @@ public class DialoguePlayer : MonoBehaviour
         return docText;
 
     }
-    public void EndCurrentDocEarly()
+    public void EndCurrentDocEarly() //Stops playing currently active text document.
     {
         StopAllCoroutines();
         TextSentances.Clear();
@@ -150,13 +153,12 @@ public class DialoguePlayer : MonoBehaviour
 
 
     }
-    IEnumerator PlayDialogue(int sentanceIndex, float delay)
+    IEnumerator PlayDialogue(int sentanceIndex, float delay) //Plays dialogue, a sentance, given an index and delay.
     {
         if (delay > 0)
         {
             Debug.Log("Delayed diaogue with " + delay + " seconds");
             yield return new WaitForSeconds(delay);
-            //yield return null;
         }
         Debug.Log("Is Past delay now");
         
@@ -168,29 +170,34 @@ public class DialoguePlayer : MonoBehaviour
             Debug.Log("Couldnt start dialogue. No valid sentance in index " + sentanceIndex);
             yield break;
         }
+
         Debug.Log("Started New Dialogue");
         string sentance = TextSentances[sentanceIndex];
         char[] textChars = sentance.ToCharArray();
         float delayTime = new float();
-        for (int i = 0; i < textChars.Length; i++)
+        for (int i = 0; i < textChars.Length; i++) //Displays each char of the sentance in order.
+                                                   
         {
             DialogueDisplay.text += textChars[i];
             string letter = textChars[i].ToString();
-            if (!string.IsNullOrWhiteSpace(letter) && letter != "@")
+            if (!string.IsNullOrWhiteSpace(letter) && letter != "@") //Plays a quick dialogue SFX for each non-whitespace character.
+                                                                     //The SFX corresponds to an assigned playing order of txt documents:
+                                                                     //When assigning which documents and SFX should play, a doc of index [1] gets a corresponding SFX of index [1].
             {
-                Debug.Log(source);
-                Debug.Log(_dialogueVoiceOrder);
-                Debug.Log(_dialogueVoiceOrder[currentDocIndex]);
+                //Debug.Log(source);
+                //Debug.Log(_dialogueVoiceOrder);
+                //Debug.Log(_dialogueVoiceOrder[currentDocIndex]);
                 source.PlayOneShot(_dialogueVoiceOrder[currentDocIndex]);
             }
 
             switch (letter)
             {
-                case "$":
+                case "$": 
                     MissionBackground.SetActive(true);
                     break;
-                case ">":
-                    
+                case ">": //Replaces X within "<X>" with the number of existing enemies in the currently active level.
+                          //Only relevant for level intro dialogues.
+
                     if (i > 1)
                     {
                         string middleChar = DialogueDisplay.text[i - 1].ToString();
@@ -212,8 +219,7 @@ public class DialoguePlayer : MonoBehaviour
                 case ",":
                     delayTime = CommaDelay;
                     break;
-                case "@":
-                    //enter game scene
+                case "@": //Finished reading a document. Placed at the end of each doc. 
                     DialogueDisplay.text = DialogueDisplay.text.Remove(DialogueDisplay.text.Length-1, 1);
                     
                     //delayTime = EndTextDelay;
@@ -262,7 +268,8 @@ public class DialoguePlayer : MonoBehaviour
                 DialogueDisplay.text = string.Empty; //Visually removes text
             }
             
-            if (gameMan.TutorialActive)
+            if (gameMan.TutorialActive) //Special dialogue-gameplay integrated dialogue for the tutorial.
+                                        //Dialogue responds to certian conditions and outputs results exclusive to the tutorial level.
             {
                 switch (currentDocIndex)
                 {
@@ -322,7 +329,9 @@ public class DialoguePlayer : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator RemoveLevelIntro(float timeToScale)
+    IEnumerator RemoveLevelIntro(float timeToScale) //Removes the level intro dialogue and visually displays different UI such as timers and enemies remaining.
+                                                    //Manually programmed because Unity's animation system dislikes me, and it's very mutual
+                                                    
     {
         yield return new WaitForSeconds(2.0f);
         RectTransform rect = MissionBackground.GetComponent<RectTransform>();
@@ -356,7 +365,7 @@ public class DialoguePlayer : MonoBehaviour
         yield return null;
 
     }
-    IEnumerator FadeText(TextMeshProUGUI text, Color32 desiredColor, float timeToFade)
+    IEnumerator FadeText(TextMeshProUGUI text, Color32 desiredColor, float timeToFade) 
     {
         Color32 originalColor = text.color;
         float t = new float();

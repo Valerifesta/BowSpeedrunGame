@@ -68,7 +68,7 @@ public class PlayerManager : MonoBehaviour
         
 
     }
-    IEnumerator ActivateShieldDuration()
+    IEnumerator ActivateShieldDuration() //Starts a timer, during which enemies are stunned when player teleports within its vicinity.
     {
         ShieldTimeRemaining = _respawnShieldDuration;
         _bow.UpdateAggros(); //Stuns enemies nearby since ShieldTimeRemaining is above 0.
@@ -77,11 +77,12 @@ public class PlayerManager : MonoBehaviour
             ShieldTimeRemaining -= 1.0f * Time.deltaTime;
             yield return null;
         }
-        ToggleRespawnShield();
+        ToggleRespawnShield(); //Untoggles the shield when duration is over.
         yield return null;
     }
 
-    public GameObject StandingOnTrain() //only works for non-player trains. Collider should be a child of the train cart.
+    public GameObject StandingOnTrain() //Returns the train that the player stands on. Used to pause the dynamic movement of in-level trains when landed upon.
+                                        //Only works for non-player trains. Collider should be a child of the train cart.
     {
         RaycastHit[] hits;
         hits = Physics.SphereCastAll(gameObject.transform.position + -gameObject.transform.up, 1.5f, Vector3.down);
@@ -107,7 +108,7 @@ public class PlayerManager : MonoBehaviour
         return null;
     }
 
-    public void TryChangeWholeTrainAnimation()
+    public void TryChangeWholeTrainAnimation() //Stops and paused dynamically moving trains. 
     {
         Debug.Log("Trying to change whole train animation");
         GameObject train = StandingOnTrain();
