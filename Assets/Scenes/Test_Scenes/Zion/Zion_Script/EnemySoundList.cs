@@ -11,8 +11,6 @@ public class EnemySoundList : MonoBehaviour//By ZION
     [SerializeField] private AudioClip[] turrentLoadingSound;
     [Header("Turrent hit sound List")]
     [SerializeField] private AudioClip[] turrentHitSound;
-    //[Header("Turrent hit sound List")]
-    //[SerializeField] private AudioClip[] turrentBeamSound;
     [Header("Turrent rotate sound List")]
     [SerializeField] private AudioClip turrentRotateSound;
 
@@ -41,13 +39,13 @@ public class EnemySoundList : MonoBehaviour//By ZION
             Debug.LogError("NewEnemyBehaviour saknas!");
         }
 
-        // Initiera alla timers
+        // Initiate all timers
         soundTimers["talk"] = 0f;
         soundTimers["loading"] = 0f;
         soundTimers["hit"] = 0f;
         soundTimers["rotate"] = 0f;
 
-        // Add lyssnare för ljuden
+        // Add listner for sound
         EnemybehaviourScript.OnStartRotating += PlayRotateSound;
         EnemybehaviourScript.OnStartCharging += PlayLoadingSound;
         EnemybehaviourScript.OnShoot += PlayShootSound;
@@ -82,7 +80,7 @@ public class EnemySoundList : MonoBehaviour//By ZION
 
  
 
-    // Städar upp när objektet förstörs
+    // Cleaning up when the object being destroy
     private void OnDestroy()
     {
         if (EnemybehaviourScript != null)

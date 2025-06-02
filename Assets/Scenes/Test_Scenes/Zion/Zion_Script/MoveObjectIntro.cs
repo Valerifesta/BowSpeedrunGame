@@ -12,7 +12,7 @@ public class MoveObjectIntro : MonoBehaviour
         public bool shouldRotate = false;
         public float rotationSpeed = 50f;
 
-        [HideInInspector] public float timer = 0f; // Timer för varje objekt
+        [HideInInspector] public float timer = 0f; // Timer for each object
     }
 
 
@@ -38,15 +38,15 @@ public class MoveObjectIntro : MonoBehaviour
                 if (obj.timer >= timeUntilDeactivation)
                 {
                     obj.objectToMove.SetActive(false);
-                    continue; // Hoppa över resten av uppdateringen för detta objekt
+                    continue; //Skip the rest of the update for this item
                 }
             }
 
-            // Flytta objektet
+            // Move the object
             Vector3 movement = obj.direction.normalized * obj.speed * Time.deltaTime;
             obj.objectToMove.transform.position += movement;
 
-            // Rotera objektet om det är aktiverat
+            // Rotate the object if enabled
             if (obj.shouldRotate)
             {
                 obj.objectToMove.transform.Rotate(Vector3.up, obj.rotationSpeed * Time.deltaTime);

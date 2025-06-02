@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
-
-public class CraneRotate : MonoBehaviour
+using System.Collections.Generic;
+public class NewCranScript : MonoBehaviour
 {
     [Header("Rotation Settings")]
     [SerializeField] private Vector3 rotationDirection = new Vector3(0, 180, 0);
@@ -17,8 +17,8 @@ public class CraneRotate : MonoBehaviour
 
     private Quaternion originalRotation;
     public bool isRotating = false;
-
-    private void Start()
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
     {
         originalRotation = transform.rotation;
         StartCoroutine(RandomRotationTimer());
@@ -31,12 +31,13 @@ public class CraneRotate : MonoBehaviour
             //Wait at random time between rotations
             float randomWaitTime = Random.Range(minRotationInterval, maxRotationInterval);
             yield return new WaitForSeconds(randomWaitTime);
-
-            // Start the rotattion if we don´t already rotating
+          
+            // Start the rotation if we don´t already rotating
             if (!isRotating)
             {
                 StartCoroutine(RotateObject());
             }
+
         }
     }
 
@@ -47,6 +48,7 @@ public class CraneRotate : MonoBehaviour
         // Random rotation (Either the original direction or reverse)
         Vector3 randomRotation = Random.value > 0.5f ? rotationDirection : -rotationDirection;
         Quaternion targetRotation = Quaternion.Euler(randomRotation) * originalRotation;
+
 
         // Rotate at the target-position
         float elapsed = 0f;
@@ -60,7 +62,6 @@ public class CraneRotate : MonoBehaviour
         }
         transform.rotation = targetRotation;
 
-       
         yield return new WaitForSeconds(waitTime);
 
         //Rotate back to original-position
@@ -76,19 +77,13 @@ public class CraneRotate : MonoBehaviour
         transform.rotation = originalRotation;
 
         isRotating = false;
+
+
     }
 
-    // Optional: Stop all rotations
-    public void StopRotations()
+    // Update is called once per frame
+    void Update()
     {
-        StopAllCoroutines();
-        isRotating = false;
-    }
 
-    // Optional: Start over with the rotations
-    public void RestartRotations()
-    {
-        StopRotations();
-        StartCoroutine(RandomRotationTimer());
     }
 }
